@@ -1,8 +1,9 @@
 package streetfighter.core;
 
+import streetfighter.condition.PostConditionError;
+
 public class Hitbox {
 	
-	private boolean test;
 	private int pos_x, pos_y;
 	
 	public Hitbox(int x, int y) {
@@ -37,25 +38,30 @@ public class Hitbox {
 	}
 		
 	//Operators: 
-	public void moveTo(int x, int y) {
+	public void MoveTo(int x, int y){ 
 		checkInvariant(); 
 		/* Capture du centre */
-		int old_x = getPositionX();
-		int old_y = getPositionY();
-		boolean oldbelongs = belongsTo(getPositionX(), getPositionY()); 
-		if (!oldbelongs) {
-			System.out.println("Hitbox.moveTo() oldbelongs");
-		}
-		
-		/* Capture du centre + 100 */
-		boolean newbelongs = belongsTo(getPositionX() + 100, getPositionY() + 100); 
-		if (newbelongs) {
-			System.out.println("Hitbox.moveTo() newbelongs");
-		}
-		
+		boolean belongsTo_centre_at_pre = belongsTo(getPositionX(), getPositionY()); 
+		/* Capture du centre + 100 */ 
+		boolean belongsTo_centre_100_at_pre = belongsTo(getPositionX() + 100, getPositionY() + 100); 
 		/* Capture d’un point absolu */
-		int new_x = getPositionX();
-		int new_y = getPositionY();
+		int PositionX_at_pre = getPositionX();
+		int PositionY_at_pre = getPositionY();
+		boolean belongsTo_abs_at_pre = belongsTo(300, 0); 
+		super.MoveTo(x,y);
+		checkInvariant();
+		/* Test du centre */
+		if(! belongsTo(getPositionX(), getPositionY()) == belongsTo_centre_at_pre) {
+			throw new PostConditionError("msg");
+		} 
+		/* Test du centre + 100 */
+		if(! belongsTo(getPositionX() + 100, getPositionY() + 100) == belongsTo_centre_100_at_pre) {
+			throw new PostConditionError("msg");
+		} 
+		/* Test d’un point absolu */
+		if(! belongsTo(300 + (x - PositionX_at_pre), 0 + (y - PositionY_at_pre)) == belongsTo_abs_at_pre) {
+			throw new PostConditionError("msg");
+		} 
 	}
 	
 	//Observations: 
@@ -80,36 +86,9 @@ public class Hitbox {
 	}
 	
 		//[MoveTo]: 
-	public void checkMove() {
+	public void checkMoveTo() {
 		//PositionX(MoveTo(H,x,y)) = x 
 		//PositionY(MoveTo(H,x,y)) = y 
 		//∀ u,v:int × int, BelongsTo(MoveTo(H,x,y),u,v) = Belongsto(H,u-(x-PositionX(H)),v-(y-PositionY(H))
-	}
-	public void checkMove(int x, int y) {
-		checkInvariant(); 
-		/* Capture du centre */
-		int old_x = getPositionX();
-		int old_y = getPositionY();
-		boolean oldbelongs = belongsTo(getPositionX(), getPositionY()); 
-		if (!oldbelongs) {
-			System.out.println("Hitbox.moveTo() oldbelongs");
-		}
-
-		/* Capture du centre + 100 */
-		boolean bugbelongs = belongsTo(getPositionX() + 100, getPositionY() + 100); 
-		if (bugbelongs) {
-			System.out.println("Hitbox.moveTo() bugbelongs");
-		}
-
-		/* Capture d’un point absolu */
-		moveTo(x, y);
-		int new_x = getPositionX();
-		int new_y = getPositionY();
-		if (new_x != x) {
-			System.out.println("Hitbox.checkMove() X");
-		}
-		if (new_y != y) {
-			System.out.println("Hitbox.checkMove() Y");
-		}
 	}
 }
