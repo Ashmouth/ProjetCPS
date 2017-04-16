@@ -1,0 +1,27 @@
+Service: Hitbox 
+	Types: bool, int 
+	Observators: 
+		PositionX: [Hitbox] → int 
+		PositionY: [Hitbox] → int 
+		BelongsTo: [Hitbox] × int × int → bool 
+		CollidesWith: [Hitbox] × Hitbox → bool 
+		EqualsTo: [Hitbox] × Hitbox → bool 
+		Constructors: init: int × int → [Hitbox] 
+	Operators: 
+		MoveTo: [Hitbox] × int × int → [Hitbox] 
+	Observations: 
+		[invariant]: 
+			CollidesWith(H,H1) = ∃ x,y:int × int, BelongsTo(H,x,y) ∧ BelongsTo(H1,x,y) 
+			EqualsTo(H,H1) = ∀ x,y:int × int, BelongsTo(H,x,y) = BelongsTo(H1,x,y) 
+		[init]: PositionX(init(x,y)) = x PositionY(init(x,y)) = y 
+		[MoveTo]: 
+			PositionX(MoveTo(H,x,y)) = x 
+			PositionY(MoveTo(H,x,y)) = y 
+			∀ u,v:int × int, BelongsTo(MoveTo(H,x,y),u,v) = Belongsto(H,u-(x-PositionX(H)),v-(y-PositionY(H)) 
+		Schéma d’un code possible de la méthode MoveTo de la classe HitboxContract: 
+			public void MoveTo(int x, int y){ 
+				checkInvariant(); 
+				(* Capture du centre *) 
+				belongsTo_centre_at_pre = belongsTo(getPositionX(), getPositionY()); 
+				(* Capture du centre + 100 *) belongsTo_centre_100_at_pre = belongsTo(getPositionX() + 100, getPositionY() + 100); 
+				(* Capture d’un point absolu *)
