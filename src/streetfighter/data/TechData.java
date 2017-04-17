@@ -1,5 +1,6 @@
-package streetfighter.decorators;
+package streetfighter.data;
 
+import streetfighter.decorators.HitboxDecorator;
 import streetfighter.services.HitboxService;
 
 public class TechData {

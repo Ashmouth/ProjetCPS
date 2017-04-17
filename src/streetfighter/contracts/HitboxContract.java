@@ -58,15 +58,15 @@ public class HitboxContract extends HitboxDecorator {
 		checkInvariant();
 		/* Test du centre */
 		if(! belongsTo(getPositionX(), getPositionY()) == belongsTo_centre_at_pre) {
-			throw new PostConditionError("msg");
+			throw new PostConditionError("HitboxContract.MoveTo(x, y)");
 		} 
 		/* Test du centre + 100 */
 		if(! belongsTo(getPositionX() + 100, getPositionY() + 100) == belongsTo_centre_100_at_pre) {
-			throw new PostConditionError("msg");
+			throw new PostConditionError("HitboxContract.MoveTo(x, y)");
 		} 
 		/* Test d’un point absolu */
 		if(! belongsTo(300 + (x - PositionX_at_pre), 0 + (y - PositionY_at_pre)) == belongsTo_abs_at_pre) {
-			throw new PostConditionError("msg");
+			throw new PostConditionError("HitboxContract.MoveTo(x, y)");
 		} 
 	}
 	

@@ -2,7 +2,7 @@ package streetfighter.contracts;
 
 import streetfighter.condition.PreConditionError;
 import streetfighter.decorators.FightCharDecorator;
-import streetfighter.decorators.TechData;
+import streetfighter.data.TechData;
 import streetfighter.services.EngineService;
 import streetfighter.services.FightCharService;
 

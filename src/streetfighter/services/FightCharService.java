@@ -1,7 +1,7 @@
 package streetfighter.services;
 
 import streetfighter.condition.PreConditionError;
-import streetfighter.decorators.TechData;
+import streetfighter.data.TechData;
 
 public interface FightCharService extends CharacterService {
 	

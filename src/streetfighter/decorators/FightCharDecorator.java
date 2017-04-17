@@ -3,6 +3,7 @@ package streetfighter.decorators;
 import streetfighter.condition.PreConditionError;
 import streetfighter.services.EngineService;
 import streetfighter.services.FightCharService;
+import streetfighter.data.TechData;
 
 public class FightCharDecorator extends CharacterDecorator implements FightCharService {
 	private FightCharService delegate;
