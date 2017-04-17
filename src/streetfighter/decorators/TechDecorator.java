@@ -1,5 +1,6 @@
 package streetfighter.decorators;
 
+import streetfighter.services.HitboxService;
 import streetfighter.services.TechService;
 
 public class TechDecorator implements TechService {
@@ -36,7 +37,9 @@ public class TechDecorator implements TechService {
 			return rframe;
 		}
 		
-		public HitboxDecorator getHitbox(int x, int y) {
-			return new HitboxDecorator(x, y);
+		public HitboxService getHitbox(int x, int y) {
+			HitboxDecorator tmp = new HitboxDecorator(null);
+			tmp.init(x, y);
+			return tmp;
 		}
 }

@@ -1,7 +1,9 @@
 package streetfighter.decorators;
 
 import streetfighter.condition.PreConditionError;
+import streetfighter.services.EngineService;
 import streetfighter.services.FightCharService;
+import streetfighter.services.TechService;
 
 public class FightCharDecorator extends CharacterDecorator implements FightCharService {
 	
@@ -9,10 +11,14 @@ public class FightCharDecorator extends CharacterDecorator implements FightCharS
 	private boolean blockstun;
 	private boolean hitstun;
 	private boolean teching;
-	private TechDecorator tech;
+	private TechService tech;
 
-	public FightCharDecorator(int l, int s, boolean f, EngineDecorator e) {
-		super(l, s, f, e);
+	public FightCharDecorator(FightCharService delegate) {
+		super(delegate);
+	}
+	
+	public void init(int l, int s, boolean f, EngineService e) throws PreConditionError {
+		super.init(l, s, f, e);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -33,7 +39,7 @@ public class FightCharDecorator extends CharacterDecorator implements FightCharS
 		return teching; 
 	}
 
-	public TechDecorator tech() throws PreConditionError {
+	public TechService tech() throws PreConditionError {
 		//pre tech(C) requires isTeching(C) 
 		if(!isTeching()) {
 			throw new PreConditionError("FightChar.tech()");
@@ -64,7 +70,7 @@ public class FightCharDecorator extends CharacterDecorator implements FightCharS
 	}
 
 	//Operators: 
-	public void startTech(TechDecorator tech) throws PreConditionError {
+	public void startTech(TechService tech) throws PreConditionError {
 		//pre startTech(C,T) requires ¬isTeching(C) 
 		if(isTeching()) {
 			throw new PreConditionError("FightChar.tech()");

@@ -1,15 +1,9 @@
 package streetfighter.condition;
 
-public class PreConditionError extends Exception {
+public class PreConditionError extends ContractError {
+	private static final long serialVersionUID = 1989924888153266862L;
 
-	String msg;
-	public PreConditionError(String string) {
-		msg = string;
+	public PreConditionError(String message) {
+		super("Precondition failed: "+message);
 	}
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
 }

@@ -1,24 +1,32 @@
 package streetfighter.decorators;
 
 import streetfighter.condition.PreConditionError;
+import streetfighter.services.CharacterService;
+import streetfighter.services.CommandService;
 import streetfighter.services.EngineService;
+import streetfighter.services.PlayerService;
 
 public class EngineDecorator implements EngineService {
 	private int height;
 	private int width;
 	private int space;
 	private boolean end;
-	private PlayerDecorator p1;
-	private PlayerDecorator p2;
-	private CharacterDecorator c1;
-	private CharacterDecorator c2;
-	private CommandDecorator com;
+	private PlayerService p1;
+	private PlayerService p2;
+	private CharacterService c1;
+	private CharacterService c2;
+	private CommandService com;
+	private final EngineService delegate;
+	
+	public EngineDecorator(EngineService delegate) {
+		this.delegate = delegate;
+	}
 
-	public EngineDecorator(int h, int w, int s, PlayerDecorator p1, PlayerDecorator p2) {
+	public void init(int h, int w, int s, PlayerService p1, PlayerService p2) throws PreConditionError {
 		//pre init(h,w,s,p1,p2) requires h > 0 ∧ s > 0 ∧ w > s ∧ p1 6= p2 
 		boolean test = h > 0 && w > 0 && s > 0 && w > s && p1 != p2;
 		if(!test) {
-			throw new PreConditionError("msg");
+			throw new PreConditionError("EngineDecorator.EngineDecorator()");
 		}
 		this.p1 = p1;
 		this.p2 = p2;
@@ -37,7 +45,7 @@ public class EngineDecorator implements EngineService {
 	}
 
 	@Override
-	public CharacterDecorator getCharacter(int i) {
+	public CharacterService getCharacter(int i) throws PreConditionError {
 		//pre player(E,i) requires i ∈ {1, 2} 
 		if(i == 1) {
 			return c1;
@@ -49,7 +57,7 @@ public class EngineDecorator implements EngineService {
 	}
 
 	@Override
-	public PlayerDecorator getPlayer(int i) {
+	public PlayerService getPlayer(int i) throws PreConditionError {
 		//pre player(E,i) requires i ∈ {1, 2} 
 		if(i == 1) {
 			return p1;
@@ -66,7 +74,7 @@ public class EngineDecorator implements EngineService {
 
 
 	//Operators: 
-	public void step(CommandDecorator com1, CommandDecorator com2) {
+	public void step(CommandService com1, CommandService com2) {
 		//pre step(E) requires ¬gameOver(E)
 	}
 

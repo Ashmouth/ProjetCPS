@@ -1,15 +1,16 @@
-package streetfighter.decorators;
+package streetfighter.contracts;
 
 import streetfighter.condition.PostConditionError;
+import streetfighter.decorators.HitboxDecorator;
 import streetfighter.services.HitboxService;
 
-public class HitboxDecorator implements HitboxService {
+public class HitboxContract extends HitboxDecorator {
 	
 	private int pos_x, pos_y;
 	private HitboxService delegate;
 	
-	public HitboxDecorator(HitboxService delegate) {
-		this.delegate = delegate;
+	public HitboxContract(HitboxService delegate) {
+		super(delegate);
 	}
 	
 	public void init(int x, int y) {
@@ -44,9 +45,30 @@ public class HitboxDecorator implements HitboxService {
 	}
 		
 	//Operators: 
-	public void MoveTo(int x, int y){
-		pos_x += pos_x + x;
-		pos_y += pos_y + y;
+	public void MoveTo(int x, int y){ 
+		checkInvariant(); 
+		/* Capture du centre */
+		boolean belongsTo_centre_at_pre = belongsTo(getPositionX(), getPositionY()); 
+		/* Capture du centre + 100 */ 
+		boolean belongsTo_centre_100_at_pre = belongsTo(getPositionX() + 100, getPositionY() + 100); 
+		/* Capture d’un point absolu */
+		int PositionX_at_pre = getPositionX();
+		int PositionY_at_pre = getPositionY();
+		boolean belongsTo_abs_at_pre = belongsTo(300, 0); 
+		super.MoveTo(x,y);
+		checkInvariant();
+		/* Test du centre */
+		if(! belongsTo(getPositionX(), getPositionY()) == belongsTo_centre_at_pre) {
+			throw new PostConditionError("msg");
+		} 
+		/* Test du centre + 100 */
+		if(! belongsTo(getPositionX() + 100, getPositionY() + 100) == belongsTo_centre_100_at_pre) {
+			throw new PostConditionError("msg");
+		} 
+		/* Test d’un point absolu */
+		if(! belongsTo(300 + (x - PositionX_at_pre), 0 + (y - PositionY_at_pre)) == belongsTo_abs_at_pre) {
+			throw new PostConditionError("msg");
+		} 
 	}
 	
 	//Observations: 
@@ -61,7 +83,7 @@ public class HitboxDecorator implements HitboxService {
 		//PositionX(init(x,y)) = x PositionY(init(x,y)) = y 
 		int x = 10;
 		int y = 20;
-		HitboxDecorator testH = new HitboxDecorator(null);
+		HitboxContract testH = new HitboxContract(null);
 		testH.init(x, y);
 		if (testH.getPositionX() != x) {
 			System.out.println("Hitbox.checkInit() X");

@@ -1,12 +1,14 @@
 package streetfighter.services;
 
+import streetfighter.condition.PreConditionError;
+
 public interface EngineService {
 
 	//Observators: 
 	public int getHeight();
 	public int getWidth();
-	public CharacterService getCharacter(int i);
-	public PlayerService getPlayer(int i);
+	public CharacterService getCharacter(int i) throws PreConditionError;
+	public PlayerService getPlayer(int i) throws PreConditionError;
 	public boolean gameOver();
 
 	//Operators: 

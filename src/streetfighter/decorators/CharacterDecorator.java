@@ -3,19 +3,27 @@ package streetfighter.decorators;
 import streetfighter.condition.PreConditionError;
 import streetfighter.services.CharacterService;
 import streetfighter.services.CommandService;
+import streetfighter.services.EngineService;
+import streetfighter.services.HitboxService;
 
 public class CharacterDecorator implements CharacterService {
 	int life;
 	int speed;
 	boolean faceRight;
-	EngineDecorator engine;
-	CommandDecorator com;
+	EngineService engine;
+	CommandService com;
+	HitboxService hitbox;
+	private final CharacterService delegate;
+	
+	public CharacterDecorator(CharacterService delegate) {
+		this.delegate = delegate;
+	}
 
-	public CharacterDecorator(int l, int s, boolean f, EngineDecorator e) {
+	public void init(int l, int s, boolean f, EngineService e) throws PreConditionError {
 		//pre init(l,s,f,e) requires l > 0 ∧ s > 0
 		boolean test = l > 0 && s > 0;
 		if(!test) {
-			throw new PreConditionError("msg");
+			throw new PreConditionError("CharacterDecorator.CharacterDecorator()");
 		}
 		life = l;
 		speed = s;
@@ -25,19 +33,19 @@ public class CharacterDecorator implements CharacterService {
 
 	//Observators: 
 	public int getPositionX() {
-		return x;
+		return hitbox.getPositionX();
 	}
 
 	public int getPositionY() {
-		return y;
+		return hitbox.getPositionY();
 	}
 
-	public EngineDecorator getEngine() {
+	public EngineService getEngine() {
 		return engine;
 	}
 
-	public HitboxDecorator getcharBox() {
-		return hitbox; 
+	public HitboxService getcharBox() {
+		return hitbox; //TODO Check
 	}
 
 	public int getLife() {
@@ -77,7 +85,7 @@ public class CharacterDecorator implements CharacterService {
 		}
 	}
 
-	public void step(CommandDecorator c) {
+	public void step(CommandService c) {
 		//pre step() requires ¬dead
 	}
 

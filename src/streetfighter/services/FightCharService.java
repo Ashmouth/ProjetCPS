@@ -1,5 +1,7 @@
 package streetfighter.services;
 
+import streetfighter.condition.PreConditionError;
+
 public interface FightCharService extends CharacterService {
 	
 
@@ -8,12 +10,12 @@ public interface FightCharService extends CharacterService {
 	public boolean isBlockstunned();
 	public boolean isHitstunned();
 	public boolean isTeching();
-	public TechService tech();
-	public boolean techFrame();
-	public boolean techHasAlreadyHit();
+	public TechService tech() throws PreConditionError;
+	public boolean techFrame() throws PreConditionError;
+	public boolean techHasAlreadyHit() throws PreConditionError;
 
 	//Operators: 
-	public void startTech(TechService tech);
+	public void startTech(TechService tech) throws PreConditionError;
 
 	//Observation: ...
 }
