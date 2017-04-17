@@ -7,7 +7,6 @@ import streetfighter.services.HitboxService;
 public class HitboxContract extends HitboxDecorator {
 	
 	private int pos_x, pos_y;
-	private HitboxService delegate;
 	
 	public HitboxContract(HitboxService delegate) {
 		super(delegate);
@@ -55,7 +54,7 @@ public class HitboxContract extends HitboxDecorator {
 		int PositionX_at_pre = getPositionX();
 		int PositionY_at_pre = getPositionY();
 		boolean belongsTo_abs_at_pre = belongsTo(300, 0); 
-		super.MoveTo(x,y);
+		super.moveTo(x,y);
 		checkInvariant();
 		/* Test du centre */
 		if(! belongsTo(getPositionX(), getPositionY()) == belongsTo_centre_at_pre) {

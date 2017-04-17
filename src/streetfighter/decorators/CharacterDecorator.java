@@ -7,12 +7,6 @@ import streetfighter.services.EngineService;
 import streetfighter.services.HitboxService;
 
 public class CharacterDecorator implements CharacterService {
-	int life;
-	int speed;
-	boolean faceRight;
-	EngineService engine;
-	CommandService com;
-	HitboxService hitbox;
 	private final CharacterService delegate;
 	
 	public CharacterDecorator(CharacterService delegate) {
@@ -20,92 +14,57 @@ public class CharacterDecorator implements CharacterService {
 	}
 
 	public void init(int l, int s, boolean f, EngineService e) throws PreConditionError {
-		//pre init(l,s,f,e) requires l > 0 ∧ s > 0
-		boolean test = l > 0 && s > 0;
-		if(!test) {
-			throw new PreConditionError("CharacterDecorator.CharacterDecorator()");
-		}
-		life = l;
-		speed = s;
-		faceRight = f;
-		engine = e;
+		delegate.init(l,s,f,e);
+		//getEngine().init(h, w, s, p1, p2);
 	}
 
 	//Observators: 
 	public int getPositionX() {
-		return hitbox.getPositionX();
+		return delegate.getPositionX();
 	}
 
 	public int getPositionY() {
-		return hitbox.getPositionY();
+		return delegate.getPositionY();
 	}
 
 	public EngineService getEngine() {
-		return engine;
+		return delegate.getEngine();
 	}
 
 	public HitboxService getcharBox() {
-		return hitbox; //TODO Check
+		return delegate.getcharBox();
 	}
 
 	public int getLife() {
-		return life;
+		return delegate.getLife();
 	}
 
 	public int getSpeed() {
-		return speed;
+		return delegate.getSpeed();
 	}
 
 	public boolean getFaceRight() {
-		return faceRight;
+		return delegate.getFaceRight();
 	}
 
 	public boolean isDead() {
-		if(life == 0) {
-			return true;
-		} else {
-			return false;
-		}
+		return delegate.isDead();
 	}
 
 	//Operators: 
 	public void moveLeft() {
-		// 
+		delegate.moveLeft(); 
 	}
 
 	public void moveRight() {
-		// 
+		delegate.moveRight();
 	}
 
 	public void switchSide() {
-		if(faceRight == true) {
-			faceRight = false;
-		} else {
-			faceRight = true;
-		}
+		delegate.switchSide();
 	}
 
 	public void step(CommandService c) {
-		//pre step() requires ¬dead
+		delegate.step(c);
 	}
-
-
-	//Observations: 
-	/*
-			[invariant]: 
-				positionX(C) > 0 ∧ positionX(C) < Engine:: width(engine) positionY(C) > 0 ∧ positionY(C) < Engine:: height(engine) dead(C) = ¬(life > 0) 
-			[init]: 
-				life(init(l, s, f, e)) = l ∧ speed(init(l, s, f, e)) = s ∧ faceRight(init(l, s, f, e)) = f ∧engine(init(l, s, f, e)) = e 
-			∃h :Hitbox, charbox(init(l, s, f, e)) = h 
-			[moveLeft]: 
-				(∃i, player(engine(C), i) 6= C ∧ collisionwith(hitbox(moveLeft(C)), hitbox(player(engine(C), i)))) ⇒ positionX(moveLeft(C)) = positionX(C)
-				positionX(C) ≤ speed(C) ∧(∀i, player(engine(C), i) 6= C ⇒ ¬collisionwith(hitbox(moveLeft(C)), hitbox(player(engine(C), i)))) ⇒ positionX(moveLeft(C)) = positionX(C) − speed(C)
-				positionX(C) > speed(C) ∧(∀i, player(engine(C), i) 6= C ⇒ ¬collisionwith(hitbox(moveLeft(C)), hitbox(player(engine(C), i)))) ⇒ positionX(moveLeft(C)) = 0 faceRight(moveLeft(C)) = faceRight(C) ∧ life(moveLeft(C)) = life(C) positionY(moveLeft(C)) = positionY(C) 
-			[moveRight]: 
-				...
-			[switchSide]: 
-				faceRight(switchSide(C))! = faceRight(C) positionX(switchSide(C)) = positionX(C) 
-			[step]: 
-				step(C, LEFT) = moveLeft(C) step(C, RIGHT) = moveRight(C) step(C, NEUTRAL) = C
-	 */
 }

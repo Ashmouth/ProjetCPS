@@ -4,11 +4,16 @@ import streetfighter.condition.PreConditionError;
 
 public interface EngineService {
 
+	public void init(int h, int w, int s, PlayerService p1, PlayerService p2);
+	//pre init(h,w,s,p1,p2) requires h > 0 ∧ s > 0 ∧ w > s ∧ p1 6= p2 
+	
 	//Observators: 
 	public int getHeight();
 	public int getWidth();
 	public CharacterService getCharacter(int i) throws PreConditionError;
+	//pre player(E,i) requires i ∈ {1, 2} 
 	public PlayerService getPlayer(int i) throws PreConditionError;
+	//pre player(E,i) requires i ∈ {1, 2} 
 	public boolean gameOver();
 
 	//Operators: 
@@ -40,4 +45,5 @@ public interface EngineService {
 	public void checkStep();
 		//char(step(E, C1, C2), 1) = step(char(E, 1), C1) 
 		//char(step(E, C1, C2), 2) = step(char(E, 2), C2)
+	
 }

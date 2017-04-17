@@ -3,6 +3,9 @@ package streetfighter.services;
 
 public interface CharacterService {
 
+	public void init(int l, int s, boolean f, EngineService e);
+	//pre init(l,s,f,e) requires l > 0 ∧ s > 0
+	
 	//Observators: 
 	public int getPositionX();
 	public int getPositionY();
@@ -18,7 +21,7 @@ public interface CharacterService {
 	public void switchSide();
 	public void step(CommandService c);
 		//pre step() requires ¬dead
-
+	
 	//Observations: 
 	/*
 			[invariant]: 

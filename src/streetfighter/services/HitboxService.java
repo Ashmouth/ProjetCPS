@@ -2,6 +2,8 @@ package streetfighter.services;
 
 public interface HitboxService {
 	
+	public void init(int x, int y);
+	
 	//Observators: 
 	public int getPositionX();
 	public int getPositionY();
@@ -10,7 +12,7 @@ public interface HitboxService {
 	public boolean equalsTo(HitboxService h);
 		
 	//Operators: 
-	public void MoveTo(int x, int y);
+	public void moveTo(int x, int y);
 	
 	//Observations: 
 		//[invariant]: 
