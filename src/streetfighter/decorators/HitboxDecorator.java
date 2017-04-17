@@ -1,12 +1,13 @@
-package streetfighter.core;
+package streetfighter.decorators;
 
 import streetfighter.condition.PostConditionError;
+import streetfighter.services.HitboxService;
 
-public class Hitbox {
+public class HitboxDecorator implements HitboxService {
 	
 	private int pos_x, pos_y;
 	
-	public Hitbox(int x, int y) {
+	public HitboxDecorator(int x, int y) {
 		this.pos_x = x;
 		this.pos_y = y;
 	}
@@ -25,12 +26,12 @@ public class Hitbox {
 		return true;
 	}
 		
-	public boolean collidesWith(Hitbox h) {
+	public boolean collidesWith(HitboxDecorator h) {
 		//Not possible without width and height
 		return true;
 	}
 	
-	public boolean equalsTo(Hitbox h) {
+	public boolean equalsTo(HitboxDecorator h) {
 		if(getPositionX() == h.getPositionX() && getPositionY() == h.getPositionY()) {
 			return true;
 		}
@@ -76,7 +77,7 @@ public class Hitbox {
 		//PositionX(init(x,y)) = x PositionY(init(x,y)) = y 
 		int x = 10;
 		int y = 20;
-		Hitbox testH = new Hitbox(x, y);
+		HitboxDecorator testH = new HitboxDecorator(x, y);
 		if (testH.getPositionX() != x) {
 			System.out.println("Hitbox.checkInit() X");
 		}

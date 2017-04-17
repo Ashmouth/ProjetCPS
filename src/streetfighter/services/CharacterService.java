@@ -1,84 +1,23 @@
-package streetfighter.core;
+package streetfighter.services;
 
-import streetfighter.condition.PreConditionError;
 
-public class Character {
-	int life;
-	int speed;
-	boolean faceRight;
-	Engine engine;
-	Command com;
-
-	public Character(int l, int s, boolean f, Engine e) {
-		//pre init(l,s,f,e) requires l > 0 ∧ s > 0
-		boolean test = l > 0 && s > 0;
-		if(!test) {
-			throw new PreConditionError("msg");
-		}
-		life = l;
-		speed = s;
-		faceRight = f;
-		engine = e;
-	}
+public interface CharacterService {
 
 	//Observators: 
-	public int getPositionX() {
-		return x;
-	}
-
-	public int getPositionY() {
-		return y;
-	}
-
-	public Engine getEngine() {
-		return engine;
-	}
-
-	public Hitbox getcharBox() {
-		return hitbox; 
-	}
-
-	public int getLife() {
-		return life;
-	}
-
-	public int getSpeed() {
-		return speed;
-	}
-
-	public boolean getFaceRight() {
-		return faceRight;
-	}
-
-	public boolean isDead() {
-		if(life == 0) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
+	public int getPositionX();
+	public int getPositionY();
+	public EngineService getEngine();
+	public HitboxService getcharBox();
+	public int getLife();
+	public int getSpeed();
+	public boolean getFaceRight();
+	public boolean isDead();
 	//Operators: 
-	public void moveLeft() {
-		// 
-	}
-
-	public void moveRight() {
-		// 
-	}
-
-	public void switchSide() {
-		if(faceRight == true) {
-			faceRight = false;
-		} else {
-			faceRight = true;
-		}
-	}
-
-	public void step(Command c) {
+	public void moveLeft();
+	public void moveRight();
+	public void switchSide();
+	public void step(CommandService c);
 		//pre step() requires ¬dead
-	}
-
 
 	//Observations: 
 	/*

@@ -1,8 +1,8 @@
-package streetfighter.command;
+package streetfighter.decorators;
 
-import streetfighter.core.Hitbox;
+import streetfighter.services.TechService;
 
-public class Tech {
+public class TechDecorator implements TechService {
 	int damage = 10;
 	int hstun = 5;
 	
@@ -36,7 +36,7 @@ public class Tech {
 			return rframe;
 		}
 		
-		public Hitbox getHitbox(int x, int y) {
-			return new Hitbox(x, y);
+		public HitboxDecorator getHitbox(int x, int y) {
+			return new HitboxDecorator(x, y);
 		}
 }

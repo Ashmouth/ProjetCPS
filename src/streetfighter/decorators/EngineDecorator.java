@@ -1,20 +1,20 @@
-package streetfighter.core;
+package streetfighter.decorators;
 
-import streetfighter.command.Command;
 import streetfighter.condition.PreConditionError;
+import streetfighter.services.EngineService;
 
-public class Engine {
+public class EngineDecorator implements EngineService {
 	private int height;
 	private int width;
 	private int space;
 	private boolean end;
-	private Player p1;
-	private Player p2;
-	private Character c1;
-	private Character c2;
-	private Command com;
+	private PlayerDecorator p1;
+	private PlayerDecorator p2;
+	private CharacterDecorator c1;
+	private CharacterDecorator c2;
+	private CommandDecorator com;
 
-	public Engine(int h, int w, int s, Player p1, Player p2) {
+	public EngineDecorator(int h, int w, int s, PlayerDecorator p1, PlayerDecorator p2) {
 		//pre init(h,w,s,p1,p2) requires h > 0 ∧ s > 0 ∧ w > s ∧ p1 6= p2 
 		boolean test = h > 0 && w > 0 && s > 0 && w > s && p1 != p2;
 		if(!test) {
@@ -36,7 +36,8 @@ public class Engine {
 		return width; 
 	}
 
-	public Character getCharacter(int i) {
+	@Override
+	public CharacterDecorator getCharacter(int i) {
 		//pre player(E,i) requires i ∈ {1, 2} 
 		if(i == 1) {
 			return c1;
@@ -47,7 +48,8 @@ public class Engine {
 		}
 	}
 
-	public Player getPlayer(int i) {
+	@Override
+	public PlayerDecorator getPlayer(int i) {
 		//pre player(E,i) requires i ∈ {1, 2} 
 		if(i == 1) {
 			return p1;
@@ -64,7 +66,7 @@ public class Engine {
 
 
 	//Operators: 
-	public void step(Command com1, Command com2) {
+	public void step(CommandDecorator com1, CommandDecorator com2) {
 		//pre step(E) requires ¬gameOver(E)
 	}
 
