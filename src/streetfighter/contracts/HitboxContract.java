@@ -1,5 +1,6 @@
 package streetfighter.contracts;
 
+import streetfighter.condition.InvariantError;
 import streetfighter.condition.PostConditionError;
 import streetfighter.decorators.HitboxDecorator;
 import streetfighter.services.HitboxService;
@@ -73,29 +74,49 @@ public class HitboxContract extends HitboxDecorator {
 	//Observations: 
 		//[invariant]: 
 	public void checkInvariant() {
+		HitboxService delegate = null;
+		HitboxContract H1 = new HitboxContract(delegate);
+		H1.init(pos_x, pos_y);
+		
 		//CollidesWith(H,H1) = ∃ x,y:int × int, BelongsTo(H,x,y) ∧ BelongsTo(H1,x,y) 
+		if(collidesWith(H1) != (belongsTo(pos_x,pos_y) && H1.belongsTo(pos_x,pos_y))) {
+			throw new InvariantError("HitboxContract.checkInvariant()");
+		}
+		
 		//EqualsTo(H,H1) = ∀ x,y:int × int, BelongsTo(H,x,y) = BelongsTo(H1,x,y) 
+		if(equalsTo(H1) != (belongsTo(pos_x,pos_y) == H1.belongsTo(pos_x,pos_y))) {
+			throw new InvariantError("HitboxContract.checkInvariant()");
+		}
 	}
 	
 		//[init]: 
 	public void checkInit() {
-		//PositionX(init(x,y)) = x PositionY(init(x,y)) = y 
-		int x = 10;
-		int y = 20;
-		HitboxContract testH = new HitboxContract(null);
-		testH.init(x, y);
-		if (testH.getPositionX() != x) {
+		//PositionX(init(x,y)) = x PositionY(init(x,y)) = y
+		init(pos_x, pos_y);
+		if (getPositionX() != pos_x) {
 			System.out.println("Hitbox.checkInit() X");
 		}
-		if (testH.getPositionY() != y) {
+		if (getPositionY() != pos_y) {
 			System.out.println("Hitbox.checkInit() Y");
 		}
 	}
 	
 		//[MoveTo]: 
 	public void checkMoveTo() {
-		//PositionX(MoveTo(H,x,y)) = x 
+		moveTo(pos_x, pos_y);
+		//PositionX(MoveTo(H,x,y)) = x
+		if(getPositionX() != pos_x) {
+			throw new InvariantError("HitboxContract.checkMoveTo()");
+		}
 		//PositionY(MoveTo(H,x,y)) = y 
+		if(getPositionY() != pos_y) {
+			throw new InvariantError("HitboxContract.checkMoveTo()");
+		}
+		int u = 10;
+		int v = 15;
 		//∀ u,v:int × int, BelongsTo(MoveTo(H,x,y),u,v) = Belongsto(H,u-(x-PositionX(H)),v-(y-PositionY(H))
+		if(belongsTo(u,v) != belongsTo(u-(pos_x-getPositionX()),v-(pos_y-getPositionY()))) {
+			throw new InvariantError("HitboxContract.checkMoveTo()");
+		}
 	}
 }
