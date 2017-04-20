@@ -2,6 +2,7 @@ package streetfighter.contracts;
 
 import streetfighter.condition.InvariantError;
 import streetfighter.condition.PostConditionError;
+import streetfighter.condition.PreConditionError;
 import streetfighter.decorators.HitboxDecorator;
 import streetfighter.services.HitboxService;
 
@@ -16,6 +17,14 @@ public class HitboxContract extends HitboxDecorator {
 	public void init(int x, int y) {
 		this.pos_x = x;
 		this.pos_y = y;
+		
+		//PositionX(init(x,y)) = x PositionY(init(x,y)) = y
+		if (getPositionX() != x) {
+			throw new PreConditionError("Hitbox.init(x,y) X");
+		}
+		if (getPositionY() != y) {
+			throw new PreConditionError("Hitbox.init(x,y) Y");
+		}
 	}
 	
 	//Observators: 
@@ -86,18 +95,6 @@ public class HitboxContract extends HitboxDecorator {
 		//EqualsTo(H,H1) = ∀ x,y:int × int, BelongsTo(H,x,y) = BelongsTo(H1,x,y) 
 		if(equalsTo(H1) != (belongsTo(pos_x,pos_y) == H1.belongsTo(pos_x,pos_y))) {
 			throw new InvariantError("HitboxContract.checkInvariant()");
-		}
-	}
-	
-		//[init]: 
-	public void checkInit() {
-		//PositionX(init(x,y)) = x PositionY(init(x,y)) = y
-		init(pos_x, pos_y);
-		if (getPositionX() != pos_x) {
-			System.out.println("Hitbox.checkInit() X");
-		}
-		if (getPositionY() != pos_y) {
-			System.out.println("Hitbox.checkInit() Y");
 		}
 	}
 	

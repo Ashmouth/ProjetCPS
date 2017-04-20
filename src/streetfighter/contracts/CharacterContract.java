@@ -29,6 +29,15 @@ public class CharacterContract extends CharacterDecorator {
 		speed = s;
 		faceRight = f;
 		engine = e;
+		//life(init(l, s, f, e)) = l ∧ speed(init(l, s, f, e)) = s ∧ faceRight(init(l, s, f, e)) = 
+		//f ∧engine(init(l, s, f, e)) = e 
+		if (getLife() != l || getSpeed() != s || faceRight != f || getEngine() != e) {
+			throw new PreConditionError("Hitbox.init(l, s, f, e)");
+		}
+		//∃h :Hitbox, charbox(init(l, s, f, e)) = h
+		if (getcharBox() == null) {
+			throw new PreConditionError("Hitbox.init(l, s, f, e)");
+		}
 	}
 
 	//Observators: 
@@ -94,9 +103,7 @@ public class CharacterContract extends CharacterDecorator {
 	/*
 			[invariant]: 
 				positionX(C) > 0 ∧ positionX(C) < Engine:: width(engine) positionY(C) > 0 ∧ positionY(C) < Engine:: height(engine) dead(C) = ¬(life > 0) 
-			[init]: 
-				life(init(l, s, f, e)) = l ∧ speed(init(l, s, f, e)) = s ∧ faceRight(init(l, s, f, e)) = f ∧engine(init(l, s, f, e)) = e 
-			∃h :Hitbox, charbox(init(l, s, f, e)) = h 
+			
 			[moveLeft]: 
 				(∃i, player(engine(C), i) 6= C ∧ collisionwith(hitbox(moveLeft(C)), hitbox(player(engine(C), i)))) ⇒ positionX(moveLeft(C)) = positionX(C)
 				positionX(C) ≤ speed(C) ∧(∀i, player(engine(C), i) 6= C ⇒ ¬collisionwith(hitbox(moveLeft(C)), hitbox(player(engine(C), i)))) ⇒ positionX(moveLeft(C)) = positionX(C) − speed(C)

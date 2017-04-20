@@ -17,7 +17,7 @@ public class EngineContract extends EngineDecorator {
 	private CharacterService c1;
 	private CharacterService c2;
 	private CommandService com;
-	
+
 	public EngineContract(EngineService delegate) {
 		super(delegate);
 	}
@@ -33,6 +33,32 @@ public class EngineContract extends EngineDecorator {
 		height = h;
 		width = w;
 		space = s;
+
+		//height(init(h, w, s, p1, p2)) = h 
+		//width(init(h, w, s, p1, p2)) = w 
+		if(getHeight() != h || getWidth() != w) {
+			throw new PreConditionError("EngineDecorator.init(h, w, s, p1, p2)");
+		}
+		//player(init(h, w, s, p1, p2), 1) = p1 
+		//player(init(h, w, s, p1, p2), 2) = p2
+		if(getPlayer(1) != p1 || getPlayer(2) != p2) {
+			throw new PreConditionError("EngineDecorator.init(h, w, s, p1, p2)");
+		}
+		//Character ::positionX(char(init(h, w, s, p1, p2), 1)) = w//2 − s//2 
+		//Character ::positionX(char(init(h, w, s, p1, p2), 2)) = w//2 + s//2 
+		if(c1.getPositionX() != w/2 - s/2 || c2.getPositionX() != w/2 + s/2) {
+			throw new PreConditionError("EngineDecorator.init(h, w, s, p1, p2)");
+		}
+		//Character ::positionY(char(init(h, w, s, p1, p2), 1)) = 0 
+		//Character ::positionY(char(init(h, w, s, p1, p2), 2)) = 0 
+		if(c1.getPositionY() != 0 || c2.getPositionY() != 0) {
+			throw new PreConditionError("EngineDecorator.init(h, w, s, p1, p2)");
+		}
+		//Character ::faceRight(char(init(h, w, s, p1, p2), 1)) 
+		//Character ::¬faceRight(char(init(h, w, s, p1, p2), 2))
+		if(!c1.getFaceRight() || c2.getFaceRight()) {
+			throw new PreConditionError("EngineDecorator.init(h, w, s, p1, p2)");
+		}
 	}
 
 	//Observators: 
@@ -83,22 +109,6 @@ public class EngineContract extends EngineDecorator {
 	public void checkInvariant() {
 		//gameOver(E) = ∃i ∈ {1, 2} 
 		//Character ::dead(player(E, i))
-	}
-
-	//[init]:
-	public void checkInit() {
-		/*
-			height(init(h, w, s, p1, p2)) = h 
-			width(init(h, w, s, p1, p2)) = w 
-			player(init(h, w, s, p1, p2), 1) = p1 
-			player(init(h, w, s, p1, p2), 2) = p2
-			Character ::positionX(char(init(h, w, s, p1, p2), 1)) = w//2 − s//2 
-			Character ::positionX(char(init(h, w, s, p1, p2), 2)) = w//2 + s//2 
-			Character ::positionY(char(init(h, w, s, p1, p2), 1)) = 0 
-			Character ::positionY(char(init(h, w, s, p1, p2), 2)) = 0 
-			Character ::faceRight(char(init(h, w, s, p1, p2), 1)) 
-			Character ::¬faceRight(char(init(h, w, s, p1, p2), 2)) 
-		 */
 	}
 
 	//[step]:
