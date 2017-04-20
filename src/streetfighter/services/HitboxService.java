@@ -3,6 +3,7 @@ package streetfighter.services;
 public interface HitboxService {
 	
 	public void init(int x, int y);
+		//PositionX(init(x,y)) = x PositionY(init(x,y)) = y 
 	
 	//Observators: 
 	public int getPositionX();
@@ -19,10 +20,6 @@ public interface HitboxService {
 	public void checkInvariant();
 		//CollidesWith(H,H1) = ∃ x,y:int × int, BelongsTo(H,x,y) ∧ BelongsTo(H1,x,y) 
 		//EqualsTo(H,H1) = ∀ x,y:int × int, BelongsTo(H,x,y) = BelongsTo(H1,x,y) 
-	
-		//[init]: 
-	public void checkInit();
-		//PositionX(init(x,y)) = x PositionY(init(x,y)) = y 
 	
 		//[MoveTo]: 
 	public void checkMoveTo();
