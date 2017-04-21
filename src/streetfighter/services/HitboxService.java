@@ -1,7 +1,7 @@
 package streetfighter.services;
 
 public interface HitboxService {
-	
+
 	public void init(int x, int y);
 		//PositionX(init(x,y)) = x PositionY(init(x,y)) = y 
 	
@@ -26,4 +26,7 @@ public interface HitboxService {
 		//PositionX(MoveTo(H,x,y)) = x 
 		//PositionY(MoveTo(H,x,y)) = y 
 		//∀ u,v:int × int, BelongsTo(MoveTo(H,x,y),u,v) = Belongsto(H,u-(x-PositionX(H)),v-(y-PositionY(H))
+
+	public void setPositionX(int x);
+	public void setPositionY(int y);
 }

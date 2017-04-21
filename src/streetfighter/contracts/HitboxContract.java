@@ -54,7 +54,8 @@ public class HitboxContract extends HitboxDecorator {
 	}
 		
 	//Operators: 
-	public void MoveTo(int x, int y){ 
+	@Override
+	public void moveTo(int x, int y){ 
 		checkInvariant(); 
 		/* Capture du centre */
 		boolean belongsTo_centre_at_pre = belongsTo(getPositionX(), getPositionY()); 
@@ -66,22 +67,36 @@ public class HitboxContract extends HitboxDecorator {
 		boolean belongsTo_abs_at_pre = belongsTo(300, 0); 
 		super.moveTo(x,y);
 		checkInvariant();
+		
+		// ∀ u,v:int × int, BelongsTo(MoveTo(H,x,y),u,v) 
+		//	  			  = Belongsto(H,u-(x-PositionX(H)),v-(y-PositionY(H))
 		/* Test du centre */
 		if(! belongsTo(getPositionX(), getPositionY()) == belongsTo_centre_at_pre) {
-			throw new PostConditionError("HitboxContract.MoveTo(x, y)");
+			throw new PostConditionError("HitboxContract.MoveTo(x, y) belongs");
 		} 
 		/* Test du centre + 100 */
 		if(! belongsTo(getPositionX() + 100, getPositionY() + 100) == belongsTo_centre_100_at_pre) {
-			throw new PostConditionError("HitboxContract.MoveTo(x, y)");
+			throw new PostConditionError("HitboxContract.MoveTo(x, y) belongs");
 		} 
 		/* Test d’un point absolu */
 		if(! belongsTo(300 + (x - PositionX_at_pre), 0 + (y - PositionY_at_pre)) == belongsTo_abs_at_pre) {
-			throw new PostConditionError("HitboxContract.MoveTo(x, y)");
+			throw new PostConditionError("HitboxContract.MoveTo(x, y) belongs");
 		} 
+		
+		// PositionX(MoveTo(H,x,y)) = x 
+		if (!(getPositionX() == x)) {
+			throw new PostConditionError("HitboxContract.MoveTo(x, y) getPosX");
+		}
+		
+		// PositionY(MoveTo(H,x,y)) = y 
+		if (!(getPositionY() == y)) {
+			throw new PostConditionError("HitboxContract.MoveTo(x, y) getPosY");
+		}		
 	}
 	
 	//Observations: 
 		//[invariant]: 
+	@Override
 	public void checkInvariant() {
 		HitboxService delegate = null;
 		HitboxContract H1 = new HitboxContract(delegate);
@@ -99,21 +114,5 @@ public class HitboxContract extends HitboxDecorator {
 	}
 	
 		//[MoveTo]: 
-	public void checkMoveTo() {
-		moveTo(pos_x, pos_y);
-		//PositionX(MoveTo(H,x,y)) = x
-		if(getPositionX() != pos_x) {
-			throw new InvariantError("HitboxContract.checkMoveTo()");
-		}
-		//PositionY(MoveTo(H,x,y)) = y 
-		if(getPositionY() != pos_y) {
-			throw new InvariantError("HitboxContract.checkMoveTo()");
-		}
-		int u = 10;
-		int v = 15;
-		//∀ u,v:int × int, BelongsTo(MoveTo(H,x,y),u,v) = Belongsto(H,u-(x-PositionX(H)),v-(y-PositionY(H))
-		if(belongsTo(u,v) != belongsTo(u-(pos_x-getPositionX()),v-(pos_y-getPositionY()))) {
-			throw new InvariantError("HitboxContract.checkMoveTo()");
-		}
-	}
+	
 }

@@ -44,10 +44,6 @@ public class HitboxDecorator implements HitboxService {
 		delegate.checkInvariant();
 	}
 	
-	public void checkInit() {
-		delegate.checkInit();
-	}
-	
 	public void checkMoveTo() {
 		delegate.checkMoveTo();
 	}

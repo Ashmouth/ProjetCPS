@@ -14,7 +14,13 @@ public class HitboxRectContract extends HitboxContract implements HitboxRectServ
 		super(delegate);
 	}
 	
-	public void initRect(int x, int y, int h, int w) {
+	public void init(int x, int y) {
+		super.init(x, y);
+		height = 0;
+		width = 0;
+	}
+	
+	public void init(int x, int y, int w, int h) {
 		super.init(x, y);
 		height = h;
 		width = w;
@@ -61,7 +67,7 @@ public class HitboxRectContract extends HitboxContract implements HitboxRectServ
 	}
 		
 	//Operators: 
-	public void MoveTo(int x, int y){ 
+	public void moveTo(int x, int y){ 
 		checkInvariant(); 
 		/* Capture du centre */
 		boolean belongsTo_centre_at_pre = belongsTo(getPositionX(), getPositionY()); 
@@ -129,38 +135,7 @@ public class HitboxRectContract extends HitboxContract implements HitboxRectServ
 	}
 
 	@Override
-	public void init(int x, int y) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public int getPositionX() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int getPositionY() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public boolean equalsTo(HitboxService h) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void moveTo(int x, int y) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public boolean collidesWith(HitboxRectService h) {
-		// TODO Auto-generated method stub
-		return false;
+	public void resize(int w, int h) {
+		//TODO		
 	}
 }

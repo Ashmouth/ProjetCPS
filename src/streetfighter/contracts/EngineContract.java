@@ -1,9 +1,9 @@
 package streetfighter.contracts;
 
 import streetfighter.condition.PreConditionError;
+import streetfighter.data.CommandData;
 import streetfighter.decorators.EngineDecorator;
 import streetfighter.services.CharacterService;
-import streetfighter.services.CommandService;
 import streetfighter.services.EngineService;
 import streetfighter.services.PlayerService;
 
@@ -16,7 +16,6 @@ public class EngineContract extends EngineDecorator {
 	private PlayerService p2;
 	private CharacterService c1;
 	private CharacterService c2;
-	private CommandService com;
 
 	public EngineContract(EngineService delegate) {
 		super(delegate);
@@ -100,7 +99,7 @@ public class EngineContract extends EngineDecorator {
 
 
 	//Operators: 
-	public void step(CommandService com1, CommandService com2) {
+	public void step(CommandData com1, CommandData com2) {
 		//pre step(E) requires ¬gameOver(E)
 	}
 

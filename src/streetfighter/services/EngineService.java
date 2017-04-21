@@ -1,6 +1,7 @@
 package streetfighter.services;
 
 import streetfighter.condition.PreConditionError;
+import streetfighter.data.CommandData;
 
 public interface EngineService {
 
@@ -17,7 +18,7 @@ public interface EngineService {
 	public boolean gameOver();
 
 	//Operators: 
-	public void step(CommandService com1, CommandService com2);
+	public void step(CommandData com1, CommandData com2);
 		//pre step(E) requires ¬gameOver(E)
 
 	//Observations: 

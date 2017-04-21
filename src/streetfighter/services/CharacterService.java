@@ -1,5 +1,7 @@
 package streetfighter.services;
 
+import streetfighter.data.CommandData;
+
 
 public interface CharacterService {
 
@@ -19,7 +21,7 @@ public interface CharacterService {
 	public void moveLeft();
 	public void moveRight();
 	public void switchSide();
-	public void step(CommandService c);
+	public void step(CommandData c);
 		//pre step() requires ¬dead
 	
 	//Observations: 
@@ -34,7 +36,9 @@ public interface CharacterService {
 				positionX(C) ≤ speed(C) ∧(∀i, player(engine(C), i) 6= C ⇒ ¬collisionwith(hitbox(moveLeft(C)), hitbox(player(engine(C), i)))) ⇒ positionX(moveLeft(C)) = positionX(C) − speed(C)
 				positionX(C) > speed(C) ∧(∀i, player(engine(C), i) 6= C ⇒ ¬collisionwith(hitbox(moveLeft(C)), hitbox(player(engine(C), i)))) ⇒ positionX(moveLeft(C)) = 0 faceRight(moveLeft(C)) = faceRight(C) ∧ life(moveLeft(C)) = life(C) positionY(moveLeft(C)) = positionY(C) 
 			[moveRight]: 
-				...
+				(∃i, player(engine(C), i) != C ∧ collisionwith(hitbox(moveRight(C)), hitbox(player(engine(C), i)))) ⇒ positionX(moveRight(C)) = positionX(C)
+				positionX(C) ≤ speed(C) ∧(∀i, player(engine(C), i) != C ⇒ ¬collisionwith(hitbox(moveRight(C)), hitbox(player(engine(C), i)))) ⇒ positionX(moveRight(C)) = positionX(C) + speed(C)
+				positionX(C) > speed(C) ∧(∀i, player(engine(C), i) != C ⇒ ¬collisionwith(hitbox(moveRight(C)), hitbox(player(engine(C), i)))) ⇒ positionX(moveRight(C)) = 0 faceRight(moveRight(C)) = faceLeft(C) ∧ life(moveRight(C)) = life(C) positionY(moveRight(C)) = positionY(C) 
 			[switchSide]: 
 				faceRight(switchSide(C))! = faceRight(C) positionX(switchSide(C)) = positionX(C) 
 			[step]: 

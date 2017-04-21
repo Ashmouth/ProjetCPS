@@ -1,8 +1,8 @@
 package streetfighter.decorators;
 
 import streetfighter.condition.PreConditionError;
+import streetfighter.data.CommandData;
 import streetfighter.services.CharacterService;
-import streetfighter.services.CommandService;
 import streetfighter.services.EngineService;
 import streetfighter.services.PlayerService;
 
@@ -42,7 +42,7 @@ public class EngineDecorator implements EngineService {
 	}
 
 	//Operators: 
-	public void step(CommandService com1, CommandService com2) {
+	public void step(CommandData com1, CommandData com2) {
 		delegate.step(com1, com2);
 	}
 

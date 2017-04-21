@@ -1,8 +1,8 @@
 package streetfighter.decorators;
 
 import streetfighter.condition.PreConditionError;
+import streetfighter.data.CommandData;
 import streetfighter.services.CharacterService;
-import streetfighter.services.CommandService;
 import streetfighter.services.EngineService;
 import streetfighter.services.HitboxService;
 
@@ -64,7 +64,7 @@ public class CharacterDecorator implements CharacterService {
 		delegate.switchSide();
 	}
 
-	public void step(CommandService c) {
+	public void step(CommandData c) {
 		delegate.step(c);
 	}
 }

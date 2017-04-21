@@ -1,9 +1,9 @@
 package streetfighter.contracts;
 
 import streetfighter.condition.PreConditionError;
+import streetfighter.data.CommandData;
 import streetfighter.decorators.CharacterDecorator;
 import streetfighter.services.CharacterService;
-import streetfighter.services.CommandService;
 import streetfighter.services.EngineService;
 import streetfighter.services.HitboxService;
 
@@ -12,7 +12,6 @@ public class CharacterContract extends CharacterDecorator {
 	int speed;
 	boolean faceRight;
 	EngineService engine;
-	CommandService com;
 	HitboxService hitbox;
 	
 	public CharacterContract(CharacterService delegate) {
@@ -79,11 +78,11 @@ public class CharacterContract extends CharacterDecorator {
 
 	//Operators: 
 	public void moveLeft() {
-		// 
+		getcharBox().setPositionX(getcharBox().getPositionX() - speed);
 	}
 
 	public void moveRight() {
-		// 
+		getcharBox().setPositionX(getcharBox().getPositionX() + speed);
 	}
 
 	public void switchSide() {
@@ -94,7 +93,7 @@ public class CharacterContract extends CharacterDecorator {
 		}
 	}
 
-	public void step(CommandService c) {
+	public void step(CommandData c) {
 		//pre step() requires ¬dead
 	}
 
@@ -109,7 +108,10 @@ public class CharacterContract extends CharacterDecorator {
 				positionX(C) ≤ speed(C) ∧(∀i, player(engine(C), i) 6= C ⇒ ¬collisionwith(hitbox(moveLeft(C)), hitbox(player(engine(C), i)))) ⇒ positionX(moveLeft(C)) = positionX(C) − speed(C)
 				positionX(C) > speed(C) ∧(∀i, player(engine(C), i) 6= C ⇒ ¬collisionwith(hitbox(moveLeft(C)), hitbox(player(engine(C), i)))) ⇒ positionX(moveLeft(C)) = 0 faceRight(moveLeft(C)) = faceRight(C) ∧ life(moveLeft(C)) = life(C) positionY(moveLeft(C)) = positionY(C) 
 			[moveRight]: 
-				...
+				[moveRight]: 
+				(∃i, player(engine(C), i) != C ∧ collisionwith(hitbox(moveRight(C)), hitbox(player(engine(C), i)))) ⇒ positionX(moveRight(C)) = positionX(C)
+				positionX(C) ≤ speed(C) ∧(∀i, player(engine(C), i) != C ⇒ ¬collisionwith(hitbox(moveRight(C)), hitbox(player(engine(C), i)))) ⇒ positionX(moveRight(C)) = positionX(C) + speed(C)
+				positionX(C) > speed(C) ∧(∀i, player(engine(C), i) != C ⇒ ¬collisionwith(hitbox(moveRight(C)), hitbox(player(engine(C), i)))) ⇒ positionX(moveRight(C)) = 0 faceRight(moveRight(C)) = faceLeft(C) ∧ life(moveRight(C)) = life(C) positionY(moveRight(C)) = positionY(C) 
 			[switchSide]: 
 				faceRight(switchSide(C))! = faceRight(C) positionX(switchSide(C)) = positionX(C) 
 			[step]: 
