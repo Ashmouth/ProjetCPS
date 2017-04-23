@@ -39,6 +39,16 @@ public class HitboxDecorator implements HitboxService {
 		delegate.moveTo(x, y);
 	}
 	
+	@Override
+	public void setPositionX(int x) {
+		delegate.setPositionX(x);
+	}
+
+	@Override
+	public void setPositionY(int y) {
+		delegate.setPositionY(y);
+	}
+	
 	//Observations:
 	public void checkInvariant() {
 		delegate.checkInvariant();

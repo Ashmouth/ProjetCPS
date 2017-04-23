@@ -28,5 +28,8 @@ public interface HitboxService {
 		//∀ u,v:int × int, BelongsTo(MoveTo(H,x,y),u,v) = Belongsto(H,u-(x-PositionX(H)),v-(y-PositionY(H))
 
 	public void setPositionX(int x);
+		//∀ x:int, x <= 0
+	
 	public void setPositionY(int y);
+		//∀ y:int, y <= 0
 }

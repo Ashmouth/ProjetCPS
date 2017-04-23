@@ -38,12 +38,12 @@ public class HitboxContract extends HitboxDecorator {
 	
 	public boolean belongsTo(int x, int y) {
 		//Not possible without width and height
-		return true;
+		return(pos_x == x && pos_y == y);
 	}
 		
 	public boolean collidesWith(HitboxService h) {
 		//Not possible without width and height
-		return true;
+		return(pos_x == h.getPositionX() && pos_y == h.getPositionY());
 	}
 	
 	public boolean equalsTo(HitboxService h) {
@@ -94,8 +94,17 @@ public class HitboxContract extends HitboxDecorator {
 		}		
 	}
 	
-	//Observations: 
-		//[invariant]: 
+	@Override
+	public void setPositionX(int x) {
+		pos_x = x;
+	}
+
+	@Override
+	public void setPositionY(int y) {
+		pos_y = y;
+	}
+	
+	//Observations:
 	@Override
 	public void checkInvariant() {
 		HitboxService delegate = null;
@@ -112,7 +121,4 @@ public class HitboxContract extends HitboxDecorator {
 			throw new InvariantError("HitboxContract.checkInvariant()");
 		}
 	}
-	
-		//[MoveTo]: 
-	
 }

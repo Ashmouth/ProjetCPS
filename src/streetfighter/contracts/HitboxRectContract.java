@@ -54,7 +54,18 @@ public class HitboxRectContract extends HitboxContract implements HitboxRectServ
 		
 	public boolean collidesWith(HitboxService h) {
 		//Not possible without width and height
-		return true;
+		if(h instanceof HitboxRectContract) {
+			HitboxRectContract hr = (HitboxRectContract) h;
+			return getPositionX() < hr.getPositionX() + hr.getWidth() &&
+					getPositionX() + getWidth() > hr.getPositionX() &&
+					getPositionY() < hr.getPositionY() + hr.getHeight() &&
+					getPositionY() + getHeight() > hr.getPositionY();
+		} else {
+			return (getPositionX() <= h.getPositionX() &&
+					h.getPositionX() <= (getPositionX() + getWidth()) &&
+					getPositionY() <= h.getPositionY() &&
+					h.getPositionY() <= (getPositionY() + getHeight()));
+		}
 	}
 	
 	public boolean equalsTo(HitboxRectService h) {
@@ -91,6 +102,16 @@ public class HitboxRectContract extends HitboxContract implements HitboxRectServ
 		if(! belongsTo(300 + (x - PositionX_at_pre), 0 + (y - PositionY_at_pre)) == belongsTo_abs_at_pre) {
 			throw new PostConditionError("HitboxContract.MoveTo(x, y)");
 		} 
+	}
+	
+	@Override
+	public void resize(int w, int h) {
+		if(h >= 0) {
+			height = h;
+		}
+		if(w >= 0) {
+			width = w;
+		}
 	}
 	
 	//Observations: 
@@ -132,10 +153,5 @@ public class HitboxRectContract extends HitboxContract implements HitboxRectServ
 		if(belongsTo(u,v) != belongsTo(u-(pos_x-getPositionX()),v-(pos_y-getPositionY()))) {
 			throw new InvariantError("HitboxContract.checkMoveTo()");
 		}
-	}
-
-	@Override
-	public void resize(int w, int h) {
-		//TODO		
 	}
 }

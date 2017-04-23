@@ -8,7 +8,7 @@
 
   <!-- METTRE ICI LE NOM DU BINOME -->
   <property name="nom1" value="PONTI"/>
-  <property name="nom2" value="SERRES"/>
+  <property name="nom2" value="SERRES/ROBINI"/>
 
   <target name="init">
     <!-- Create the time stamp -->
