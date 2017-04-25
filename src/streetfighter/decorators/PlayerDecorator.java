@@ -1,15 +1,35 @@
 package streetfighter.decorators;
 
-import streetfighter.condition.PreConditionError;
-import streetfighter.data.TechData;
+import streetfighter.data.CommandData;
 import streetfighter.services.PlayerService;
 
 public class PlayerDecorator implements PlayerService {
 
+	private PlayerService delegate;
+
+	public PlayerDecorator(PlayerService delegate) {
+		this.delegate = delegate;
+	}
+	
+	//Observators: 
 	@Override
-	public TechData tech() throws PreConditionError {
-		// TODO Auto-generated method stub
-		return null;
+	public CommandData getCommand() {
+		return delegate.getCommand();
+	}
+	
+	//Operators: 
+	@Override
+	public void init(int num) {
+		delegate.init(num);
 	}
 
+	@Override
+	public CommandData keyReleased(int key, char c) {
+		return delegate.keyReleased(key, c);
+	}
+
+	@Override
+	public void step() {
+		delegate.step();
+	}
 }

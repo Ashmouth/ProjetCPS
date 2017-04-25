@@ -1,29 +1,32 @@
 package streetfighter.contracts;
 
 import org.newdawn.slick.AppGameContainer;
-import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-
 import org.newdawn.slick.SlickException;
+import streetfighter.decorators.DisplayDecorator;
+import streetfighter.services.DisplayService;
 
-public class DisplayContract extends BasicGame {
+public class DisplayContract extends DisplayDecorator implements DisplayService {
 	
     private GameContainer container;
 
-	public DisplayContract() {
-        super("StreetFighterCPS");
+	public DisplayContract(DisplayService delegate) {
+        super(delegate, "StreetFighterCPS");
     }
+	
+	//Observators: 
+	@Override
+	public GameContainer getContainer() {
+		return container;
+	}
 
+	//Operators: 
     @Override
     public void init(GameContainer container) throws SlickException {
         this.container = container;
     }
     
-    public GameContainer getContainer() {
-		return container;
-	}
-
     @Override
     public void render(GameContainer container, Graphics g) throws SlickException {
     }
@@ -32,7 +35,10 @@ public class DisplayContract extends BasicGame {
     public void update(GameContainer container, int delta) throws SlickException {
     }
 	
+    
+    
 	public static void main(String[] args) throws SlickException {
-        new AppGameContainer(new DisplayContract(), 640, 480, false).start();
+        DisplayService delegate = null;
+		new AppGameContainer(new DisplayContract(delegate), 640, 480, false).start();
     }	
 }
