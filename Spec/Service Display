@@ -1,0 +1,13 @@
+Service: Display
+Types: bool, GameContainer
+
+Observators: 
+	container: [Display] → GameContainer 
+	
+	Constructors: init: GameContainer → [Display] 
+		
+	Operators: 
+    	render: [Display] × GameContainer × Graphics g → [Display]
+    	update: [Display] × GameContainer × int delta → [Display]
+		
+	Observations: 

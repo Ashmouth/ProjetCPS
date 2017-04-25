@@ -48,15 +48,17 @@ public class PlayerContract extends PlayerDecorator implements PlayerService {
 	}
 	
 	//Operators: 
-	
 	@Override
 	public void init(int num) {
 		CommandStack = new Vector<CommandData>(techLen);
+		for (int i = 0; i < techLen; i++) {
+			CommandStack.add(CommandData.NEUTRAL);
+		}
 		numPlayer = num;
 	}
 	
 	@Override
-	public CommandData keyReleased(int key, char c) {
+	public CommandData getInput(int key, char c) {
 		if (Input.KEY_ESCAPE == key) {
 			//TODO END
 		}
@@ -108,9 +110,9 @@ public class PlayerContract extends PlayerDecorator implements PlayerService {
 	}
 	
 	@Override
-	public void step() {
+	public void step(int key, char c) {
 		CommandStack.remove(techLen);
-		//CommandData tmp = getInput();	TODO find how recover input
-		//CommandStack.add(0, tmp);
+		CommandData tmp = getInput(key, c);
+		CommandStack.add(0, tmp);
 	}
 }
