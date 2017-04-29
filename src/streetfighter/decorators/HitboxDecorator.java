@@ -3,7 +3,7 @@ package streetfighter.decorators;
 import streetfighter.services.HitboxService;
 
 public class HitboxDecorator implements HitboxService {
-	private HitboxService delegate;
+	protected HitboxService delegate;
 	
 	public HitboxDecorator(HitboxService delegate) {
 		this.delegate = delegate;
@@ -54,11 +54,5 @@ public class HitboxDecorator implements HitboxService {
 	@Override
 	public void setPositionY(int y) {
 		delegate.setPositionY(y);
-	}
-	
-	//Observations:
-	@Override
-	public void checkInvariant() {
-		delegate.checkInvariant();
 	}
 }

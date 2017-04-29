@@ -1,5 +1,6 @@
 package streetfighter.contracts;
 
+import streetfighter.condition.PostConditionError;
 import streetfighter.condition.PreConditionError;
 import streetfighter.data.CommandData;
 import streetfighter.decorators.CharacterDecorator;
@@ -8,108 +9,152 @@ import streetfighter.services.EngineService;
 import streetfighter.services.HitboxService;
 
 public class CharacterContract extends CharacterDecorator {
-	int life;
-	int speed;
-	boolean faceRight;
-	EngineService engine;
-	HitboxService hitbox;
-	
 	public CharacterContract(CharacterService delegate) {
 		super(delegate);
 	}
 
 	@Override
 	public void init(int l, int s, boolean f, EngineService e) throws PreConditionError {
+		checkInvariants();
+		
+		/** PRECONDITIONS **/
 		//pre init(l,s,f,e) requires l > 0 ∧ s > 0
 		boolean test = l > 0 && s > 0;
 		if(!test) {
 			throw new PreConditionError("CharacterDecorator.CharacterDecorator()");
 		}
-		life = l;
-		speed = s;
-		faceRight = f;
-		engine = e;
+		
+		/** CAPTURES **/
+		
+		/** DELEGATE **/
+		super.init(l, s, f, e);
+		
+		/** POSTCONDITIONS **/
+		
+		//TODO vérifier
 		//life(init(l, s, f, e)) = l ∧ speed(init(l, s, f, e)) = s ∧ faceRight(init(l, s, f, e)) = 
 		//f ∧engine(init(l, s, f, e)) = e 
-		if (getLife() != l || getSpeed() != s || faceRight != f || getEngine() != e) {
-			throw new PreConditionError("Hitbox.init(l, s, f, e)");
+		if (getLife() != l || getSpeed() != s || delegate.getFaceRight() != f || getEngine() != e) {
+			throw new PostConditionError("Hitbox.init(l, s, f, e)");
 		}
 		//∃h :Hitbox, charbox(init(l, s, f, e)) = h
 		if (getcharBox() == null) {
-			throw new PreConditionError("Hitbox.init(l, s, f, e)");
+			throw new PostConditionError("Hitbox.init(l, s, f, e)");
 		}
+		
+		checkInvariants();
 	}
 
 	//Observators: 
 	@Override
 	public int getPositionX() {
-		return hitbox.getPositionX();
+		return super.getPositionX();
 	}
 
 	@Override
 	public int getPositionY() {
-		return hitbox.getPositionY();
+		return super.getPositionY();
 	}
 
 	@Override
 	public EngineService getEngine() {
-		return engine;
+		return super.getEngine();
 	}
 
 	@Override
 	public HitboxService getcharBox() {
-		return hitbox; //TODO Check
+		return super.getcharBox(); //TODO Check
 	}
 
 	@Override
 	public int getLife() {
-		return life;
+		return super.getLife();
 	}
 
 	@Override
 	public int getSpeed() {
-		return speed;
+		return super.getSpeed();
 	}
 
 	@Override
 	public boolean getFaceRight() {
-		return faceRight;
+		return super.getFaceRight();
 	}
 
 	@Override
 	public boolean isDead() {
-		if(life == 0) {
-			return true;
-		} else {
-			return false;
-		}
+		return super.isDead();
 	}
 
 	//Operators: 
 	@Override
 	public void moveLeft() {
-		getcharBox().setPositionX(getcharBox().getPositionX() - speed);
+		checkInvariants();
+		
+		/** PRECONDITIONS **/
+		
+		/** CAPTURES **/
+		
+		/** DELEGATE **/
+		super.moveLeft();
+		
+		/** POSTCONDITIONS **/
+		
+		checkInvariants();
 	}
 
 	@Override
 	public void moveRight() {
-		getcharBox().setPositionX(getcharBox().getPositionX() + speed);
+		checkInvariants();
+		
+		/** PRECONDITIONS **/
+		
+		/** CAPTURES **/
+		
+		/** DELEGATE **/
+		super.moveRight();
+		
+		/** POSTCONDITIONS **/
+		
+		checkInvariants();
 	}
 
 	@Override
 	public void switchSide() {
-		if(faceRight == true) {
-			faceRight = false;
-		} else {
-			faceRight = true;
-		}
+		checkInvariants();
+		
+		/** PRECONDITIONS **/
+		
+		/** CAPTURES **/
+		
+		/** DELEGATE **/
+		super.switchSide();
+		
+		/** POSTCONDITIONS **/
+		
+		checkInvariants();
 	}
 
 	@Override
 	public void step(CommandData c) {
-		//pre step() requires ¬dead
+		checkInvariants();
+		
+		/** PRECONDITIONS **/
+		
+		/** CAPTURES **/
+		
+		/** DELEGATE **/
+		super.step(c);
+		
+		/** POSTCONDITIONS **/
+		
+		checkInvariants();
 	}
-
+	
+	private void checkInvariants() {
+		// TODO Auto-generated method stub
+		
+	}
 
 	//Observations: 
 	/*

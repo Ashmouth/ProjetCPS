@@ -1,7 +1,5 @@
 package streetfighter.implem;
 
-import streetfighter.condition.InvariantError;
-import streetfighter.contracts.HitboxRectContract;
 import streetfighter.services.HitboxRectService;
 import streetfighter.services.HitboxService;
 
@@ -30,6 +28,7 @@ public class HitboxRect extends Hitbox implements HitboxRectService {
 	}
 	
 	public boolean belongsTo(int x, int y) {
+		//TODO formules pas bonnes
 		if(getPositionX() <= x && x <= width) {
 			if(getPositionY() <= y && y <= height) {
 				return true;
@@ -40,8 +39,9 @@ public class HitboxRect extends Hitbox implements HitboxRectService {
 		
 	public boolean collidesWith(HitboxService h) {
 		//Not possible without width and height
-		if(h instanceof HitboxRectContract) {
-			HitboxRectContract hr = (HitboxRectContract) h;
+		//TODO vérifier les formules
+		if(h instanceof HitboxRectService) {
+			HitboxRectService hr = (HitboxRectService) h;
 			return getPositionX() < hr.getPositionX() + hr.getWidth() &&
 					getPositionX() + getWidth() > hr.getPositionX() &&
 					getPositionY() < hr.getPositionY() + hr.getHeight() &&
@@ -62,12 +62,6 @@ public class HitboxRect extends Hitbox implements HitboxRectService {
 		}
 		return false;
 	}
-		
-	//Operators: 
-	public void moveTo(int x, int y){ 
-		this.setPositionX(x);
-		this.setPositionY(y);
-	}
 	
 	@Override
 	public void resize(int w, int h) {
@@ -80,22 +74,4 @@ public class HitboxRect extends Hitbox implements HitboxRectService {
 	}
 	
 	//Observations: 
-		//[invariant]: 
-	public void checkInvariant() {
-		int pos_x = getPositionX();
-		int pos_y = getPositionY();
-		HitboxRectService delegate = null;
-		HitboxRectContract H1 = new HitboxRectContract(delegate);
-		H1.init(pos_x, pos_y);
-		
-		//CollidesWith(H,H1) = ∃ x,y:int × int, BelongsTo(H,x,y) ∧ BelongsTo(H1,x,y) 
-		if(collidesWith(H1) != (belongsTo(pos_x,pos_y) && H1.belongsTo(pos_x,pos_y))) {
-			throw new InvariantError("HitboxContract.checkInvariant()");
-		}
-		
-		//EqualsTo(H,H1) = ∀ x,y:int × int, BelongsTo(H,x,y) = BelongsTo(H1,x,y) 
-		if(equalsTo(H1) != (belongsTo(pos_x,pos_y) == H1.belongsTo(pos_x,pos_y))) {
-			throw new InvariantError("HitboxContract.checkInvariant()");
-		}
-	}
 }

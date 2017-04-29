@@ -1,6 +1,5 @@
 package streetfighter.decorators;
 
-import streetfighter.condition.PreConditionError;
 import streetfighter.services.EngineService;
 import streetfighter.services.FightCharService;
 import streetfighter.data.TechData;
@@ -14,7 +13,7 @@ public class FightCharDecorator extends CharacterDecorator implements FightCharS
 	}
 	
 	@Override
-	public void init(int l, int s, boolean f, EngineService e) throws PreConditionError {
+	public void init(int l, int s, boolean f, EngineService e) {
 		super.init(l, s, f, e);
 	}
 
@@ -40,23 +39,23 @@ public class FightCharDecorator extends CharacterDecorator implements FightCharS
 	}
 
 	@Override
-	public TechData tech() throws PreConditionError {
+	public TechData tech() {
 		return delegate.tech();
 	}
 
 	@Override
-	public boolean techFrame() throws PreConditionError { 
+	public boolean techFrame() { 
 		return delegate.techFrame();
 	}
 
 	@Override
-	public boolean techHasAlreadyHit() throws PreConditionError { 
+	public boolean techHasAlreadyHit() { 
 		return delegate.techHasAlreadyHit();
 	}
 
 	//Operators: 
 	@Override
-	public void startTech(TechData tech) throws PreConditionError {
+	public void startTech(TechData tech) {
 		delegate.startTech(tech);
 	}
 

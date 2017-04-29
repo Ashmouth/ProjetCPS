@@ -54,20 +54,4 @@ private int pos_x, pos_y;
 	}
 	
 	//Observations:
-	@Override
-	public void checkInvariant() {
-		HitboxService delegate = null;
-		HitboxContract H1 = new HitboxContract(delegate);
-		H1.init(pos_x, pos_y);
-		
-		//CollidesWith(H,H1) = ∃ x,y:int × int, BelongsTo(H,x,y) ∧ BelongsTo(H1,x,y) 
-		if(collidesWith(H1) != (belongsTo(pos_x,pos_y) && H1.belongsTo(pos_x,pos_y))) {
-			throw new InvariantError("HitboxContract.checkInvariant()");
-		}
-		
-		//EqualsTo(H,H1) = ∀ x,y:int × int, BelongsTo(H,x,y) = BelongsTo(H1,x,y) 
-		if(equalsTo(H1) != (belongsTo(pos_x,pos_y) == H1.belongsTo(pos_x,pos_y))) {
-			throw new InvariantError("HitboxContract.checkInvariant()");
-		}
-	}
 }

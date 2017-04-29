@@ -7,50 +7,39 @@ import streetfighter.services.EngineService;
 import streetfighter.services.FightCharService;
 
 public class FightCharContract extends FightCharDecorator {
-	//REFINE CHARACHER
-	
-	private boolean block;
-	private boolean blockstun;
-	private boolean hitstun;
-	private boolean teching;
-	private TechData tech;
-
+	//REFINE CHARACTER
 	public FightCharContract(FightCharService delegate) {
 		super(delegate);
 	}
 	
 	@Override
-	public void init(int l, int s, boolean f, EngineService e) throws PreConditionError {
+	public void init(int l, int s, boolean f, EngineService e)  {
 		super.init(l, s, f, e);
-		block = false;
-		blockstun = false;
-		hitstun = false;
-		teching = false;
 	}
 
 	//Observators: 
 	@Override
 	public boolean isBlocking() {
-		return block;
+		return super.isBlocking();
 	}
 
 	@Override
 	public boolean isBlockstunned() {
-		return blockstun; 
+		return super.isBlockstunned(); 
 	}
 
 	@Override
 	public boolean isHitstunned(){
-		return hitstun; 
+		return super.isHitstunned(); 
 	}
 
 	@Override
 	public boolean isTeching() {
-		return teching; 
+		return super.isTeching(); 
 	}
 
 	@Override
-	public TechData tech() throws PreConditionError {
+	public TechData tech() {
 		//pre tech(C) requires isTeching(C) 
 		if(!isTeching()) {
 			throw new PreConditionError("FightChar.tech()");
@@ -59,7 +48,7 @@ public class FightCharContract extends FightCharDecorator {
 	}
 
 	@Override
-	public boolean techFrame() throws PreConditionError { 
+	public boolean techFrame(){ 
 		//pre techFrame(C) requires isTeching(C)
 		if(!isTeching()) {
 			throw new PreConditionError("FightChar.tech()");
@@ -68,7 +57,7 @@ public class FightCharContract extends FightCharDecorator {
 	}
 
 	@Override
-	public boolean techHasAlreadyHit() throws PreConditionError { 
+	public boolean techHasAlreadyHit() { 
 		//pre techHasAlreadyHit(C) requires isTeching(C)
 		if(!isTeching()) {
 			throw new PreConditionError("FightChar.tech()");
@@ -84,7 +73,7 @@ public class FightCharContract extends FightCharDecorator {
 
 	//Operators: 
 	@Override
-	public void startTech(TechData tech) throws PreConditionError {
+	public void startTech(TechData tech) {
 		//pre startTech(C,T) requires ¬isTeching(C) 
 		if(isTeching()) {
 			throw new PreConditionError("FightChar.tech()");

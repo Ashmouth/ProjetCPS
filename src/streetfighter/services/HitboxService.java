@@ -21,7 +21,6 @@ public interface HitboxService {
 	
 	//Observations: 
 		//[invariant]: 
-	public void checkInvariant();
 		//CollidesWith(H,H1) = ∃ x,y:int × int, BelongsTo(H,x,y) ∧ BelongsTo(H1,x,y) 
 		//EqualsTo(H,H1) = ∀ x,y:int × int, BelongsTo(H,x,y) = BelongsTo(H1,x,y) 
 

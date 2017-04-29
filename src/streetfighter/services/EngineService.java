@@ -1,6 +1,5 @@
 package streetfighter.services;
 
-import streetfighter.condition.PreConditionError;
 import streetfighter.data.CommandData;
 
 public interface EngineService {
@@ -25,9 +24,9 @@ public interface EngineService {
 	//Observators: 
 	public int getHeight();
 	public int getWidth();
-	public CharacterService getCharacter(int i) throws PreConditionError;
+	public CharacterService getCharacter(int i);
 	//pre player(E,i) requires i ∈ {1, 2} 
-	public PlayerService getPlayer(int i) throws PreConditionError;
+	public PlayerService getPlayer(int i);
 	//pre player(E,i) requires i ∈ {1, 2} 
 	public boolean gameOver();
 
@@ -41,7 +40,6 @@ public interface EngineService {
 
 	//Observations: 
 	//[invariant]: 
-	public void checkInvariant();
 		//gameOver(E) = ∃i ∈ {1, 2} 
 		//Character ::dead(player(E, i))
 }

@@ -1,7 +1,6 @@
 package streetfighter.decorators;
 
 import streetfighter.services.HitboxRectService;
-import streetfighter.services.HitboxService;
 
 public class HitboxRectDecorator extends HitboxDecorator implements HitboxRectService {
 	private HitboxRectService delegate;

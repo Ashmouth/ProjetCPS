@@ -68,7 +68,4 @@ public class Engine implements EngineService {
 	}
 
 	//Observations: 
-	@Override
-	public void checkInvariant() {
-	}
 }

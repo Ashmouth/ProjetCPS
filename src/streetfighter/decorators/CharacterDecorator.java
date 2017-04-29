@@ -1,22 +1,20 @@
 package streetfighter.decorators;
 
-import streetfighter.condition.PreConditionError;
 import streetfighter.data.CommandData;
 import streetfighter.services.CharacterService;
 import streetfighter.services.EngineService;
 import streetfighter.services.HitboxService;
 
 public class CharacterDecorator implements CharacterService {
-	private final CharacterService delegate;
+	protected final CharacterService delegate;
 	
 	public CharacterDecorator(CharacterService delegate) {
 		this.delegate = delegate;
 	}
 
 	@Override
-	public void init(int l, int s, boolean f, EngineService e) throws PreConditionError {
+	public void init(int l, int s, boolean f, EngineService e) {
 		delegate.init(l,s,f,e);
-		//getEngine().init(h, w, s, p1, p2);
 	}
 
 	//Observators: 
