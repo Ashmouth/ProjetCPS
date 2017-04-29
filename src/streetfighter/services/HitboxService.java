@@ -14,18 +14,16 @@ public interface HitboxService {
 		
 	//Operators: 
 	public void moveTo(int x, int y);
+	//Invariant
+	//PositionX(MoveTo(H,x,y)) = x 
+	//PositionY(MoveTo(H,x,y)) = y 
+	//∀ u,v:int × int, BelongsTo(MoveTo(H,x,y),u,v) = Belongsto(H,u-(x-PositionX(H)),v-(y-PositionY(H))
 	
 	//Observations: 
 		//[invariant]: 
 	public void checkInvariant();
 		//CollidesWith(H,H1) = ∃ x,y:int × int, BelongsTo(H,x,y) ∧ BelongsTo(H1,x,y) 
 		//EqualsTo(H,H1) = ∀ x,y:int × int, BelongsTo(H,x,y) = BelongsTo(H1,x,y) 
-	
-		//[MoveTo]: 
-	public void checkMoveTo();
-		//PositionX(MoveTo(H,x,y)) = x 
-		//PositionY(MoveTo(H,x,y)) = y 
-		//∀ u,v:int × int, BelongsTo(MoveTo(H,x,y),u,v) = Belongsto(H,u-(x-PositionX(H)),v-(y-PositionY(H))
 
 	public void setPositionX(int x);
 		//∀ x:int, x <= 0

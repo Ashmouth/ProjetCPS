@@ -21,6 +21,7 @@ public class EngineContract extends EngineDecorator {
 		super(delegate);
 	}
 
+	@Override
 	public void init(int h, int w, int s, PlayerService p1, PlayerService p2) throws PreConditionError {
 		//pre init(h,w,s,p1,p2) requires h > 0 ∧ s > 0 ∧ w > s ∧ p1 6= p2 
 		boolean test = h > 0 && w > 0 && s > 0 && w > s && p1 != p2;
@@ -61,10 +62,12 @@ public class EngineContract extends EngineDecorator {
 	}
 
 	//Observators: 
+	@Override
 	public int getHeight() {
 		return height; 
 	}
 
+	@Override
 	public int getWidth() {
 		return width; 
 	}
@@ -93,26 +96,24 @@ public class EngineContract extends EngineDecorator {
 		}
 	}
 
+	@Override
 	public boolean gameOver() {
 		return end; 
 	}
 
 
 	//Operators: 
+	@Override
 	public void step(CommandData com1, CommandData com2) {
 		//pre step(E) requires ¬gameOver(E)
+		//char(step(E, C1, C2), 1) = step(char(E, 1), C1) 
+		//char(step(E, C1, C2), 2) = step(char(E, 2), C2)
 	}
 
 	//Observations: 
-	//[invariant]: 
+	@Override
 	public void checkInvariant() {
 		//gameOver(E) = ∃i ∈ {1, 2} 
 		//Character ::dead(player(E, i))
-	}
-
-	//[step]:
-	public void checkStep() {
-		//char(step(E, C1, C2), 1) = step(char(E, 1), C1) 
-		//char(step(E, C1, C2), 2) = step(char(E, 2), C2)
 	}
 }

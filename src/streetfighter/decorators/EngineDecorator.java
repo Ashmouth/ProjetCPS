@@ -13,16 +13,19 @@ public class EngineDecorator implements EngineService {
 		this.delegate = delegate;
 	}
 
+	@Override
 	public void init(int h, int w, int s, PlayerService p1, PlayerService p2) throws PreConditionError {
 		
 		delegate.init(h,w,s,p1,p2);
 	}
 
 	//Observators: 
+	@Override
 	public int getHeight() {
 		return delegate.getHeight(); 
 	}
 
+	@Override
 	public int getWidth() {
 		return delegate.getWidth(); 
 	}
@@ -37,25 +40,20 @@ public class EngineDecorator implements EngineService {
 		return delegate.getPlayer(i);
 	}
 
+	@Override
 	public boolean gameOver() {
 		return delegate.gameOver(); 
 	}
 
 	//Operators: 
+	@Override
 	public void step(CommandData com1, CommandData com2) {
 		delegate.step(com1, com2);
 	}
 
 	//Observations: 
+	@Override
 	public void checkInvariant() {
 		delegate.checkInvariant();
-	}
-
-	public void checkInit() {
-		delegate.checkInit();
-	}
-
-	public void checkStep() {
-		delegate.checkStep();
 	}
 }

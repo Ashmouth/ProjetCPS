@@ -18,6 +18,7 @@ public class CharacterContract extends CharacterDecorator {
 		super(delegate);
 	}
 
+	@Override
 	public void init(int l, int s, boolean f, EngineService e) throws PreConditionError {
 		//pre init(l,s,f,e) requires l > 0 ∧ s > 0
 		boolean test = l > 0 && s > 0;
@@ -40,34 +41,42 @@ public class CharacterContract extends CharacterDecorator {
 	}
 
 	//Observators: 
+	@Override
 	public int getPositionX() {
 		return hitbox.getPositionX();
 	}
 
+	@Override
 	public int getPositionY() {
 		return hitbox.getPositionY();
 	}
 
+	@Override
 	public EngineService getEngine() {
 		return engine;
 	}
 
+	@Override
 	public HitboxService getcharBox() {
 		return hitbox; //TODO Check
 	}
 
+	@Override
 	public int getLife() {
 		return life;
 	}
 
+	@Override
 	public int getSpeed() {
 		return speed;
 	}
 
+	@Override
 	public boolean getFaceRight() {
 		return faceRight;
 	}
 
+	@Override
 	public boolean isDead() {
 		if(life == 0) {
 			return true;
@@ -77,14 +86,17 @@ public class CharacterContract extends CharacterDecorator {
 	}
 
 	//Operators: 
+	@Override
 	public void moveLeft() {
 		getcharBox().setPositionX(getcharBox().getPositionX() - speed);
 	}
 
+	@Override
 	public void moveRight() {
 		getcharBox().setPositionX(getcharBox().getPositionX() + speed);
 	}
 
+	@Override
 	public void switchSide() {
 		if(faceRight == true) {
 			faceRight = false;
@@ -93,6 +105,7 @@ public class CharacterContract extends CharacterDecorator {
 		}
 	}
 
+	@Override
 	public void step(CommandData c) {
 		//pre step() requires ¬dead
 	}

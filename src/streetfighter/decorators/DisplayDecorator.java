@@ -6,6 +6,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
 import streetfighter.services.DisplayService;
+import streetfighter.services.EngineService;
 
 public class DisplayDecorator extends BasicGame implements DisplayService {
 
@@ -17,8 +18,14 @@ public class DisplayDecorator extends BasicGame implements DisplayService {
 	}
 	
 	//Observators: 
+	@Override
 	public GameContainer getContainer() {
 		return delegate.getContainer();
+	}
+	
+	@Override
+	public EngineService getEngine() {
+		return delegate.getEngine();
 	}
 
 	//Operators: 
@@ -35,5 +42,15 @@ public class DisplayDecorator extends BasicGame implements DisplayService {
 	@Override
 	public void update(GameContainer arg0, int arg1) throws SlickException {
 		delegate.update(arg0, arg1);
+	}
+	
+	@Override
+	public void keyReleased(int key, char c) {
+		delegate.keyReleased(key, c);
+    }
+
+	@Override
+	public void initEngine(EngineService engine) {
+		delegate.initEngine(engine);
 	}
 }

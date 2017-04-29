@@ -17,6 +17,7 @@ public interface CharacterService {
 	public int getSpeed();
 	public boolean getFaceRight();
 	public boolean isDead();
+	
 	//Operators: 
 	public void moveLeft();
 	public void moveRight();

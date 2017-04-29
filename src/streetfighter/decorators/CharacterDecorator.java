@@ -13,57 +13,70 @@ public class CharacterDecorator implements CharacterService {
 		this.delegate = delegate;
 	}
 
+	@Override
 	public void init(int l, int s, boolean f, EngineService e) throws PreConditionError {
 		delegate.init(l,s,f,e);
 		//getEngine().init(h, w, s, p1, p2);
 	}
 
 	//Observators: 
+	@Override
 	public int getPositionX() {
 		return delegate.getPositionX();
 	}
 
+	@Override
 	public int getPositionY() {
 		return delegate.getPositionY();
 	}
 
+	@Override
 	public EngineService getEngine() {
 		return delegate.getEngine();
 	}
 
+	@Override
 	public HitboxService getcharBox() {
 		return delegate.getcharBox();
 	}
 
+	@Override
 	public int getLife() {
 		return delegate.getLife();
 	}
 
+	@Override
 	public int getSpeed() {
 		return delegate.getSpeed();
 	}
 
+	@Override
 	public boolean getFaceRight() {
 		return delegate.getFaceRight();
 	}
 
+	@Override
 	public boolean isDead() {
 		return delegate.isDead();
 	}
 
 	//Operators: 
+	@Override
 	public void moveLeft() {
 		delegate.moveLeft(); 
 	}
 
+	@Override
 	public void moveRight() {
 		delegate.moveRight();
 	}
 
+	@Override
 	public void switchSide() {
 		delegate.switchSide();
 	}
 
+	@Override
 	public void step(CommandData c) {
 		delegate.step(c);
 	}
