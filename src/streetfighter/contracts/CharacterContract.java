@@ -1,5 +1,8 @@
 package streetfighter.contracts;
 
+import com.sun.xml.internal.ws.api.pipe.Engine;
+
+import streetfighter.condition.InvariantError;
 import streetfighter.condition.PostConditionError;
 import streetfighter.condition.PreConditionError;
 import streetfighter.data.CommandData;
@@ -14,34 +17,33 @@ public class CharacterContract extends CharacterDecorator {
 	}
 
 	@Override
-	public void init(int l, int s, boolean f, EngineService e) throws PreConditionError {
+	public void init(int l, int s, boolean f, EngineService e) {
 		checkInvariants();
-		
+
 		/** PRECONDITIONS **/
 		//pre init(l,s,f,e) requires l > 0 ∧ s > 0
 		boolean test = l > 0 && s > 0;
 		if(!test) {
 			throw new PreConditionError("CharacterDecorator.CharacterDecorator()");
 		}
-		
+
 		/** CAPTURES **/
-		
+
 		/** DELEGATE **/
 		super.init(l, s, f, e);
-		
+
 		/** POSTCONDITIONS **/
-		
-		//TODO vérifier
-		//life(init(l, s, f, e)) = l ∧ speed(init(l, s, f, e)) = s ∧ faceRight(init(l, s, f, e)) = 
-		//f ∧engine(init(l, s, f, e)) = e 
-		if (getLife() != l || getSpeed() != s || delegate.getFaceRight() != f || getEngine() != e) {
+
+		// life(init(l, s, f, e)) = l ∧ speed(init(l, s, f, e)) = s ∧ faceRight(init(l, s, f, e)) = f ∧
+		// engine(init(l, s, f, e)) = e 
+		if (getLife() != l || getSpeed() != s || getFaceRight() != f || getEngine() != e) {
 			throw new PostConditionError("Hitbox.init(l, s, f, e)");
 		}
 		//∃h :Hitbox, charbox(init(l, s, f, e)) = h
 		if (getcharBox() == null) {
 			throw new PostConditionError("Hitbox.init(l, s, f, e)");
 		}
-		
+
 		checkInvariants();
 	}
 
@@ -90,47 +92,134 @@ public class CharacterContract extends CharacterDecorator {
 	@Override
 	public void moveLeft() {
 		checkInvariants();
-		
+
 		/** PRECONDITIONS **/
-		
+
 		/** CAPTURES **/
+		int posX_pre = getPositionX();
+		int posY_pre = getPositionY();
+		int life_pre = getLife();
+		boolean faceRight_pre = getFaceRight();
 		
+		int speed = getSpeed();
+
 		/** DELEGATE **/
 		super.moveLeft();
-		
+
 		/** POSTCONDITIONS **/
+		// (∃i, player(engine(C), i) != C ∧ collisionwith(hitbox(moveLeft(C)), hitbox(player(engine(C), i)))) ⇒ positionX(moveLeft(C)) = positionX(C)
 		
+		//TODO supprimé -> remplacé par l'invariant "pas de collision"
+		
+		// positionX(C) >= speed(C) ∧ (∀i, player(engine(C), i) != C 
+		// ⇒ ¬collisionwith(hitbox(moveLeft(C)), hitbox(player(engine(C), i))))
+		// ⇒ positionX(moveLeft(C)) = positionX(C) − speed(C)
+		if (posX_pre >= speed) {
+			if (getPositionX() != posX_pre - speed) {
+				throw new PostConditionError("Character.moveLeft.speed1");
+			}
+		}
+		
+		// positionX(C) ≤ speed(C) ∧(∀i, player(engine(C), i) != C 
+		// ⇒ ¬collisionwith(hitbox(moveLeft(C)), hitbox(player(engine(C), i))))
+		// ⇒ positionX(moveLeft(C)) = 0
+		if (posX_pre < speed) {
+			if (getPositionX() != 0) {
+				throw new PostConditionError("Character.moveLeft.speed2");
+			}
+		}
+		
+		// faceRight(moveLeft(C)) = faceRight(C) ∧ life(moveLeft(C)) = life(C)
+		if (!(getFaceRight() == faceRight_pre &&
+				getLife() == life_pre)) {
+			throw new PostConditionError("Character.moveLeft.faceright/life");
+		}
+		
+		// positionY(moveLeft(C)) = positionY(C)
+		if(getPositionY() != posY_pre) {
+			throw new PostConditionError("Character.moveLeft.positionY");
+		}
+
 		checkInvariants();
 	}
 
 	@Override
 	public void moveRight() {
 		checkInvariants();
-		
+
 		/** PRECONDITIONS **/
-		
+
 		/** CAPTURES **/
+		int posX_pre = getPositionX();
+		int posY_pre = getPositionY();
+		int life_pre = getLife();
+		boolean faceRight_pre = getFaceRight();
 		
+		int speed = getSpeed();
+
 		/** DELEGATE **/
-		super.moveRight();
-		
+		super.moveLeft();
+
 		/** POSTCONDITIONS **/
+		// (∃i, player(engine(C), i) != C ∧ collisionwith(hitbox(moveRight(C)), hitbox(player(engine(C), i)))) ⇒ positionX(moveRight(C)) = positionX(C)
 		
+		//TODO supprimé -> remplacé par l'invariant "pas de collision"
+		
+		// positionX(C) <= speed(C) ∧ (∀i, player(engine(C), i) != C 
+		// ⇒ ¬collisionwith(hitbox(moveRight(C)), hitbox(player(engine(C), i))))
+		// ⇒ positionX(moveRight(C)) = positionX(C) + speed(C)
+		if (posX_pre <= speed) {
+			if (getPositionX() != posX_pre + speed) {
+				throw new PostConditionError("Character.moveRight.speed1");
+			}
+		}
+		
+		// positionX(C) ≤ speed(C) ∧(∀i, player(engine(C), i) != C 
+		// ⇒ ¬collisionwith(hitbox(moveRight(C)), hitbox(player(engine(C), i))))
+		// ⇒ positionX(moveRight(C)) = 0
+		if (posX_pre > speed) {
+			if (getPositionX() != getEngine().getWidth()) {
+				throw new PostConditionError("Character.moveRight.speed2");
+			}
+		}
+		
+		// faceRight(moveRight(C)) = faceRight(C) ∧ life(moveRight(C)) = life(C)
+		if (!(getFaceRight() == faceRight_pre &&
+				getLife() == life_pre)) {
+			throw new PostConditionError("Character.moveRight.faceright/life");
+		}
+		
+		// positionY(moveRight(C)) = positionY(C)
+		if(getPositionY() != posY_pre) {
+			throw new PostConditionError("Character.moveLeft.positionY");
+		}
+
 		checkInvariants();
 	}
 
 	@Override
 	public void switchSide() {
 		checkInvariants();
-		
+
 		/** PRECONDITIONS **/
-		
+
 		/** CAPTURES **/
-		
+		boolean faceRight_pre = getFaceRight();
+		int posX_pre = getPositionX();
+
 		/** DELEGATE **/
 		super.switchSide();
-		
+
 		/** POSTCONDITIONS **/
+		// faceRight(switchSide(C))! = faceRight(C)
+		if (getFaceRight() == faceRight_pre) {
+			throw new PostConditionError("CharacterContract.switchSide.faceRight");
+		}
+		
+		// positionX(switchSide(C)) = positionX(C)
+		if (getPositionX() != posX_pre) {
+			throw new PostConditionError("CharacterContract.switchSide.posX");
+		}
 		
 		checkInvariants();
 	}
@@ -138,41 +227,41 @@ public class CharacterContract extends CharacterDecorator {
 	@Override
 	public void step(CommandData c) {
 		checkInvariants();
-		
+
 		/** PRECONDITIONS **/
-		
+		// step() requires ¬dead
+		if (isDead()) {
+			throw new PreConditionError("CharacterContract.step.isDead");
+		}
+
 		/** CAPTURES **/
-		
+
 		/** DELEGATE **/
 		super.step(c);
-		
+
 		/** POSTCONDITIONS **/
-		
+		//TODO
+		// step(C, LEFT) = moveLeft(C)
+		// step(C, RIGHT) = moveRight(C)
+		// step(C, NEUTRAL) = C
+
 		checkInvariants();
 	}
-	
-	private void checkInvariants() {
-		// TODO Auto-generated method stub
-		
-	}
 
-	//Observations: 
-	/*
-			[invariant]: 
-				positionX(C) > 0 ∧ positionX(C) < Engine:: width(engine) positionY(C) > 0 ∧ positionY(C) < Engine:: height(engine) dead(C) = ¬(life > 0) 
-			
-			[moveLeft]: 
-				(∃i, player(engine(C), i) 6= C ∧ collisionwith(hitbox(moveLeft(C)), hitbox(player(engine(C), i)))) ⇒ positionX(moveLeft(C)) = positionX(C)
-				positionX(C) ≤ speed(C) ∧(∀i, player(engine(C), i) 6= C ⇒ ¬collisionwith(hitbox(moveLeft(C)), hitbox(player(engine(C), i)))) ⇒ positionX(moveLeft(C)) = positionX(C) − speed(C)
-				positionX(C) > speed(C) ∧(∀i, player(engine(C), i) 6= C ⇒ ¬collisionwith(hitbox(moveLeft(C)), hitbox(player(engine(C), i)))) ⇒ positionX(moveLeft(C)) = 0 faceRight(moveLeft(C)) = faceRight(C) ∧ life(moveLeft(C)) = life(C) positionY(moveLeft(C)) = positionY(C) 
-			[moveRight]: 
-				[moveRight]: 
-				(∃i, player(engine(C), i) != C ∧ collisionwith(hitbox(moveRight(C)), hitbox(player(engine(C), i)))) ⇒ positionX(moveRight(C)) = positionX(C)
-				positionX(C) ≤ speed(C) ∧(∀i, player(engine(C), i) != C ⇒ ¬collisionwith(hitbox(moveRight(C)), hitbox(player(engine(C), i)))) ⇒ positionX(moveRight(C)) = positionX(C) + speed(C)
-				positionX(C) > speed(C) ∧(∀i, player(engine(C), i) != C ⇒ ¬collisionwith(hitbox(moveRight(C)), hitbox(player(engine(C), i)))) ⇒ positionX(moveRight(C)) = 0 faceRight(moveRight(C)) = faceLeft(C) ∧ life(moveRight(C)) = life(C) positionY(moveRight(C)) = positionY(C) 
-			[switchSide]: 
-				faceRight(switchSide(C))! = faceRight(C) positionX(switchSide(C)) = positionX(C) 
-			[step]: 
-				step(C, LEFT) = moveLeft(C) step(C, RIGHT) = moveRight(C) step(C, NEUTRAL) = C
-	 */
+	private void checkInvariants() {
+		// positionX(C) > 0 ∧ positionX(C) < Engine:: width(engine) ∧ positionY(C) > 0 ∧ positionY(C) < Engine:: height(engine) ∧ dead(C) = ¬(life > 0) 
+		if(!(getPositionX() > 0 &&
+				getPositionX() < getEngine().getWidth() && 
+				getPositionY() > 0 && 
+				getPositionY() < getEngine().getHeight() &&
+				isDead() == !(getLife() > 0)
+				)) {
+			throw new InvariantError("CharacterContract.position");
+		}
+
+		// !∃i tq (player(engine(c), i) != C ∧ collisionwith(hitbox(C), hitbox(player(engine(C), i))))
+		if(getEngine().getCharacter(1).getcharBox().collidesWith(getEngine().getCharacter(2).getcharBox())) {
+			throw new InvariantError("CharacterContract.collisionWithPlayer");
+		}
+	}
 }
