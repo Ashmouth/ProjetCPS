@@ -17,7 +17,7 @@ Observators:
 		pre step(E) requires ¬gameOver(E) 
 		
 	Observations: 
-		[invariant]: gameOver(E) = ∃i ∈ {1, 2} Character ::dead(player(E, i)) 
+		[invariant]: gameOver(E) = ∃i ∈ {1, 2} Character ::dead(char(E, i)) 
 		[init]: 
 			height(init(h, w, s, p1, p2)) = h 
 			width(init(h, w, s, p1, p2)) = w 

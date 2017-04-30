@@ -1,5 +1,7 @@
 package streetfighter.contracts;
 
+import streetfighter.condition.InvariantError;
+import streetfighter.condition.PostConditionError;
 import streetfighter.condition.PreConditionError;
 import streetfighter.data.CommandData;
 import streetfighter.decorators.EngineDecorator;
@@ -18,10 +20,10 @@ public class EngineContract extends EngineDecorator {
 		checkInvariants();
 		
 		/** PRECONDITIONS **/
-		//pre init(h,w,s,p1,p2) requires h > 0 ∧ s > 0 ∧ w > s ∧ p1 6= p2 
+		// init(h,w,s,p1,p2) requires h > 0 ∧ s > 0 ∧ w > s ∧ p1 != p2 
 		boolean test = h > 0 && w > 0 && s > 0 && w > s && p1 != p2;
 		if(!test) {
-			throw new PreConditionError("EngineContract.init()");
+			throw new PreConditionError("EngineContract.init.args");
 		}
 		
 		/** CAPTURES **/
@@ -34,27 +36,27 @@ public class EngineContract extends EngineDecorator {
 		//height(init(h, w, s, p1, p2)) = h 
 		//width(init(h, w, s, p1, p2)) = w 
 		if(getHeight() != h || getWidth() != w) {
-			throw new PreConditionError("EngineContract.init()");
+			throw new PostConditionError("EngineContract.init.dimensions");
 		}
 		//player(init(h, w, s, p1, p2), 1) = p1 
 		//player(init(h, w, s, p1, p2), 2) = p2
 		if(getPlayer(1) != p1 || getPlayer(2) != p2) {
-			throw new PreConditionError("EngineContract.init()");
+			throw new PostConditionError("EngineContract.init.players");
 		}
 		//Character ::positionX(char(init(h, w, s, p1, p2), 1)) = w//2 − s//2 
 		//Character ::positionX(char(init(h, w, s, p1, p2), 2)) = w//2 + s//2 
 		if(getCharacter(1).getPositionX() != w/2 - s/2 || getCharacter(2).getPositionX() != w/2 + s/2) {
-			throw new PreConditionError("EngineContract.init()");
+			throw new PostConditionError("EngineContract.init.playersPosX");
 		}
 		//Character ::positionY(char(init(h, w, s, p1, p2), 1)) = 0 
 		//Character ::positionY(char(init(h, w, s, p1, p2), 2)) = 0 
 		if(getCharacter(1).getPositionY() != 0 || getCharacter(2).getPositionY() != 0) {
-			throw new PreConditionError("EngineContract.init()");
+			throw new PostConditionError("EngineContract.init.playersPosY");
 		}
 		//Character ::faceRight(char(init(h, w, s, p1, p2), 1)) 
 		//Character ::¬faceRight(char(init(h, w, s, p1, p2), 2))
 		if(!getCharacter(1).getFaceRight() || getCharacter(2).getFaceRight()) {
-			throw new PreConditionError("EngineContract.init()");
+			throw new PostConditionError("EngineContract.init()");
 		}
 		
 		checkInvariants();
@@ -77,9 +79,9 @@ public class EngineContract extends EngineDecorator {
 		checkInvariants();
 		
 		/** PRECONDITIONS **/
-		//pre character(E,i) requires i ∈ {1, 2} 
+		// character(E,i) requires i ∈ {1, 2} 
 		if(i != 2 && i != 1) {
-			throw new PreConditionError("EngineContract.getCharacter()");
+			throw new PreConditionError("EngineContract.getCharacter.arg");
 		}
 		
 		/** CAPTURES **/
@@ -100,9 +102,9 @@ public class EngineContract extends EngineDecorator {
 		checkInvariants();
 		
 		/** PRECONDITIONS **/
-		//pre player(E,i) requires i ∈ {1, 2} 
+		// player(E,i) requires i ∈ {1, 2} 
 		if(i != 2 && i != 1) {
-			throw new PreConditionError("EngineContract.getPlayer()");
+			throw new PreConditionError("EngineContract.getPlayer.arg");
 		}
 		
 		/** CAPTURES **/
@@ -111,9 +113,7 @@ public class EngineContract extends EngineDecorator {
 		PlayerService cs= super.getPlayer(i);
 		
 		/** POSTCONDITIONS **/
-		// aucune
-		
-		
+				
 		checkInvariants();
 		
 		return cs;
@@ -127,15 +127,15 @@ public class EngineContract extends EngineDecorator {
 
 	//Operators: 
 	@Override
-	public void step(CommandData com1, CommandData com2) {
-		//pre step(E) requires ¬gameOver(E)
-		//char(step(E, C1, C2), 1) = step(char(E, 1), C1) 
-		//char(step(E, C1, C2), 2) = step(char(E, 2), C2)
-		
+	public void step(CommandData com1, CommandData com2) {		
 		checkInvariants();
 		
 		/** PRECONDITIONS **/
+		// step(E) requires ¬gameOver(E)
 		
+		if (gameOver()) {
+			throw new PreConditionError("EngineContract.step.gameOver");
+		}		
 		
 		/** CAPTURES **/
 		
@@ -143,15 +143,19 @@ public class EngineContract extends EngineDecorator {
 		super.step(com1, com2);
 		
 		/** POSTCONDITIONS **/
-		// aucune
-		
+		//TODO
+		// char(step(E, C1, C2), 1) = step(char(E, 1), C1) 
+		// char(step(E, C1, C2), 2) = step(char(E, 2), C2)
 		
 		checkInvariants();
 	}
 
 	//Observations: 
 	public void checkInvariants() {
-		//gameOver(E) = ∃i ∈ {1, 2} 
-		//Character ::dead(player(E, i))
+		//gameOver(E) = ∃i ∈ {1, 2} tq Character ::dead(char(E, i))
+		if (gameOver() && !getCharacter(1).isDead() && !getCharacter(2).isDead())	{
+			throw new InvariantError("EngineContract.invariant.gameOver");
+		}
+		
 	}
 }
