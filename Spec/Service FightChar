@@ -14,6 +14,23 @@ Observators:
 		
 Operators: 
 	startTech: [FightChar] × Tech → [FightChar] 
-		pre startTech(C,T) requires ¬isTeching(C) 
+		pre startTech(C,T) requires ¬isTeching(C) ∧ ¬isHitstunned(C) ∧ ¬isBlockstunned(C) 
 		
-		Observation: ...
+Observation:
+	[invariants] :
+	
+	[init] :
+	
+	
+	
+	[moveLeft] :	
+	isHitstunned(C) ∨ isBlockstunned(C) ∨ isTeching(C) ⇒ positionX(moveLeft(C)) = positionX(C)
+	
+	[moveRight] :
+	isHitstunned(C) ∨ isBlockstunned(C) ∨ isTeching(C) ⇒ positionX(moveRight(C)) = positionX(C)
+	
+	
+	
+	
+	
+	

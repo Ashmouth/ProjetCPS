@@ -42,33 +42,29 @@ public class FightCharContract extends FightCharDecorator {
 	public TechData tech() {
 		//pre tech(C) requires isTeching(C) 
 		if(!isTeching()) {
-			throw new PreConditionError("FightChar.tech()");
+			throw new PreConditionError("FightChar.tech.teching");
 		}
-		return tech;
+		
+		return super.tech();
 	}
 
 	@Override
 	public boolean techFrame(){ 
 		//pre techFrame(C) requires isTeching(C)
 		if(!isTeching()) {
-			throw new PreConditionError("FightChar.tech()");
+			throw new PreConditionError("FightChar.techFrame.teching");
 		}
-		return true;
+		
+		return super.techFrame();
 	}
 
 	@Override
 	public boolean techHasAlreadyHit() { 
 		//pre techHasAlreadyHit(C) requires isTeching(C)
 		if(!isTeching()) {
-			throw new PreConditionError("FightChar.tech()");
+			throw new PreConditionError("FightChar.techHasAlreadyHit.teching");
 		}
-		if(tech == null) {
-			return true;
-		} else {
-			this.tech = null;
-			teching = false;
-		}
-		return false;
+		return super.techHasAlreadyHit();
 	}
 
 	//Operators: 
@@ -76,10 +72,9 @@ public class FightCharContract extends FightCharDecorator {
 	public void startTech(TechData tech) {
 		//pre startTech(C,T) requires ¬isTeching(C) 
 		if(isTeching()) {
-			throw new PreConditionError("FightChar.tech()");
+			throw new PreConditionError("FightChar.startTech.teching");
 		}
-		this.tech = tech;
-		teching = true;
+		super.startTech(tech);
 	}
 
 	//Observation: ...

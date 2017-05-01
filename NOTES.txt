@@ -1,0 +1,4 @@
+FightChar :
+	service Character impose une position fixée par le moveleft, or, ce n'est pas possible d'appeler moveleft (ou bien moveleft ne modifie pas la position) quand le fightchar est stunned/teching
+	
+	

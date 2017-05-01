@@ -1,0 +1,50 @@
+Service: TechData
+
+Data : TechPhase [ = Enum { STARTUP, HIT, RECOVERY } ], Hitbox
+	
+Observators: 
+	degats: [TechData] → int 		 
+	hitstun: [TechData] → int 		# temps de stun à un ennemi qui se protège pas
+	blockstun: [TechData] → int 		# temps de stun à un ennemi qui se protège
+	startuptime: [TechData] → int 		
+	hittime: [TechData] → int 		
+	recoverytime: [TechData] → int
+	box: [TechData] -> Hitbox		# hitbox de la tech
+	phase: [TechData] -> TechPhase	
+		pre phase(T) requires ¬ended(T)
+	ended: [TechData] -> bool		# indique si la technique est finie
+	frame: [TechData] -> int		# la frame actuel
+		
+Operators: 
+	init : int -> int -> int -> int -> int -> int
+	step : [TechData] -> [TechData]
+	 	pre step(T) requires ¬ended(T)
+		
+Observation:
+	[invariants] :
+		ended(T) == frame(T) >= startuptime(T)+hittime(T)+stuntime(T)
+	
+	[init] :
+		degats(init(d,hs,bs,s,ht,r,bo)) = d
+		hitstun(init(d,hs,bs,s,ht,r,bo)) = hs
+		blockstun(init(d,hs,bs,s,ht,r,bo)) = bs
+		startuptime(init(d,hs,bs,s,ht,r,bo)) = s
+		hittime(init(d,hs,bs,s,ht,r,bo)) = ht
+		recoverytime(init(d,hs,bs,s,ht,r,bo)) = r
+		box(init(d,hs,bs,s,ht,r,bo)) = bo
+		phase(init(d,hs,bs,s,ht,r,bo)) = STARTUP
+		ended(init(d,hs,bs,s,ht,r,bo)) = false 	# cette ligne implique s+ht+r > 0
+		frame(init(d,hs,bs,s,ht,r,bo)) = 0
+	
+	[step] :
+		frame(step(T)) = frame(T)+1
+		
+		frame(step(T)) < startuptime(T) ⇒ phase(T) = STARTUP
+		startuptime(T) <= frame(step(T)) < startuptime(T)+hittime(T) ⇒ phase(T) = HIT
+		startuptime(T)+hittime(T) <= frame(step(T)) < startuptime(T)+hittime(T)+stuntime(T) ⇒ phase(T) = RECOVERY
+		
+		
+		
+		
+	
+	
