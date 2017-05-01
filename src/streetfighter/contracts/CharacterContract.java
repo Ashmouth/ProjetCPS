@@ -1,7 +1,5 @@
 package streetfighter.contracts;
 
-import com.sun.xml.internal.ws.api.pipe.Engine;
-
 import streetfighter.condition.InvariantError;
 import streetfighter.condition.PostConditionError;
 import streetfighter.condition.PreConditionError;

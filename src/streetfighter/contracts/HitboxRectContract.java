@@ -1,13 +1,10 @@
 package streetfighter.contracts;
 
-import streetfighter.condition.InvariantError;
-import streetfighter.condition.PostConditionError;
 import streetfighter.condition.PreConditionError;
-import streetfighter.decorators.HitboxRectDecorator;
 import streetfighter.services.HitboxRectService;
 import streetfighter.services.HitboxService;
 
-public class HitboxRectContract extends HitboxRectDecorator {
+public class HitboxRectContract extends HitboxContract implements HitboxRectService {
 	
 	public HitboxRectContract(HitboxRectService delegate) {
 		super(delegate);
@@ -15,10 +12,11 @@ public class HitboxRectContract extends HitboxRectDecorator {
 	
 	public void init(int x, int y) {
 		//TODO
+		delegate.init(x,y);
 	}
 	
 	public void init(int x, int y, int w, int h) {
-		super.init(x, y, w, h);
+		((HitboxRectService)delegate).init(x, y, w, h);
 		
 		//height(init(x,y)) = h ^ width(init(x,y)) = w
 		if (getHeight() != h) {
@@ -39,7 +37,7 @@ public class HitboxRectContract extends HitboxRectDecorator {
 
 
 		/** DELEGATE **/
-		boolean ret = super.belongsTo(x,y);
+		boolean ret = ((HitboxRectService)delegate).belongsTo(x,y);
 
 		/** POSTCONDITIONS **/
 
@@ -57,7 +55,7 @@ public class HitboxRectContract extends HitboxRectDecorator {
 
 
 		/** DELEGATE **/
-		boolean ret = super.collidesWith(h);
+		boolean ret = ((HitboxRectService)delegate).collidesWith(h);
 
 		/** POSTCONDITIONS **/
 
@@ -75,7 +73,7 @@ public class HitboxRectContract extends HitboxRectDecorator {
 
 
 		/** DELEGATE **/
-		boolean ret = super.equalsTo(h);
+		boolean ret = ((HitboxRectService)delegate).equalsTo(h);
 
 		/** POSTCONDITIONS **/
 
@@ -85,11 +83,11 @@ public class HitboxRectContract extends HitboxRectDecorator {
 	
 	//Observators:
 	public int getHeight() {
-		return super.getHeight();
+		return ((HitboxRectService)delegate).getHeight();
 	}
 
 	public int getWidth() {
-		return super.getWidth();
+		return ((HitboxRectService)delegate).getWidth();
 	}
 	
 	//Operators :
@@ -105,7 +103,7 @@ public class HitboxRectContract extends HitboxRectDecorator {
 
 
 		/** DELEGATE **/
-		super.resize(w,h);
+		((HitboxRectService)delegate).resize(w,h);
 
 		/** POSTCONDITIONS **/
 
@@ -123,7 +121,7 @@ public class HitboxRectContract extends HitboxRectDecorator {
 
 
 		/** DELEGATE **/
-		super.moveTo(x,y);
+		((HitboxRectService)delegate).moveTo(x,y);
 
 		/** POSTCONDITIONS **/
 

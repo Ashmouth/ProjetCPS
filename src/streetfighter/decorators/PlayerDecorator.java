@@ -5,7 +5,7 @@ import streetfighter.services.PlayerService;
 
 public class PlayerDecorator implements PlayerService {
 
-	private PlayerService delegate;
+	protected PlayerService delegate;
 
 	public PlayerDecorator(PlayerService delegate) {
 		this.delegate = delegate;

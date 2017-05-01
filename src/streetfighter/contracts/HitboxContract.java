@@ -11,7 +11,7 @@ public class HitboxContract extends HitboxDecorator {
 	}
 
 	public void init(int x, int y) {
-		super.init(x, y);
+		delegate.init(x, y);
 
 		//PositionX(init(x,y)) = x PositionY(init(x,y)) = y
 		if (getPositionX() != x) {
@@ -24,11 +24,11 @@ public class HitboxContract extends HitboxDecorator {
 
 	//Observators: 
 	public int getPositionX() {
-		return super.getPositionX();
+		return delegate.getPositionX();
 	}
 
 	public int getPositionY() {
-		return super.getPositionY();
+		return delegate.getPositionY();
 	}
 
 	public boolean belongsTo(int x, int y) {
@@ -41,7 +41,7 @@ public class HitboxContract extends HitboxDecorator {
 
 
 		/** DELEGATE **/
-		boolean ret = super.belongsTo(x,y);
+		boolean ret = delegate.belongsTo(x,y);
 
 		/** POSTCONDITIONS **/
 
@@ -59,7 +59,7 @@ public class HitboxContract extends HitboxDecorator {
 
 
 		/** DELEGATE **/
-		boolean ret = super.collidesWith(h);
+		boolean ret = delegate.collidesWith(h);
 
 		/** POSTCONDITIONS **/
 
@@ -77,7 +77,7 @@ public class HitboxContract extends HitboxDecorator {
 
 
 		/** DELEGATE **/
-		boolean ret = super.equalsTo(h);
+		boolean ret = delegate.equalsTo(h);
 
 		/** POSTCONDITIONS **/
 
@@ -105,7 +105,7 @@ public class HitboxContract extends HitboxDecorator {
 		boolean belongsTo_abs_at_pre = belongsTo(300, 0); 
 
 		/** DELEGATE **/
-		super.moveTo(x,y);
+		delegate.moveTo(x,y);
 
 		/** POSTCONDITIONS **/
 
@@ -139,12 +139,12 @@ public class HitboxContract extends HitboxDecorator {
 
 	@Override
 	public void setPositionX(int x) {
-		super.setPositionX(x);
+		delegate.setPositionX(x);
 	}
 
 	@Override
 	public void setPositionY(int y) {
-		super.setPositionY(y);
+		delegate.setPositionY(y);
 	}
 
 	//Observations:

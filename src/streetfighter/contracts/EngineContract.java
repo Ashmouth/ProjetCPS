@@ -29,7 +29,7 @@ public class EngineContract extends EngineDecorator {
 		/** CAPTURES **/
 		
 		/** DELEGATE **/
-		super.init(h, w, s, p1, p2);
+		delegate.init(h, w, s, p1, p2);
 		
 		/** POSTCONDITIONS **/
 		
@@ -65,12 +65,12 @@ public class EngineContract extends EngineDecorator {
 	//Observators: 
 	@Override
 	public int getHeight() {
-		return super.getHeight(); 
+		return delegate.getHeight(); 
 	}
 
 	@Override
 	public int getWidth() {
-		return super.getWidth(); 
+		return delegate.getWidth(); 
 	}
 
 	@Override
@@ -87,7 +87,7 @@ public class EngineContract extends EngineDecorator {
 		/** CAPTURES **/
 		
 		/** DELEGATE **/
-		CharacterService cs= super.getCharacter(i);
+		CharacterService cs= delegate.getCharacter(i);
 		
 		/** POSTCONDITIONS **/
 	
@@ -110,7 +110,7 @@ public class EngineContract extends EngineDecorator {
 		/** CAPTURES **/
 		
 		/** DELEGATE **/
-		PlayerService cs= super.getPlayer(i);
+		PlayerService cs= delegate.getPlayer(i);
 		
 		/** POSTCONDITIONS **/
 				
@@ -121,7 +121,7 @@ public class EngineContract extends EngineDecorator {
 
 	@Override
 	public boolean gameOver() {
-		return super.gameOver(); 
+		return delegate.gameOver(); 
 	}
 
 
@@ -140,7 +140,7 @@ public class EngineContract extends EngineDecorator {
 		/** CAPTURES **/
 		
 		/** DELEGATE **/
-		super.step(com1, com2);
+		delegate.step(com1, com2);
 		
 		/** POSTCONDITIONS **/
 		//TODO

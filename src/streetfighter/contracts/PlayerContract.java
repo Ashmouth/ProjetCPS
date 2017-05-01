@@ -13,25 +13,25 @@ public class PlayerContract extends PlayerDecorator implements PlayerService {
 	//Observators: 
 	@Override
 	public CommandData getCommand() {
-		return super.getCommand();
+		return delegate.getCommand();
 	}
 	
 	//Operators: 
 	@Override
 	public void init(int num) {
 		//TODO
-		super.init(num);
+		delegate.init(num);
 	}
 	
 	@Override
 	public CommandData getInput(int key, char c) {
 		//TODO
-		return super.getInput(key, c);
+		return delegate.getInput(key, c);
 	}
 	
 	@Override
 	public void step(int key, char c) {
 		//TODO
-		super.step(key, c);
+		delegate.step(key, c);
 	}
 }

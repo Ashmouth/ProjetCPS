@@ -1,12 +1,11 @@
 package streetfighter.contracts;
 
 import streetfighter.condition.PreConditionError;
-import streetfighter.decorators.FightCharDecorator;
 import streetfighter.data.TechData;
 import streetfighter.services.EngineService;
 import streetfighter.services.FightCharService;
 
-public class FightCharContract extends FightCharDecorator {
+public class FightCharContract extends CharacterContract implements FightCharService {
 	//REFINE CHARACTER
 	public FightCharContract(FightCharService delegate) {
 		super(delegate);
@@ -14,28 +13,28 @@ public class FightCharContract extends FightCharDecorator {
 	
 	@Override
 	public void init(int l, int s, boolean f, EngineService e)  {
-		super.init(l, s, f, e);
+		delegate.init(l, s, f, e);
 	}
 
 	//Observators: 
 	@Override
 	public boolean isBlocking() {
-		return super.isBlocking();
+		return ((FightCharService) delegate).isBlocking();
 	}
 
 	@Override
 	public boolean isBlockstunned() {
-		return super.isBlockstunned(); 
+		return ((FightCharService) delegate).isBlockstunned(); 
 	}
 
 	@Override
 	public boolean isHitstunned(){
-		return super.isHitstunned(); 
+		return ((FightCharService) delegate).isHitstunned(); 
 	}
 
 	@Override
 	public boolean isTeching() {
-		return super.isTeching(); 
+		return ((FightCharService) delegate).isTeching(); 
 	}
 
 	@Override
@@ -45,7 +44,7 @@ public class FightCharContract extends FightCharDecorator {
 			throw new PreConditionError("FightChar.tech.teching");
 		}
 		
-		return super.tech();
+		return ((FightCharService) delegate).tech();
 	}
 
 	@Override
@@ -55,7 +54,7 @@ public class FightCharContract extends FightCharDecorator {
 			throw new PreConditionError("FightChar.techFrame.teching");
 		}
 		
-		return super.techFrame();
+		return ((FightCharService) delegate).techFrame();
 	}
 
 	@Override
@@ -64,7 +63,7 @@ public class FightCharContract extends FightCharDecorator {
 		if(!isTeching()) {
 			throw new PreConditionError("FightChar.techHasAlreadyHit.teching");
 		}
-		return super.techHasAlreadyHit();
+		return ((FightCharService) delegate).techHasAlreadyHit();
 	}
 
 	//Operators: 
@@ -74,7 +73,7 @@ public class FightCharContract extends FightCharDecorator {
 		if(isTeching()) {
 			throw new PreConditionError("FightChar.startTech.teching");
 		}
-		super.startTech(tech);
+		((FightCharService) delegate).startTech(tech);
 	}
 
 	//Observation: ...
