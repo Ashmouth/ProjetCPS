@@ -1,17 +1,17 @@
 Service: Player
-Types: bool, int, Vector<CommandData>
+Types: bool, int
 
 	Observators: 
 		command: [Player] → CommandData 
 	
 	Constructors: 
-		init: int → [Player] 
-			pre init(n) requires n > 0 ∧ n <= 2 
+		init: int → [Player] # a voir pour le int en paramètre
+			init(n) requires n ∈ { 1, 2 } ∧ ∄ p : Player 
 		
 	Operators: 
 		step: [Player] × int × c → [Player] 
-			pre step(k,c) requires k >= 0 ^ k <= 255 ^ c != null 
-		getInput: [Player] × int × c → CommandData
+			pre step(k,c) requires k >= 0 ∧ k <= 255 ∧ c != null # Cékoica ??
+		getInput: [Player] × int × c → CommandData # Héça ?
 		
 	Observations: 
 		[invariant]: 
@@ -19,4 +19,4 @@ Types: bool, int, Vector<CommandData>
 		[init]: 
 			//
 		[step]: 
-			Vector<CommandData>::size = 4
+			

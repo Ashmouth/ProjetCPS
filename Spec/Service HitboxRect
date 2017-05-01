@@ -1,24 +1,35 @@
 Service: HitboxRect
 	Types: bool, int 
 	Observators: 
-		BelongsTo: [Hitbox] × int × int → bool 
-		CollidesWith: [Hitbox] × Hitbox → bool 
-		EqualsTo: [Hitbox] × Hitbox → bool 
-		Constructors: init: int × int → [HitboxRect] 
+		init: int × int × int × int → [HitboxRect] 
 	Operators: 
-		MoveTo: [HitboxRect] × int × int → [HitboxRect] 
-		resize: [HitboxRect] × int × int → [HitboxRect] 
+	
 	Observations: 
 		[invariant]: 
-			CollidesWith(H,H1) = ∃ x,y:int × int, BelongsTo(H,x,y) ∧ BelongsTo(H1,x,y) 
-			EqualsTo(H,H1) = ∀ x,y:int × int, BelongsTo(H,x,y) = BelongsTo(H1,x,y) 
-		[init]: PositionX(init(x,y,w,h)) = x PositionY(init(x,y,w,h)) = y 
+			
+			 
+		[init]: 
+			PositionX(init(x,y,w,h)) = x
+			PositionY(init(x,y,w,h)) = y
+			Width(init(x,y,w,h)) = w
+			Height(init(x,y,w,h)) = h
+			
 		[MoveTo]: 
-			PositionX(MoveTo(H,x,y,w,h)) = x 
-			PositionY(MoveTo(H,x,y,w,h)) = y 
-			Height(MoveTo(H,x,y,w,h)) = h
-			Width(MoveTo(H,x,y,w,h)) = w 
-			∀ u,v:int × int, BelongsTo(MoveTo(H,x,y),u,v) = Belongsto(H,u-(x-PositionX(H)),v-(y-PositionY(H))
+			PositionX(MoveTo(H,x,y)) = x 
+			PositionY(MoveTo(H,x,y)) = y 
+			Height(MoveTo(H,x,y)) = Height(H)
+			Width(MoveTo(H,x,y,w,h)) = Width(H)
+			
 		[resize]:
-			Height(resize(w, h)) = h
-			Width(resize(w, h)) = w 
+			Height(resize(H, w, h)) = h
+			Width(resize(H, w, h)) = w 
+			PositionX(resize(H, w, h)) = PositionX(H)
+			PositionY(resize(H, w, h)) = PositionY(H)
+			
+		[belongsTo]:
+			∀ (x,y) , x >= PositionX(H) ∧ x <= PositionX(H)+Width(H)
+				∧ y >= PositionY(H) ∧ y <= PositionY(H)+Height(H)
+				⇔ belongsTo(H,x,y)
+				
+		[collidesWith]:
+			∀ (x,y) ,

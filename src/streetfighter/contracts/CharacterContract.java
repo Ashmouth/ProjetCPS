@@ -28,7 +28,7 @@ public class CharacterContract extends CharacterDecorator {
 		/** CAPTURES **/
 
 		/** DELEGATE **/
-		super.init(l, s, f, e);
+		delegate.init(l, s, f, e);
 
 		/** POSTCONDITIONS **/
 
@@ -48,42 +48,42 @@ public class CharacterContract extends CharacterDecorator {
 	//Observators: 
 	@Override
 	public int getPositionX() {
-		return super.getPositionX();
+		return delegate.getPositionX();
 	}
 
 	@Override
 	public int getPositionY() {
-		return super.getPositionY();
+		return delegate.getPositionY();
 	}
 
 	@Override
 	public EngineService getEngine() {
-		return super.getEngine();
+		return delegate.getEngine();
 	}
 
 	@Override
 	public HitboxService getcharBox() {
-		return super.getcharBox(); //TODO Check
+		return delegate.getcharBox(); //TODO Check
 	}
 
 	@Override
 	public int getLife() {
-		return super.getLife();
+		return delegate.getLife();
 	}
 
 	@Override
 	public int getSpeed() {
-		return super.getSpeed();
+		return delegate.getSpeed();
 	}
 
 	@Override
 	public boolean getFaceRight() {
-		return super.getFaceRight();
+		return delegate.getFaceRight();
 	}
 
 	@Override
 	public boolean isDead() {
-		return super.isDead();
+		return delegate.isDead();
 	}
 
 	//Operators: 
@@ -102,7 +102,7 @@ public class CharacterContract extends CharacterDecorator {
 		int speed = getSpeed();
 
 		/** DELEGATE **/
-		super.moveLeft();
+		delegate.moveLeft();
 
 		/** POSTCONDITIONS **/
 		// (∃i, player(engine(C), i) != C ∧ collisionwith(hitbox(moveLeft(C)), hitbox(player(engine(C), i)))) ⇒ positionX(moveLeft(C)) = positionX(C)
@@ -156,7 +156,7 @@ public class CharacterContract extends CharacterDecorator {
 		int speed = getSpeed();
 
 		/** DELEGATE **/
-		super.moveLeft();
+		delegate.moveLeft();
 
 		/** POSTCONDITIONS **/
 		// (∃i, player(engine(C), i) != C ∧ collisionwith(hitbox(moveRight(C)), hitbox(player(engine(C), i)))) ⇒ positionX(moveRight(C)) = positionX(C)
@@ -206,7 +206,7 @@ public class CharacterContract extends CharacterDecorator {
 		int posX_pre = getPositionX();
 
 		/** DELEGATE **/
-		super.switchSide();
+		delegate.switchSide();
 
 		/** POSTCONDITIONS **/
 		// faceRight(switchSide(C))! = faceRight(C)
@@ -235,7 +235,7 @@ public class CharacterContract extends CharacterDecorator {
 		/** CAPTURES **/
 
 		/** DELEGATE **/
-		super.step(c);
+		delegate.step(c);
 
 		/** POSTCONDITIONS **/
 		//TODO

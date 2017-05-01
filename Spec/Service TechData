@@ -1,6 +1,6 @@
 Service: TechData
 
-Data : TechPhase [ = Enum { STARTUP, HIT, RECOVERY } ], Hitbox
+Type : TechPhase [ = Enum { STARTUP, HIT, RECOVERY } ], Hitbox
 	
 Observators: 
 	degats: [TechData] → int 		 
