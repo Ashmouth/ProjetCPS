@@ -40,8 +40,6 @@ public class CharacterContract extends CharacterDecorator {
 		if (getcharBox() == null) {
 			throw new PostConditionError("CharacterContract.init.charbox");
 		}
-
-		checkInvariants();
 	}
 
 	//Observators: 
@@ -241,6 +239,49 @@ public class CharacterContract extends CharacterDecorator {
 		// step(C, LEFT) = moveLeft(C)
 		// step(C, RIGHT) = moveRight(C)
 		// step(C, NEUTRAL) = C
+
+		checkInvariants();
+	}
+	
+	@Override
+	public void setPosition(int x, int y) {
+		checkInvariants();
+
+		/** PRECONDITIONS **/
+		//TODO VOIR SI CETTE FONCTION ET DAMAGED SONT UTILES. + dans la spec
+
+		/** CAPTURES **/
+		int x_pre = getPositionX();
+		int y_pre = getPositionY();
+
+		/** DELEGATE **/
+		delegate.setPosition(x, y);
+
+		/** POSTCONDITIONS **/
+		// positionX(setPosition(C,x,y)) = x
+		// positionY(setPosition(C,x,y)) = y
+		if (getPositionX() != x_pre || getPositionY() != y_pre) {
+			throw new PostConditionError("CharacterContract.setPosition");
+		}
+
+		checkInvariants();
+	}
+	
+	@Override
+	public void damaged(int de) {
+		checkInvariants();
+
+		/** PRECONDITIONS **/
+		
+
+		/** CAPTURES **/
+
+		/** DELEGATE **/
+		delegate.damaged(de);
+
+		/** POSTCONDITIONS **/
+		
+		
 
 		checkInvariants();
 	}

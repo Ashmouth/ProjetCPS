@@ -23,6 +23,9 @@ public interface CharacterService {
 	public void moveRight();
 	public void switchSide();
 	public void step(CommandData c);
+	public void damaged(int degats);
+	public void setPosition(int x, int y);
+	
 		//pre step() requires ¬dead
 	
 	//Observations: 

@@ -78,4 +78,14 @@ public class CharacterDecorator implements CharacterService {
 	public void step(CommandData c) {
 		delegate.step(c);
 	}
+
+	@Override
+	public void damaged(int degats) {
+		delegate.damaged(degats);		
+	}
+
+	@Override
+	public void setPosition(int x, int y) {
+		delegate.setPosition(x, y);		
+	}
 }

@@ -21,7 +21,7 @@ public class Character implements CharacterService {
 		engine = e;
 		
 		HitboxRectService hr = new HitboxRect();
-		hr.init(10, 5);
+		hr.init(0,0,90,150);
 		
 		hitbox = hr;
 	}

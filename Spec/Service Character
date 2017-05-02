@@ -20,6 +20,8 @@ Observators:
 		switchSide: [Character] → [Character] 
 		step: [Character] × Commande → [Character] 
 			pre step() requires ¬dead 
+		setPosition: [Character] × int × int -> [Character]
+		damaged: [Character] × int -> [Character]
 	
 	Observations: 
 		[invariant]: positionX(C) > 0 ∧ positionX(C) < Engine:: width(engine) ∧ positionY(C) > 0 ∧ positionY(C) < Engine:: height(engine) ∧ dead(C) = ¬(life > 0) 
@@ -47,3 +49,10 @@ Observators:
 		step(C, LEFT) = moveLeft(C)
 		step(C, RIGHT) = moveRight(C)
 		step(C, NEUTRAL) = C
+		
+		[damaged]:
+		life(damaged(C, d)) = life(C) - d
+		
+		[setPosition]:
+		positionX(setPosition(C,x,y)) = x
+		positionY(setPosition(C,x,y)) = y

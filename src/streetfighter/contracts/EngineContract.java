@@ -20,7 +20,7 @@ public class EngineContract extends EngineDecorator {
 		checkInvariants();
 		
 		/** PRECONDITIONS **/
-		// init(h,w,s,p1,p2) requires h > 0 ∧ s > 0 ∧ w > s ∧ p1 != p2 
+		// init(h,w,s,p1,p2) requires h > 0 ∧ s > 0 ∧ w > s ∧ p1 != p2 ∧ c1 != c2
 		boolean test = h > 0 && w > 0 && s > 0 && w > s && p1 != p2 && c1 != c2;
 		if(!test) {
 			throw new PreConditionError("EngineContract.init.args");
@@ -43,6 +43,13 @@ public class EngineContract extends EngineDecorator {
 		if(getPlayer(1) != p1 || getPlayer(2) != p2) {
 			throw new PostConditionError("EngineContract.init.players");
 		}
+		
+		//
+		if(getCharacter(1) == null || getCharacter(2) == null) {
+			throw new PostConditionError("EngineContract.init.characters");
+		}
+		
+		
 		//Character ::positionX(char(init(h, w, s, p1, p2), 1)) = w//2 − s//2 
 		//Character ::positionX(char(init(h, w, s, p1, p2), 2)) = w//2 + s//2 
 		if(getCharacter(1).getPositionX() != w/2 - s/2 || getCharacter(2).getPositionX() != w/2 + s/2) {

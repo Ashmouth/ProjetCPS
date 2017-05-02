@@ -18,8 +18,13 @@ public class Engine implements EngineService {
 	public void init(int h, int w, int s, PlayerService p1, PlayerService p2, CharacterService c1, CharacterService c2) {
 		this.p1 = p1;
 		this.p2 = p2;
+		this.c1 = c1;
+		this.c2 = c2;
 		height = h;
 		width = w;
+		
+		c1.setPosition(width/2 - s/2, 0);
+		c2.setPosition(width/2 + s/2, 0);
 	}
 
 	//Observators: 
