@@ -62,12 +62,8 @@ public class HitboxRect extends Hitbox implements HitboxRectService {
 	//Operators:
 	@Override
 	public void resize(int w, int h) {
-		if(h >= 0) {
-			height = h;
-		}
-		if(w >= 0) {
-			width = w;
-		}
+		height = h;
+		width = w;
 	}
 	
 	//Observations:
