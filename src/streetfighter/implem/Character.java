@@ -3,6 +3,7 @@ package streetfighter.implem;
 import streetfighter.data.CommandData;
 import streetfighter.services.CharacterService;
 import streetfighter.services.EngineService;
+import streetfighter.services.HitboxRectService;
 import streetfighter.services.HitboxService;
 
 public class Character implements CharacterService {
@@ -18,8 +19,13 @@ public class Character implements CharacterService {
 		speed = s;
 		faceRight = f;
 		engine = e;
+		
+		HitboxRectService hr = new HitboxRect();
+		hr.init(10, 5);
+		
+		hitbox = hr;
 	}
-
+	
 	//Observators: 
 	@Override
 	public int getPositionX() {

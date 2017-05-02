@@ -7,6 +7,11 @@ public class HitboxRect extends Hitbox implements HitboxRectService {
 	private int height, width;
 	
 	@Override
+	public void init(int x, int y) {
+		throw new Error("Cant call HitboxRect.init with no width and height");
+	}
+	
+	@Override
 	public void init(int x, int y, int w, int h) {
 		super.init(x, y);
 		height = h;

@@ -3,7 +3,7 @@ package streetfighter.services;
 public interface HitboxRectService extends HitboxService {
 	
 	public void init(int x, int y, int w, int h);
-		//PositionX(init(x,y)) = x PositionY(init(x,y)) = y 
+	//PositionX(init(x,y)) = x PositionY(init(x,y)) = y 
 	
 	//Observators: 
 	public int getHeight();
