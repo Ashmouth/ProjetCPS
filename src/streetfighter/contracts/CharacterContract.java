@@ -15,9 +15,7 @@ public class CharacterContract extends CharacterDecorator {
 	}
 
 	@Override
-	public void init(int l, int s, boolean f, EngineService e, HitboxService b) {
-		checkInvariants();
-
+	public void init(int l, int s, boolean f, EngineService e) {
 		/** PRECONDITIONS **/
 		//pre init(l,s,f,b) requires l > 0 ∧ s > 0
 		boolean test = l > 0 && s > 0;
@@ -28,14 +26,19 @@ public class CharacterContract extends CharacterDecorator {
 		/** CAPTURES **/
 
 		/** DELEGATE **/
-		delegate.init(l, s, f, e, b);
+		delegate.init(l, s, f, e);
 
 		/** POSTCONDITIONS **/
 
 		// life(init(l, s, f, b)) = l ∧ speed(init(l, s, f, b)) = s ∧ faceRight(init(l, s, f, b)) = f ∧
-		// engine(init(l, s, f, e)) = e ∧ charbox(init(l, s, f, e, b)) = b
-		if (getLife() != l || getSpeed() != s || getFaceRight() != f || getEngine() != e || getcharBox() != b) {
+		// engine(init(l, s, f, e)) = e
+		if (getLife() != l || getSpeed() != s || getFaceRight() != f || getEngine() != e) {
 			throw new PostConditionError("CharacterContract.init.lsfeb");
+		}
+		
+		// ∃ b:Hitbox, charbox(init(l, s, f, e)) = b
+		if (getcharBox() == null) {
+			throw new PostConditionError("CharacterContract.init.charbox");
 		}
 
 		checkInvariants();

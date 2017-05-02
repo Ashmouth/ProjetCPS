@@ -11,8 +11,8 @@ Observators:
 	faceRight: [Character] → bool 
 	dead: [Character] → bool
 	
-	Constructors: init: int × int × bool × Engine × Hitbox → [Character] 
-		pre init(l,s,f,e,b) requires l > 0 ∧ s > 0 
+	Constructors: init: int × int × bool × Engine → [Character] 
+		pre init(l,s,f,e) requires l > 0 ∧ s > 0 
 		
 	Operators: 
 		moveLeft: [Character] → [Character] 
@@ -27,11 +27,14 @@ Observators:
 		∧ positionX(hitbox(C)) = positionX(C) 
 		∧ positionY(hitbox(C)) = positionY(C)
 		
-		[init]: life(init(l, s, f, e, b)) = l ∧ speed(init(l, s, f, e, b)) = s ∧ faceRight(init(l, s, f, e, b)) = f ∧ engine(init(l, s, f, e, b)) = e ∧ charbox(init(l, s, f, e, b)) = b
+		[init]: life(init(l, s, f, e)) = l ∧ speed(init(l, s, f, e)) = s ∧ faceRight(init(l, s, f, e)) = f ∧ engine(init(l, s, f, e)) = e 
+		∧ ∃ b:Hitbox, charbox(init(l, s, f, e)) = b
 		 
-!!!!		[moveLeft]: (∃i, player(engine(C), i) !	= C ∧ collisionwith(hitbox(moveLeft(C)), hitbox(player(engine(C), i)))) ⇒ positionX(moveLeft(C)) = positionX(C)
+!!!!		[moveLeft]: (∃i, player(engine(C), i) != C ∧ collisionwith(hitbox(moveLeft(C)), hitbox(player(engine(C), i)))) ⇒ positionX(moveLeft(C)) = positionX(C)
 		positionX(C) ≤ speed(C) ∧(∀i, player(engine(C), i) != C ⇒ ¬collisionwith(hitbox(moveLeft(C)), hitbox(player(engine(C), i)))) ⇒ positionX(moveLeft(C)) = positionX(C) − speed(C)
-		positionX(C) > speed(C) ∧(∀i, player(engine(C), i) != C ⇒ ¬collisionwith(hitbox(moveLeft(C)), hitbox(player(engine(C), i)))) ⇒ positionX(moveLeft(C)) = 0 faceRight(moveLeft(C)) = faceRight(C) ∧ life(moveLeft(C)) = life(C) positionY(moveLeft(C)) = positionY(C) 
+		positionX(C) > speed(C) ∧(∀i, player(engine(C), i) != C ⇒ ¬collisionwith(hitbox(moveLeft(C)), hitbox(player(engine(C), i)))) ⇒ positionX(moveLeft(C)) = 0
+		faceRight(moveLeft(C)) = faceRight(C) ∧ life(moveLeft(C)) = life(C)
+		positionY(moveLeft(C)) = positionY(C) 
 		
 		
 		[moveRight]: ...

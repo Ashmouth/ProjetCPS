@@ -19,16 +19,18 @@ Observators:
 	Observations: 
 		[invariant]: gameOver(E) = ∃i ∈ {1, 2} Character ::dead(char(E, i)) 
 		[init]: 
-			height(init(h, w, s, p1, p2)) = h 
-			width(init(h, w, s, p1, p2)) = w 
-			player(init(h, w, s, p1, p2), 1) = p1 
-			player(init(h, w, s, p1, p2), 2) = p2
-			Character ::positionX(char(init(h, w, s, p1, p2), 1)) = w//2 − s//2 
-			Character ::positionX(char(init(h, w, s, p1, p2), 2)) = w//2 + s//2 
-			Character ::positionY(char(init(h, w, s, p1, p2), 1)) = 0 
-			Character ::positionY(char(init(h, w, s, p1, p2), 2)) = 0 
-			Character ::faceRight(char(init(h, w, s, p1, p2), 1)) 
-			Character ::¬faceRight(char(init(h, w, s, p1, p2), 2)) 
+			height(init(h, w, s, p1, p2, c1, c2)) = h 
+			width(init(h, w, s, p1, p2, c1, c2)) = w 
+			player(init(h, w, s, p1, p2, c1, c2), 1) = p1 
+			player(init(h, w, s, p1, p2, c1, c2), 2) = p2
+			char(init(h, w, s, p1, p2, c1, c2), 1) = c1
+			char(init(h, w, s, p1, p2, c1, c2), 2) = c2
+			Character ::positionX(c1) = w//2 − s//2 
+			Character ::positionX(c2) = w//2 + s//2 
+			Character ::positionY(c1) = 0 
+			Character ::positionY(c2) = 0 
+			Character ::faceRight(c1) 
+			Character ::¬faceRight(c2) 
 		[step]: 
 			char(step(E, C1, C2), 1) = step(char(E, 1), C1) 
 			char(step(E, C1, C2), 2) = step(char(E, 2), C2)
