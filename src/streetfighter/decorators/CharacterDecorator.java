@@ -13,8 +13,8 @@ public class CharacterDecorator implements CharacterService {
 	}
 
 	@Override
-	public void init(int l, int s, boolean f, EngineService e) {
-		delegate.init(l,s,f,e);
+	public void init(int l, int s, boolean f, EngineService e, HitboxService b) {
+		delegate.init(l,s,f,e, b);
 	}
 
 	//Observators: 

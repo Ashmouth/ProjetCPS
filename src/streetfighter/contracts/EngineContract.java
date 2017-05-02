@@ -16,12 +16,12 @@ public class EngineContract extends EngineDecorator {
 	}	
 
 	@Override
-	public void init(int h, int w, int s, PlayerService p1, PlayerService p2) {
+	public void init(int h, int w, int s, PlayerService p1, PlayerService p2, CharacterService c1, CharacterService c2) {
 		checkInvariants();
 		
 		/** PRECONDITIONS **/
 		// init(h,w,s,p1,p2) requires h > 0 ∧ s > 0 ∧ w > s ∧ p1 != p2 
-		boolean test = h > 0 && w > 0 && s > 0 && w > s && p1 != p2;
+		boolean test = h > 0 && w > 0 && s > 0 && w > s && p1 != p2 && c1 != c2;
 		if(!test) {
 			throw new PreConditionError("EngineContract.init.args");
 		}
@@ -29,7 +29,7 @@ public class EngineContract extends EngineDecorator {
 		/** CAPTURES **/
 		
 		/** DELEGATE **/
-		delegate.init(h, w, s, p1, p2);
+		delegate.init(h, w, s, p1, p2, c1, c2);
 		
 		/** POSTCONDITIONS **/
 		

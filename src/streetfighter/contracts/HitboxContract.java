@@ -80,6 +80,17 @@ public class HitboxContract extends HitboxDecorator {
 		boolean ret = delegate.equalsTo(h);
 
 		/** POSTCONDITIONS **/
+		//EqualsTo(H,H1) = ∀ x,y:int × int, BelongsTo(H,x,y) = BelongsTo(H1,x,y)
+		if (ret) { 
+			for (int i = 0; i < 100; i++) {
+				int x = (int) (getPositionX() + (Math.random()*300));
+				int y = (int) (getPositionY() + (Math.random()*300));
+				
+				if (belongsTo(x, y) != h.belongsTo(x, y)) {
+					throw new PostConditionError("HitboxContract.equalsTo");
+				}
+			}
+		}
 
 		checkInvariants();
 		return ret;
@@ -149,18 +160,9 @@ public class HitboxContract extends HitboxDecorator {
 
 	//Observations:
 	public void checkInvariants() {
-		//		HitboxService delegate = null;
-		//		HitboxContract H1 = new HitboxContract(delegate);
-
 		//TODO
 		//CollidesWith(H,H1) = ∃ x,y:int × int, BelongsTo(H,x,y) ∧ BelongsTo(H1,x,y) 
 		//		if(collidesWith(H1) != (belongsTo(pos_x,pos_y) && H1.belongsTo(pos_x,pos_y))) {
-		//			throw new InvariantError("HitboxContract.checkInvariant()");
-		//		}
-
-		//TODO
-		//EqualsTo(H,H1) = ∀ x,y:int × int, BelongsTo(H,x,y) = BelongsTo(H1,x,y) 
-		//		if(equalsTo(H1) != (belongsTo(pos_x,pos_y) == H1.belongsTo(pos_x,pos_y))) {
 		//			throw new InvariantError("HitboxContract.checkInvariant()");
 		//		}
 	}

@@ -10,8 +10,8 @@ Observators:
 		pre player(E,i) requires i ∈ {1, 2} 
 	gameOver: [Engine] → bool 
 	
-	Constructors: init: int × int × int × Player × Player → [Engine] 
-		pre init(h,w,s,p1,p2) requires h > 0 ∧ s > 0 ∧ w > s ∧ p1 6= p2 
+	Constructors: init: int × int × int × Player × Player × Character × Character → [Engine] 
+		pre init(h,w,s,p1,p2,c1,c2) requires h > 0 ∧ s > 0 ∧ w > s ∧ p1 != p2 ∧ c2 != c1
 		
 	Operators: step: [Engine] × Commande × Commande → [Engine] 
 		pre step(E) requires ¬gameOver(E) 

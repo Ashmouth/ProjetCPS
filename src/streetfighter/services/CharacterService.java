@@ -5,7 +5,7 @@ import streetfighter.data.CommandData;
 
 public interface CharacterService {
 
-	public void init(int l, int s, boolean f, EngineService e);
+	public void init(int l, int s, boolean f, EngineService e, HitboxService b);
 	//pre init(l,s,f,e) requires l > 0 ∧ s > 0
 	
 	//Observators: 

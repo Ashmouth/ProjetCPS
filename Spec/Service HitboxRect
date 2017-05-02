@@ -27,9 +27,23 @@ Service: HitboxRect
 			PositionY(resize(H, w, h)) = PositionY(H)
 			
 		[belongsTo]:
+			// discutable, est on obligé de le mettre ?
 			∀ (x,y) , x >= PositionX(H) ∧ x <= PositionX(H)+Width(H)
 				∧ y >= PositionY(H) ∧ y <= PositionY(H)+Height(H)
 				⇔ belongsTo(H,x,y)
+		
+		[equalsTo]:
+			// discutable, est on obligé de le mettre ?
+			equalsTo(H,H2) ⇔
+   			  PositionX(H) = PositionX(H2)
+   			∧ PositionY(H) = PositionY(H2)
+   			∧ Width(H) = Width(H2)
+   			∧ Height(H) = Height(H2)
 				
 		[collidesWith]:
-			∀ (x,y) ,
+			// discutable, est on obligé de le mettre ?
+			CollidesWith(H,H2) ⇔
+   			  PositionX(H) < PositionX(H2) + Width(H2)
+   			∧ PositionY(H) < PositionY(H2) + Height(H2)
+   			∧ PositionX(H) + Width(H) > PositionX(H2)
+   			∧ PositionY(H) + Height(H) > PositionY(H2)

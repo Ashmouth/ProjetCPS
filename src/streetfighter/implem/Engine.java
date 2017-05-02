@@ -8,7 +8,6 @@ import streetfighter.services.PlayerService;
 public class Engine implements EngineService {
 	private int height;
 	private int width;
-	private int space;
 	private boolean end;
 	private PlayerService p1;
 	private PlayerService p2;
@@ -16,12 +15,11 @@ public class Engine implements EngineService {
 	private CharacterService c2;
 
 	@Override
-	public void init(int h, int w, int s, PlayerService p1, PlayerService p2) {
+	public void init(int h, int w, int s, PlayerService p1, PlayerService p2, CharacterService c1, CharacterService c2) {
 		this.p1 = p1;
 		this.p2 = p2;
 		height = h;
 		width = w;
-		space = s;
 	}
 
 	//Observators: 

@@ -1,5 +1,6 @@
 package streetfighter.contracts;
 
+import streetfighter.condition.PostConditionError;
 import streetfighter.condition.PreConditionError;
 import streetfighter.services.HitboxRectService;
 import streetfighter.services.HitboxService;
@@ -10,20 +11,15 @@ public class HitboxRectContract extends HitboxContract implements HitboxRectServ
 		super(delegate);
 	}
 	
-	public void init(int x, int y) {
-		//TODO
-		delegate.init(x,y);
-	}
-	
 	public void init(int x, int y, int w, int h) {
 		((HitboxRectService)delegate).init(x, y, w, h);
 		
-		//height(init(x,y)) = h ^ width(init(x,y)) = w
-		if (getHeight() != h) {
-			throw new PreConditionError("Hitbox.init(x,y) X");
-		}
-		if (getWidth() != w) {
-			throw new PreConditionError("Hitbox.init(x,y) Y");
+		// PositionX(init(x,y,w,h)) = x
+		// PositionY(init(x,y,w,h)) = y
+		// Width(init(x,y,w,h)) = w
+		// Height(init(x,y,w,h)) = h
+		if (getPositionX() != x || getPositionY() != y || getWidth() != w || getHeight() != h) {
+			throw new PostConditionError("HitboxRectContract.init");
 		}
 	}
 	
@@ -37,7 +33,7 @@ public class HitboxRectContract extends HitboxContract implements HitboxRectServ
 
 
 		/** DELEGATE **/
-		boolean ret = ((HitboxRectService)delegate).belongsTo(x,y);
+		boolean ret = super.belongsTo(x,y);
 
 		/** POSTCONDITIONS **/
 
@@ -100,12 +96,25 @@ public class HitboxRectContract extends HitboxContract implements HitboxRectServ
 
 
 		/** CAPTURES **/
+		int x_pre = getPositionX();
+		int y_pre = getPositionY();
 
 
 		/** DELEGATE **/
 		((HitboxRectService)delegate).resize(w,h);
 
 		/** POSTCONDITIONS **/
+		// Height(resize(H, w, h)) = h
+		// Width(resize(H, w, h)) = w 
+		if (getHeight() != h || getWidth() != w) {
+			throw new PostConditionError("HitboxRectContract.resize.dimension");
+		}
+		
+		// PositionX(resize(H, w, h)) = PositionX(H)
+		// PositionY(resize(H, w, h)) = PositionY(H)
+		if (x_pre != getPositionX() || y_pre != getPositionY()) {
+			throw new PostConditionError("HitboxRectContract.resize.position");
+		}
 
 		checkInvariants();
 	}

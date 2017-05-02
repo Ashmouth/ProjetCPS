@@ -15,31 +15,27 @@ public class CharacterContract extends CharacterDecorator {
 	}
 
 	@Override
-	public void init(int l, int s, boolean f, EngineService e) {
+	public void init(int l, int s, boolean f, EngineService e, HitboxService b) {
 		checkInvariants();
 
 		/** PRECONDITIONS **/
-		//pre init(l,s,f,e) requires l > 0 ∧ s > 0
+		//pre init(l,s,f,b) requires l > 0 ∧ s > 0
 		boolean test = l > 0 && s > 0;
 		if(!test) {
-			throw new PreConditionError("CharacterDecorator.CharacterDecorator()");
+			throw new PreConditionError("CharacterContract.init");
 		}
 
 		/** CAPTURES **/
 
 		/** DELEGATE **/
-		delegate.init(l, s, f, e);
+		delegate.init(l, s, f, e, b);
 
 		/** POSTCONDITIONS **/
 
-		// life(init(l, s, f, e)) = l ∧ speed(init(l, s, f, e)) = s ∧ faceRight(init(l, s, f, e)) = f ∧
-		// engine(init(l, s, f, e)) = e 
-		if (getLife() != l || getSpeed() != s || getFaceRight() != f || getEngine() != e) {
-			throw new PostConditionError("Hitbox.init(l, s, f, e)");
-		}
-		//∃h :Hitbox, charbox(init(l, s, f, e)) = h
-		if (getcharBox() == null) {
-			throw new PostConditionError("Hitbox.init(l, s, f, e)");
+		// life(init(l, s, f, b)) = l ∧ speed(init(l, s, f, b)) = s ∧ faceRight(init(l, s, f, b)) = f ∧
+		// engine(init(l, s, f, e)) = e ∧ charbox(init(l, s, f, e, b)) = b
+		if (getLife() != l || getSpeed() != s || getFaceRight() != f || getEngine() != e || getcharBox() != b) {
+			throw new PostConditionError("CharacterContract.init.lsfeb");
 		}
 
 		checkInvariants();
@@ -255,6 +251,18 @@ public class CharacterContract extends CharacterDecorator {
 				isDead() == !(getLife() > 0)
 				)) {
 			throw new InvariantError("CharacterContract.position");
+		}
+		
+		// positionX(hitbox(C)) = positionX(C) 
+		// positionY(hitbox(C)) = positionY(C)
+		if (getPositionX() != getcharBox().getPositionX() ||
+			getPositionY() != getcharBox().getPositionY()) {
+			throw new InvariantError("CharacterContract.hitboxposition");
+		}
+		
+		// ∃ engine(C)
+		if (getEngine() == null) {
+			throw new InvariantError("CharacterContract.noboundengine");
 		}
 
 		// !∃i tq (player(engine(c), i) != C ∧ collisionwith(hitbox(C), hitbox(player(engine(C), i))))
