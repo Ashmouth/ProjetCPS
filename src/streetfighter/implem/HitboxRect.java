@@ -7,13 +7,6 @@ public class HitboxRect extends Hitbox implements HitboxRectService {
 	private int height, width;
 	
 	@Override
-	public void init(int x, int y) {
-		super.init(x, y);
-		height = 0;
-		width = 0;
-	}
-	
-	@Override
 	public void init(int x, int y, int w, int h) {
 		super.init(x, y);
 		height = h;
