@@ -39,7 +39,12 @@ Observators:
 		positionY(moveLeft(C)) = positionY(C) 
 		
 		
-		[moveRight]: ...
+		[moveRight]:
+	    (∃i, player(engine(C), i) != C ∧ collisionwith(hitbox(moveRight(C)), hitbox(player(engine(C), i)))) ⇒ positionX(moveRight(C)) = positionX(C)
+		positionX(C) <= speed(C) ∧ (∀i, player(engine(C), i) != C ⇒ ¬collisionwith(hitbox(moveRight(C)), hitbox(player(engine(C), i)))) ⇒ positionX(moveRight(C)) = positionX(C) + speed(C)
+		positionX(C) ≤ speed(C) ∧(∀i, player(engine(C), i) != C ⇒ ¬collisionwith(hitbox(moveRight(C)), hitbox(player(engine(C), i)))) ⇒ positionX(moveRight(C)) = 0
+		faceRight(moveRight(C)) = faceRight(C) ∧ life(moveRight(C)) = life(C)
+		positionY(moveRight(C)) = positionY(C)
 		
 		
 		[switchSide]: faceRight(switchSide(C))! = faceRight(C) 

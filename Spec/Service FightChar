@@ -20,8 +20,7 @@ Observation:
 	[invariants] :
 	
 	[init] :
-	
-	
+	    isBlocking(C) ∧ isBlockstunned(C) ∧ isHitstunned(C)  ∧ isTeching(C) = false
 	
 	[moveLeft] :	
 	isHitstunned(C) ∨ isBlockstunned(C) ∨ isTeching(C) ⇒ positionX(moveLeft(C)) = positionX(C)
@@ -29,6 +28,8 @@ Observation:
 	[moveRight] :
 	isHitstunned(C) ∨ isBlockstunned(C) ∨ isTeching(C) ⇒ positionX(moveRight(C)) = positionX(C)
 	
+	[startTech] :
+	isTeching(startTech(C)) = true
 	
 	
 	
