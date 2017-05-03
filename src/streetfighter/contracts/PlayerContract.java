@@ -22,16 +22,4 @@ public class PlayerContract extends PlayerDecorator implements PlayerService {
 		//TODO
 		delegate.init(num);
 	}
-	
-	@Override
-	public CommandData getInput(int key, char c) {
-		//TODO
-		return delegate.getInput(key, c);
-	}
-	
-	@Override
-	public void step(int key, char c) {
-		//TODO
-		delegate.step(key, c);
-	}
 }

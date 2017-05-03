@@ -10,7 +10,6 @@ public interface PlayerService {
 	//Operators: 
 	public void init(int num);
 	
-	public CommandData getInput(int key, char c);
-	
-	public void step(int key, char c);
+	public void addInput(int k);
+	public void clearInput(int k);
 }

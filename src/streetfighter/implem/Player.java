@@ -1,64 +1,57 @@
 package streetfighter.implem;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Queue;
 import java.util.Vector;
 
 import org.newdawn.slick.Input;
+import org.newdawn.slick.InputListener;
 
 import streetfighter.data.CommandData;
+import streetfighter.services.InputService;
 import streetfighter.services.PlayerService;
 
 public class Player implements PlayerService {
 
-	private Vector<CommandData> CommandStack;
-	private int techLen = 4;
+	private List<CommandData> stack;
 	private int numPlayer;
+	private boolean[] pressed;
 	
-	//Observators: 
+	private boolean pr(CommandData c) {
+		return pressed[c.ordinal()];
+	}
+	
 	@Override
 	public CommandData getCommand() {
-		if (CommandStack.get(0) == CommandData.DOWN) {
-			if (CommandStack.get(1) == CommandData.DOWNRIGHT) {
-				if (CommandStack.get(2) == CommandData.RIGHT) {
-					return CommandData.QRCIRCLE;
-				}
-			}
-			if (CommandStack.get(0) == CommandData.DOWN) {
-				if (CommandStack.get(1) == CommandData.DOWNLEFT) {
-					if (CommandStack.get(2) == CommandData.LEFT) {
-						return CommandData.QLCIRCLE;
-					}
-				}
-			}
+		if (pr(CommandData.DOWN)) {
+			if(pr(CommandData.RIGHT)) return CommandData.DOWNRIGHT;
+			if(pr(CommandData.LEFT)) return CommandData.DOWNLEFT;
 		}
-		if (CommandStack.get(0) == CommandData.LEFT) {
-			if (CommandStack.get(1) == CommandData.RIGHT) {
-				return CommandData.RDASH;
-			}
+		if (pr(CommandData.UP)) {
+			if(pr(CommandData.RIGHT)) return CommandData.UPRIGHT;
+			if(pr(CommandData.LEFT)) return CommandData.UPLEFT;
 		}
-		if (CommandStack.get(0) == CommandData.RIGHT) {
-			if (CommandStack.get(1) == CommandData.LEFT) {
-				return CommandData.LDASH;
-			}
-		}
-		return CommandStack.get(0);
+		return CommandData.NEUTRAL;
+		
 	}
 	
 	//Operators: 
 	@Override
 	public void init(int num) {
-		CommandStack = new Vector<CommandData>(techLen);
-		for (int i = 0; i < techLen; i++) {
-			CommandStack.add(CommandData.NEUTRAL);
-		}
+		stack = new ArrayList<CommandData>();
 		numPlayer = num;
+		
+		pressed = new boolean[CommandData.values().length];
+		Arrays.fill(pressed, false);
 	}
 	
-	@Override
-	public CommandData getInput(int key, char c) {
+	private CommandData input2cmd(int key) {
 		if (Input.KEY_ESCAPE == key) {
 			//TODO END
 		}
-
+		
 		//J1
 		if(numPlayer == 1) {
 			if (Input.KEY_UP == key) {
@@ -73,11 +66,11 @@ public class Player implements PlayerService {
 			if (Input.KEY_LEFT == key) {
 				return CommandData.LEFT;
 			}
-			if (Input.KEY_RSHIFT == key) {
+			if (Input.KEY_0 == key) {
 				return CommandData.PUNCH;
 			}
-			if (Input.KEY_LCONTROL == key) {
-				return CommandData.KICK;
+			if (Input.KEY_1 == key) {
+				return CommandData.GUARD;
 			}
 
 
@@ -96,19 +89,20 @@ public class Player implements PlayerService {
 				return CommandData.LEFT;
 			}
 			if (Input.KEY_LSHIFT == key) {
-				return CommandData.PUNCH;
+				return CommandData.GUARD;
 			}
 			if (Input.KEY_SPACE == key) {
-				return CommandData.KICK;
+				return CommandData.PUNCH;
 			}
 		}
 		return CommandData.NEUTRAL;
 	}
 	
-	@Override
-	public void step(int key, char c) {
-		CommandStack.remove(techLen);
-		CommandData tmp = getInput(key, c);
-		CommandStack.add(0, tmp);
+	public void addInput(int k) {
+		pressed[input2cmd(k).ordinal()] = true;
+	}
+	
+	public void clearInput(int k) {
+		pressed[input2cmd(k).ordinal()] = false;
 	}
 }

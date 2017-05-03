@@ -1,4 +1,4 @@
-Service: Player
+ Service: Player
 Types: bool, int
 
 	Observators: 
@@ -9,14 +9,18 @@ Types: bool, int
 			init(n) requires n ∈ { 1, 2 } ∧ ∄ p : Player 
 		
 	Operators: 
-		step: [Player] × int × c → [Player] 
-			pre step(k,c) requires k >= 0 ∧ k <= 255 ∧ c != null # Cékoica ??
-		getInput: [Player] × int × c → CommandData # Héça ?
+		getCommand: [Player] → CommandData # Héça ?
+		addInput: [Player] × int -> [Player]
+		clearInput: [Player] × int -> [Player]
 		
 	Observations: 
 		[invariant]: 
 			//
 		[init]: 
 			//
-		[step]: 
+		[getCommand]:
+		
+		[addInput]:
+		
+		[clearInput]:
 			
