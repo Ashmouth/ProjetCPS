@@ -283,6 +283,127 @@ public class CharacterContract extends CharacterDecorator {
 
 		checkInvariants();
 	}
+	
+	@Override
+	public void crouch() {
+		checkInvariants();
+		/** PRECONDITIONS **/
+		
+		/** CAPTURES **/
+
+		/** DELEGATE **/
+		delegate.crouch();
+
+		/** POSTCONDITIONS **/
+		
+		checkInvariants();
+	}
+
+	@Override
+	public void rise() {
+		checkInvariants();
+		/** PRECONDITIONS **/
+		
+		/** CAPTURES **/
+
+		/** DELEGATE **/
+		delegate.rise();
+
+		/** POSTCONDITIONS **/
+			
+		checkInvariants();
+	}
+
+	@Override
+	public void jump() {
+		checkInvariants();
+		/** PRECONDITIONS **/
+		
+		/** CAPTURES **/
+
+		/** DELEGATE **/
+		delegate.jump();
+
+		/** POSTCONDITIONS **/
+		
+		checkInvariants();
+	}
+
+	@Override
+	public void jumpRight() {
+		checkInvariants();
+		/** PRECONDITIONS **/
+		
+		/** CAPTURES **/
+
+		/** DELEGATE **/
+		delegate.jumpRight();
+
+		/** POSTCONDITIONS **/
+		
+		checkInvariants();
+	}
+
+	@Override
+	public void jumpLeft() {
+		checkInvariants();
+		/** PRECONDITIONS **/
+		
+
+		/** CAPTURES **/
+
+		/** DELEGATE **/
+		delegate.jumpLeft();
+
+		/** POSTCONDITIONS **/
+			
+		checkInvariants();
+	}
+
+	@Override
+	public boolean isJumpRightHigh() {
+		checkInvariants();
+		/** PRECONDITIONS **/
+		
+		/** CAPTURES **/
+
+		/** DELEGATE **/
+		return delegate.isJumpRightHigh();
+	}
+
+	@Override
+	public boolean isJumpLeftHigh() {
+		checkInvariants();
+		/** PRECONDITIONS **/
+		
+		/** CAPTURES **/
+
+		/** DELEGATE **/
+		return delegate.isJumpLeftHigh();
+	}
+
+	@Override
+	public boolean isJumpHigh() {
+		checkInvariants();
+		/** PRECONDITIONS **/
+		
+
+		/** CAPTURES **/
+
+		/** DELEGATE **/
+		return delegate.isJumpHigh();
+	}
+
+	@Override
+	public boolean isCrouch() {
+		checkInvariants();
+		/** PRECONDITIONS **/
+		
+		/** CAPTURES **/
+
+		/** DELEGATE **/
+		return delegate.isCrouch();
+	}
 
 	private void checkInvariants() {
         // positionX(C) > 0 ∧ positionX(C) < Engine:: width(engine) ∧ positionY(C) > 0 ∧ positionY(C) < Engine:: height(engine) ∧ dead(C) = ¬(life > 0) 

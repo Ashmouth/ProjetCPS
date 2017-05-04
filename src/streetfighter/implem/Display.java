@@ -9,6 +9,8 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.InputListener;
 import org.newdawn.slick.SlickException;
+
+import streetfighter.data.CommandData;
 import streetfighter.services.CharacterService;
 import streetfighter.services.DisplayService;
 import streetfighter.services.EngineService;
@@ -65,7 +67,13 @@ public class Display extends BasicGame implements DisplayService, InputListener,
 	    		HitboxRect br1 = (HitboxRect) b1;
 	    		int h1 = br1.getHeight();
 	    		int w1 = br1.getWidth();
-	    		g.setColor(Color.red);
+	    		
+	    		if(p1.getCommand() == CommandData.GUARD) {
+	    			g.setColor(Color.magenta);
+	    		} else {
+	    			g.setColor(Color.red);
+	    		}
+	    		
 		        g.fillRect(x1, height-(y1+h1), w1, h1);
 	    	}
 	    	
@@ -77,7 +85,14 @@ public class Display extends BasicGame implements DisplayService, InputListener,
 	    		HitboxRect br2 = (HitboxRect) b2;
 	    		int h2 = br2.getHeight();
 	    		int w2 = br2.getWidth();
-	    		g.setColor(Color.blue);
+	    		
+	    		if(p2.getCommand() == CommandData.GUARD) {
+	    			System.out.println("PASS");
+	    			g.setColor(Color.cyan);
+	    		} else {
+	    			g.setColor(Color.blue);
+	    		}
+	    		
 		        g.fillRect(x2, height-(y2+h2), w2, h2);
 	    	}
 	    	

@@ -34,6 +34,15 @@ public class Player implements PlayerService {
 		if(pr(CommandData.RIGHT)) {
 			return CommandData.RIGHT;
 		}
+		
+		if(pr(CommandData.GUARD)) {
+			return CommandData.GUARD;
+		}
+		
+		if(pr(CommandData.PUNCH)) {
+			return CommandData.PUNCH;
+		}
+		
 		return CommandData.NEUTRAL;
 		
 	}

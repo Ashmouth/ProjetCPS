@@ -10,11 +10,12 @@ Observators:
 	const speed: [Character] → int 
 	faceRight: [Character] → bool 
 	dead: [Character] → bool
-	down: [Character] → bool
+	isCrouch(C): [Character] → bool
 	isJumpHigh: [Character] → bool
 	isJumpRightHigh: [Character] → bool
 	isJumpLeftHigh: [Character] → bool
-	isCrouch: //
+	maxY: [Character] → int
+	
 	
 	Constructors: init: int × int × bool × Engine → [Character] 
 		pre init(l,s,f,e) requires l > 0 ∧ s > 0 
@@ -30,15 +31,15 @@ Observators:
 		setPosition: [Character] × int × int → [Character]
 		damaged: [Character] × int → [Character]
 		crouch: [Character] → [Character]
-			pre crouch require ¬down ∧ positionY(C) = 0
+			pre crouch require ¬isCrouch(C) ∧ positionY(C) = 0
 		rise: [Character] → [Character]
-			pre crouch require down ∧ positionY(C) = 0
+			pre crouch require isCrouch(C) ∧ positionY(C) = 0
 		jump: [Character] → [Character]
-			pre jump() require positionY(C) = 0 ∧ ¬down
+			pre jump() require positionY(C) = 0 ∧ ¬isCrouch(C)
 		jumpright: [Character] → [Character]
-			pre jumpright() require positionY(C) = 0 ∧ ¬down
+			pre jumpright() require positionY(C) = 0 ∧ ¬isCrouch(C)
 		jumpleft: [Character] → [Character]
-			pre jumpleft() require positionY(C) = 0 ∧ ¬down
+			pre jumpleft() require positionY(C) = 0 ∧ ¬isCrouch(C)
 	
 	Observations: 
 		[invariant]: positionX(C) > 0 ∧ positionX(C) < Engine:: width(engine) ∧ positionY(C) > 0 ∧ positionY(C) < Engine:: height(engine) ∧ dead(C) = ¬(life > 0) 
@@ -47,9 +48,10 @@ Observators:
 		∧ positionY(hitbox(C)) = positionY(C)
 		
 		[init]: life(init(l, s, f, e)) = l ∧ speed(init(l, s, f, e)) = s ∧ faceRight(init(l, s, f, e)) = f ∧ engine(init(l, s, f, e)) = e 
-		∧ ∃ b:Hitbox, charbox(init(l, s, f, e)) = b, down = false
+		∧ ∃ b:Hitbox, charbox(init(l, s, f, e)) = b
+		isCrouch(C) = false ∧ isJumpHigh = false ∧ isJumpRightHigh = false	∧ isJumpLeftHigh = false ∧ maxY ≤ 0
 		 
-!		[moveLeft]: (∃i, player(engine(C), i) != C ∧ collisionwith(hitbox(moveLeft(C)), hitbox(player(engine(C), i)))) ⇒ positionX(moveLeft(C)) = positionX(C)
+		[moveLeft]: (∃i, player(engine(C), i) != C ∧ collisionwith(hitbox(moveLeft(C)), hitbox(player(engine(C), i)))) ⇒ positionX(moveLeft(C)) = positionX(C)
 		positionX(C) ≤ speed(C) ∧(∀i, player(engine(C), i) != C ⇒ ¬collisionwith(hitbox(moveLeft(C)), hitbox(player(engine(C), i)))) ⇒ positionX(moveLeft(C)) = positionX(C) − speed(C)
 		positionX(C) > speed(C) ∧(∀i, player(engine(C), i) != C ⇒ ¬collisionwith(hitbox(moveLeft(C)), hitbox(player(engine(C), i)))) ⇒ positionX(moveLeft(C)) = 0
 		faceRight(moveLeft(C)) = faceRight(C) ∧ life(moveLeft(C)) = life(C)
@@ -70,6 +72,24 @@ Observators:
 		step(C, LEFT) = moveLeft(C)
 		step(C, RIGHT) = moveRight(C)
 		step(C, NEUTRAL) = C
+		
+		isJumpHigh(C) ⇒ positionY(step(C, c)) > positionY(C)
+		∧ positionX(step(C, c)) = positionX(C)
+		∧ positionY(step(C, c)) < maxY(C)
+		∧ positionY(step(C, c)) = PositionY(C)+speed(C)
+		∧ positionX(step(C, c)) = positionX(C)
+		
+		isJumpRightHigh(C) ⇒ positionY(step(C, c)) > positionY(C)
+		∧ positionX(step(C, c)) > positionX(C)
+		∧ positionY(step(C, c)) < maxY(C)
+		∧ positionY(step(C, c)) = PositionY(C)+ascension(C)
+		∧ positionX(step(C, c)) = positionX(C)+speed(C)
+		
+		isJumpLeftHigh(C) ⇒ positionY(step(C, c)) > positionY(C)
+		∧ positionX(C) > positionX(step(C, c))
+		∧ positionY(step(C, c)) < maxY(C)
+		∧ positionY(step(C, c)) = PositionY(C)+ascension(C)
+		∧ positionX(step(C, c)) = positionX(C)-speed(C)
 		
 		[damaged]:
 		life(damaged(C, d)) = life(C) - d
@@ -102,13 +122,7 @@ Observators:
 		positionX(C) > positionX(jumpleft(C))
 		
 		[isJumpHigh]:
-		positionY(C) > positionY(isJumpHigh(C))
-		positionX(C) = positionX(isJumpHigh(C))
 		
 		[isJumpRightHigh]:
-		positionY(C) > positionY(isJumpRightHigh(C))
-		positionX(C) < positionX(isJumpRightHigh(C))
 		
 		[isJumpLeftHigh]:
-		positionY(C) > positionY(isJumpLeftHigh(C))
-		positionX(C) > positionX(isJumpLeftHigh(C))
