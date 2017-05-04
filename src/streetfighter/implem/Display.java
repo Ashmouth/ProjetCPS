@@ -45,7 +45,7 @@ public class Display extends BasicGame implements DisplayService, InputListener,
 	    public void init(GameContainer container) throws SlickException {
 	        this.container = container;
 	        map = new Image("ressources/little.png");
-	        
+	        container.setVSync(true);
 	    }
 	    
 	    @Override
