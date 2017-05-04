@@ -16,11 +16,11 @@ public class EngineContract extends EngineDecorator {
 	}	
 
 	@Override
-	public void init(int h, int w, int s, PlayerService p1, PlayerService p2, CharacterService c1, CharacterService c2) {
-		checkInvariants();
+	public void init(int w, int h, int s, PlayerService p1, PlayerService p2, CharacterService c1, CharacterService c2) {
+//		checkInvariants();
 		
 		/** PRECONDITIONS **/
-		// init(h,w,s,p1,p2) requires h > 0 ∧ s > 0 ∧ w > s ∧ p1 != p2 ∧ c1 != c2
+		// init(w,h,s,p1,p2) requires h > 0 ∧ s > 0 ∧ w > s ∧ p1 != p2 ∧ c1 != c2
 		boolean test = h > 0 && w > 0 && s > 0 && w > s && p1 != p2 && c1 != c2;
 		if(!test) {
 			throw new PreConditionError("EngineContract.init.args");
@@ -29,17 +29,17 @@ public class EngineContract extends EngineDecorator {
 		/** CAPTURES **/
 		
 		/** DELEGATE **/
-		delegate.init(h, w, s, p1, p2, c1, c2);
+		delegate.init(w, h, s, p1, p2, c1, c2);
 		
 		/** POSTCONDITIONS **/
 		
-		//height(init(h, w, s, p1, p2)) = h 
-		//width(init(h, w, s, p1, p2)) = w 
+		//height(init(w, h, s, p1, p2)) = h
+		//width(init(w, h, s, p1, p2)) = w 
 		if(getHeight() != h || getWidth() != w) {
 			throw new PostConditionError("EngineContract.init.dimensions");
 		}
-		//player(init(h, w, s, p1, p2), 1) = p1 
-		//player(init(h, w, s, p1, p2), 2) = p2
+		//player(init(w, h, s, p1, p2), 1) = p1 
+		//player(init(w, h, s, p1, p2), 2) = p2
 		if(getPlayer(1) != p1 || getPlayer(2) != p2) {
 			throw new PostConditionError("EngineContract.init.players");
 		}

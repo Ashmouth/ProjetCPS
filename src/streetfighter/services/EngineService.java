@@ -4,7 +4,7 @@ import streetfighter.data.CommandData;
 
 public interface EngineService {
 
-	public void init(int h, int w, int s, PlayerService p1, PlayerService p2, CharacterService c1, CharacterService c2);
+	public void init(int w, int h, int s, PlayerService p1, PlayerService p2, CharacterService c1, CharacterService c2);
 	//pre init(h,w,s,p1,p2) requires h > 0 ∧ s > 0 ∧ w > s ∧ p1 6= p2 
 	
 	//Invariant

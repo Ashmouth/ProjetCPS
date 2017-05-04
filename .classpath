@@ -2,8 +2,8 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="/users/nfs/Etu7/3402667/workspace/ProjetCPS/lib/jinput.jar"/>
-	<classpathentry kind="lib" path="/users/nfs/Etu7/3402667/workspace/ProjetCPS/lib/lwjgl.jar"/>
-	<classpathentry kind="lib" path="/users/nfs/Etu7/3402667/workspace/ProjetCPS/lib/slick.jar"/>
+	<classpathentry kind="lib" path="/home/dead/workspace/projetCPS/lib/jinput.jar"/>
+	<classpathentry kind="lib" path="/home/dead/workspace/projetCPS/lib/lwjgl.jar"/>
+	<classpathentry kind="lib" path="/home/dead/workspace/projetCPS/lib/slick.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

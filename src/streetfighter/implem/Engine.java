@@ -15,7 +15,7 @@ public class Engine implements EngineService {
 	private CharacterService c2;
 
 	@Override
-	public void init(int h, int w, int s, PlayerService p1, PlayerService p2, CharacterService c1, CharacterService c2) {
+	public void init(int w, int h, int s, PlayerService p1, PlayerService p2, CharacterService c1, CharacterService c2) {
 		this.p1 = p1;
 		this.p2 = p2;
 		this.c1 = c1;
