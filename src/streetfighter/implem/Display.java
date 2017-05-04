@@ -10,10 +10,12 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.InputListener;
 import org.newdawn.slick.SlickException;
 
+import streetfighter.data.TechData;
 import streetfighter.services.CharacterService;
 import streetfighter.services.DisplayService;
 import streetfighter.services.EngineService;
 import streetfighter.services.FightCharService;
+import streetfighter.services.HitboxRectService;
 import streetfighter.services.HitboxService;
 import streetfighter.services.InputService;
 import streetfighter.services.PlayerService;
@@ -54,65 +56,112 @@ public class Display extends BasicGame implements DisplayService, InputListener,
 	        container.setFullscreen(true);
 	    }
 	    
+	    /* draw a rectangle taking "normal" coordinates (like in math) */
+	    protected void drawRect(int x, int y, int w, int h, Color c, Graphics g) {
+	    	g.setColor(c);
+			g.fillRect(x, height-(y+h), w, h);
+	    }
+	    
+	    protected void drawChar(FightCharService f, Color col, Graphics g) {
+	    	drawChar((CharacterService)f, col, g);
+	    	
+	    	// draw technique
+			if (f.isTeching()) {
+				TechData tec = f.tech();
+				HitboxRectService h = (HitboxRectService) tec.getHitbox(f.getPositionX(), f.getPositionY(), f.getFaceRight());
+				
+				int dx = (f.getFaceRight() ? ((HitboxRectService) f.getcharBox()).getWidth() : 0);
+				drawRect(h.getPositionX()+ dx, h.getPositionY(), h.getWidth(), h.getHeight(), Color.green, g);
+			}
+	    }
+	    
+	    protected void drawChar(CharacterService c, Color col, Graphics g) {
+	    	HitboxService b = c.getcharBox();
+	    	
+	    	if (b instanceof HitboxRect) {
+	    		HitboxRect br = (HitboxRect) b;
+	    		int h = br.getHeight();
+	    		int w = br.getWidth();
+	    		
+	    		drawRect(br.getPositionX(), br.getPositionY(), w, h, col, g);
+	    	}
+	    }
+	    
 	    @Override
 	    public void render(GameContainer container, Graphics g) throws SlickException {
 	    	g.resetTransform();
 	    	map.draw(0, 0, width, height);
 	    	
-	    	CharacterService c1 = engine.getCharacter(1);
-	    	int x1 = c1.getPositionX();
-	    	int y1 = c1.getPositionY();
-	    	HitboxService b1 = c1.getcharBox();
-	    	if (b1 instanceof HitboxRect) {
-	    		HitboxRect br1 = (HitboxRect) b1;
-	    		int h1 = br1.getHeight();
-	    		int w1 = br1.getWidth();
-	    		
-	    		if(c1 instanceof FightCharService) {
-	    			FightCharService f1 = (FightCharService) c1;
-	    			if(f1.isBlocking()) {
-	    				g.setColor(Color.magenta);
-	    			} else {
-	    				g.setColor(Color.red);
-	    			}
-	    		} else {
-	    			g.setColor(Color.red);
-	    		}
-	    		
-		        g.fillRect(x1, height-(y1+h1), w1, h1);
-	    	}
+	    	drawChar((FightCharService) engine.getCharacter(1), Color.blue, g);
+	    	drawChar((FightCharService) engine.getCharacter(2), Color.red, g);
 	    	
-	    	CharacterService c2 = engine.getCharacter(2);
-	    	int x2 = c2.getPositionX();
-	    	int y2 = c2.getPositionY();
-	    	HitboxService b2 = c2.getcharBox();
-	    	if (b2 instanceof HitboxRect) {
-	    		HitboxRect br2 = (HitboxRect) b2;
-	    		int h2 = br2.getHeight();
-	    		int w2 = br2.getWidth();
-	    		
-	    		
-	    		if(c2 instanceof FightCharService) {
-	    			FightCharService f2 = (FightCharService) c2;
-	    			if(f2.isBlocking()) {
-	    				g.setColor(Color.cyan);
-	    			} else {
-	    				g.setColor(Color.blue);
-	    			}
-	    		} else {
-	    			g.setColor(Color.blue);
-	    		}
-	    		
-		        g.fillRect(x2, height-(y2+h2), w2, h2);
-	    	}
-	    	
-	    	String l1 = ""+engine.getCharacter(1).getLife();
-	    	g.setColor(Color.red);
-	    	g.drawString(l1, width/2 - 20, 0);
-	    	
-	    	String l2 = ""+engine.getCharacter(2).getLife();
-	    	g.setColor(Color.blue);
-	    	g.drawString(l2, width/2 + 20, 0);
+//	    	if (b1 instanceof HitboxRect) {
+//	    		HitboxRect br1 = (HitboxRect) b1;
+//	    		int h1 = br1.getHeight();
+//	    		int w1 = br1.getWidth();
+//	    		
+//	    		
+//	    		if(c1 instanceof FightCharService) {
+//	    			FightCharService f1 = (FightCharService) c1;
+//	    			
+//	    			// draw blocking mode
+//	    			if(f1.isBlocking()) {
+//	    				g.setColor(Color.magenta);
+//	    			} else {
+//	    				g.setColor(Color.red);	
+//	    			}
+//	    			g.fillRect(x1, height-(y1+h1), w1, h1);
+//	    			
+//	    			// draw technique
+//	    			if (f1.isTeching()) {
+//	    				TechData tec = f1.tech();
+//	    				HitboxRectService h = (HitboxRectService) tec.getHitbox(f1.getPositionX(), f1.getPositionY(), f1.getFaceRight());
+//	    				
+//	    				g.setColor(Color.green);
+//		    			g.fillRect(x1, height-(y1+h1), w1, h1);
+//	    			}
+//	    		} 
+//	    		
+//	    		/* CharService */
+//	    		else {
+//	    			g.setColor(Color.red);
+//	    			g.fillRect(x1, height-(y1+h1), w1, h1);
+//	    		}
+//	    		
+//		        
+//	    	}
+//	    	
+//	    	CharacterService c2 = engine.getCharacter(2);
+//	    	int x2 = c2.getPositionX();
+//	    	int y2 = c2.getPositionY();
+//	    	HitboxService b2 = c2.getcharBox();
+//	    	if (b2 instanceof HitboxRect) {
+//	    		HitboxRect br2 = (HitboxRect) b2;
+//	    		int h2 = br2.getHeight();
+//	    		int w2 = br2.getWidth();
+//	    		
+//	    		
+//	    		if(c2 instanceof FightCharService) {
+//	    			FightCharService f2 = (FightCharService) c2;
+//	    			if(f2.isBlocking()) {
+//	    				g.setColor(Color.cyan);
+//	    			} else {
+//	    				g.setColor(Color.blue);
+//	    			}
+//	    		} else {
+//	    			g.setColor(Color.blue);
+//	    		}
+//	    		
+//		        g.fillRect(x2, height-(y2+h2), w2, h2);
+//	    	}
+//	    	
+//	    	String l1 = ""+engine.getCharacter(1).getLife();
+//	    	g.setColor(Color.red);
+//	    	g.drawString(l1, width/2 - 20, 0);
+//	    	
+//	    	String l2 = ""+engine.getCharacter(2).getLife();
+//	    	g.setColor(Color.blue);
+//	    	g.drawString(l2, width/2 + 20, 0);
 	    }
 
 	    @Override

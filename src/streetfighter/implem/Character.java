@@ -181,6 +181,8 @@ public class Character implements CharacterService {
 
 	@Override
 	public void crouch() {
+		if(iscrouch) return;
+		
 		iscrouch = true;
 		
 		if(hitbox instanceof HitboxRect) {
@@ -191,13 +193,19 @@ public class Character implements CharacterService {
 	}
 	
 	@Override
-	public void rise() {
-		iscrouch = false;
-		
+	public void rise() {		
 		if(hitbox instanceof HitboxRect) {
 			HitboxRect hb = (HitboxRect)hitbox;
 			
+			int h = hb.getHeight();
 			hb.resize(hb.getWidth(), hb.getHeight() + CROUCH_VAL);
+			iscrouch = false;
+			
+			if (engine.getCharacter(1).getcharBox().collidesWith(engine.getCharacter(2).getcharBox())) {
+				hb.resize(hb.getWidth(), h);
+				iscrouch = true;
+				return;
+			}
 		}
 	}
 
