@@ -69,9 +69,15 @@ public class FightCharContract extends CharacterContract implements FightCharSer
 	//Operators: 
 	@Override
 	public void startTech(TechData tech) {
-		//pre startTech(C,T) requires ¬isTeching(C) 
+		//pre startTech(C,T) requires ¬isTeching(C) ∧ ¬isHitstunned(C) ∧ ¬isBlockstunned(C) 
 		if(isTeching()) {
-			throw new PreConditionError("FightChar.startTech.teching");
+			throw new PreConditionError("FightChar.startTech.isTeching");
+		}
+		if(isHitstunned()) {
+			throw new PreConditionError("FightChar.startTech.isHitstunned");
+		}
+		if(isBlockstunned()) {
+			throw new PreConditionError("FightChar.startTech.isBlockstunned");
 		}
 		((FightCharService) delegate).startTech(tech);
 	}

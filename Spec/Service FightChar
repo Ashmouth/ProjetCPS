@@ -11,6 +11,10 @@ Observators:
 		pre techFrame(C) requires isTeching(C) 
 	techHasAlreadyHit: [FightChar] → bool 
 		pre techHasAlreadyHit(C) requires isTeching(C) 
+	moveLeft:
+		pre moveLeft(C) require positionY(C) = 0
+	moveRight:
+		pre moveRight(C) require positionY(C) = 0
 		
 Operators: 
 	startTech: [FightChar] × Tech → [FightChar] 
