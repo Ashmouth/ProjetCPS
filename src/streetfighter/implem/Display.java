@@ -48,6 +48,8 @@ public class Display extends BasicGame implements DisplayService, InputListener,
 	        container.setTargetFrameRate(60);
 	        width = container.getWidth();
 	        height = container.getHeight();
+	        
+	        container.setFullscreen(true);
 	    }
 	    
 	    @Override

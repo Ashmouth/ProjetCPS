@@ -18,6 +18,11 @@ public interface CharacterService {
 	public boolean getFaceRight();
 	public boolean isDead();
 	
+	public boolean isJumpRightHigh();
+	public boolean isJumpLeftHigh();
+	public boolean isJumpHigh();
+	public boolean isCrouch();
+	
 	//Operators: 
 	public void moveLeft();
 	public void moveRight();
@@ -25,6 +30,12 @@ public interface CharacterService {
 	public void step(CommandData c);
 	public void damaged(int degats);
 	public void setPosition(int x, int y);
+	
+	//
+	public void crouch();
+	public void jump();
+	public void jumpright();
+	public void jumpleft();
 	
 		//pre step() requires ¬dead
 	
