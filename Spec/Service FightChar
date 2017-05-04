@@ -31,7 +31,5 @@ Observation:
 	[startTech] :
 	isTeching(startTech(C)) = true
 	
-	
-	
-	
-	
+	[isBlocking] :
+	isBlocking(C) ⇒ life(damaged(C,d) = life(C)

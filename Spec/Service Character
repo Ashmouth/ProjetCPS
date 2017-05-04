@@ -11,6 +11,10 @@ Observators:
 	faceRight: [Character] → bool 
 	dead: [Character] → bool
 	down: [Character] → bool
+	isJumpHigh: [Character] → bool
+	isJumpRightHigh: [Character] → bool
+	isJumpLeftHigh: [Character] → bool
+	isCrouch: //
 	
 	Constructors: init: int × int × bool × Engine → [Character] 
 		pre init(l,s,f,e) requires l > 0 ∧ s > 0 
@@ -43,7 +47,7 @@ Observators:
 		∧ positionY(hitbox(C)) = positionY(C)
 		
 		[init]: life(init(l, s, f, e)) = l ∧ speed(init(l, s, f, e)) = s ∧ faceRight(init(l, s, f, e)) = f ∧ engine(init(l, s, f, e)) = e 
-		∧ ∃ b:Hitbox, charbox(init(l, s, f, e)) = b
+		∧ ∃ b:Hitbox, charbox(init(l, s, f, e)) = b, down = false
 		 
 !		[moveLeft]: (∃i, player(engine(C), i) != C ∧ collisionwith(hitbox(moveLeft(C)), hitbox(player(engine(C), i)))) ⇒ positionX(moveLeft(C)) = positionX(C)
 		positionX(C) ≤ speed(C) ∧(∀i, player(engine(C), i) != C ⇒ ¬collisionwith(hitbox(moveLeft(C)), hitbox(player(engine(C), i)))) ⇒ positionX(moveLeft(C)) = positionX(C) − speed(C)
@@ -79,20 +83,32 @@ Observators:
 		positionY(C) = positionY(crouch(C))
 		∀ u,v:int × int, BelongsTo(hitbox(crouch(C)),u,v) ⇒ Belongsto(hitbox(C),u,v)
 		
-		[rise]:
-		hitbox(C) = hitbox(rise(crouch(C)))
-		positionX(C) = positionX(rise(C))
-		positionY(C) = positionY(rise(C))
+		[raise]:
+		hitbox(C) = hitbox(raise(crouch(C)))
+		positionX(C) = positionX(raise(C))
+		positionY(C) = positionY(raise(C))
 		∀ u,v:int × int, Belongsto(hitbox(C),u,v) ⇒ BelongsTo(hitbox(rise(C)),u,v)
 		
 		[jump]:
-		positionY(C) > positionY(jump(C))
+		positionY(C) < positionY(jump(C))
 		positionX(C) = positionX(jump(C))
 		
 		[jumpright]:
-		positionY(C) > positionY(jumpright(C))
+		positionY(C) < positionY(jumpright(C))
 		positionX(C) < positionX(jumpright(C))
 		
 		[jumpleft]:
-		positionY(C) > positionY(jumpleft(C))
+		positionY(C) < positionY(jumpleft(C))
 		positionX(C) > positionX(jumpleft(C))
+		
+		[isJumpHigh]:
+		positionY(C) > positionY(isJumpHigh(C))
+		positionX(C) = positionX(isJumpHigh(C))
+		
+		[isJumpRightHigh]:
+		positionY(C) > positionY(isJumpRightHigh(C))
+		positionX(C) < positionX(isJumpRightHigh(C))
+		
+		[isJumpLeftHigh]:
+		positionY(C) > positionY(isJumpLeftHigh(C))
+		positionX(C) > positionX(isJumpLeftHigh(C))
