@@ -88,4 +88,49 @@ public class CharacterDecorator implements CharacterService {
 	public void setPosition(int x, int y) {
 		delegate.setPosition(x, y);		
 	}
+	
+	@Override
+	public void crouch() {
+		delegate.crouch();
+	}
+
+	@Override
+	public void rise() {
+		delegate.rise();
+	}
+
+	@Override
+	public void jump() {
+		delegate.jump();
+	}
+
+	@Override
+	public void jumpRight() {
+		delegate.jumpRight();
+	}
+
+	@Override
+	public void jumpLeft() {
+		delegate.jumpLeft();
+	}
+
+	@Override
+	public boolean isJumpRightHigh() {
+		return delegate.isJumpRightHigh();
+	}
+
+	@Override
+	public boolean isJumpLeftHigh() {
+		return delegate.isJumpLeftHigh();
+	}
+
+	@Override
+	public boolean isJumpHigh() {
+		return delegate.isJumpHigh();
+	}
+
+	@Override
+	public boolean isCrouch() {
+		return delegate.isCrouch();
+	}
 }

@@ -117,6 +117,11 @@ public class Character implements CharacterService {
 	}
 
 	public void step(CommandData c) {
+		if (c != CommandData.DOWN && c != CommandData.DOWNLEFT && c != CommandData.DOWNRIGHT) {
+			if(iscrouch) {
+				rise();
+			}
+		}
 		switch(c) {
 		
 		case LEFT:
@@ -139,7 +144,7 @@ public class Character implements CharacterService {
 			jump();
 			break;
 			
-		case DOWNRIGHT:
+		case DOWNRIGHT:	
 			if(!iscrouch) crouch();
 			moveRight();
 			break;
