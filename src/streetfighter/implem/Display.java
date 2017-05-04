@@ -45,7 +45,7 @@ public class Display extends BasicGame implements DisplayService, InputListener,
 	    public void init(GameContainer container) throws SlickException {
 	        this.container = container;
 	        map = new Image("ressources/little.png");
-	        container.setVSync(true);
+	        container.setTargetFrameRate(60);
 	        width = container.getWidth();
 	        height = container.getHeight();
 	    }
@@ -95,7 +95,7 @@ public class Display extends BasicGame implements DisplayService, InputListener,
 			AppGameContainer container;
 			try {
 				container = new AppGameContainer(this);
-				container.setDisplayMode(engine.getHeight(), engine.getWidth(), false); 
+				container.setDisplayMode(engine.getWidth(), engine.getHeight(), false); 
 				container.start(); 
 			} catch (SlickException e) {
 				e.printStackTrace();
