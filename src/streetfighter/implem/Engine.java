@@ -67,7 +67,9 @@ public class Engine implements EngineService {
 
 	//Operators: 
 	@Override
-	public void step(CommandData com1, CommandData com2) {
+	public void step() {
+		c1.step(p1.getCommand());
+		c2.step(p2.getCommand());
 	}
 
 	//Observations: 

@@ -23,10 +23,4 @@ public interface HitboxService {
 		//[invariant]: 
 		//CollidesWith(H,H1) = ∃ x,y:int × int, BelongsTo(H,x,y) ∧ BelongsTo(H1,x,y) 
 		//EqualsTo(H,H1) = ∀ x,y:int × int, BelongsTo(H,x,y) = BelongsTo(H1,x,y) 
-
-	public void setPositionX(int x);
-		//∀ x:int, x <= 0
-	
-	public void setPositionY(int y);
-		//∀ y:int, y <= 0
 }

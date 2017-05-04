@@ -31,7 +31,7 @@ public interface EngineService {
 	public boolean gameOver();
 
 	//Operators: 
-	public void step(CommandData com1, CommandData com2);
+	public void step();
 		//pre step(E) requires ¬gameOver(E)
 	
 		//Invariant

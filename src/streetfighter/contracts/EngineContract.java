@@ -134,7 +134,7 @@ public class EngineContract extends EngineDecorator {
 
 	//Operators: 
 	@Override
-	public void step(CommandData com1, CommandData com2) {		
+	public void step() {		
 		checkInvariants();
 		
 		/** PRECONDITIONS **/
@@ -147,7 +147,7 @@ public class EngineContract extends EngineDecorator {
 		/** CAPTURES **/
 		
 		/** DELEGATE **/
-		delegate.step(com1, com2);
+		delegate.step();
 		
 		/** POSTCONDITIONS **/
 		//TODO

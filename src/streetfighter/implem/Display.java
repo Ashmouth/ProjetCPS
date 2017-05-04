@@ -83,6 +83,7 @@ public class Display extends BasicGame implements DisplayService, InputListener,
 
 	    @Override
 	    public void update(GameContainer container, int delta) throws SlickException {
+	    	engine.step();
 	    }
 
 	    

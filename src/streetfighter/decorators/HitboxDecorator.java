@@ -45,14 +45,4 @@ public class HitboxDecorator implements HitboxService {
 	public void moveTo(int x, int y){
 		delegate.moveTo(x, y);
 	}
-	
-	@Override
-	public void setPositionX(int x) {
-		delegate.setPositionX(x);
-	}
-
-	@Override
-	public void setPositionY(int y) {
-		delegate.setPositionY(y);
-	}
 }

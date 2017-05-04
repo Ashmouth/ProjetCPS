@@ -286,7 +286,7 @@ public class CharacterContract extends CharacterDecorator {
 
 	private void checkInvariants() {
         // positionX(C) > 0 ∧ positionX(C) < Engine:: width(engine) ∧ positionY(C) > 0 ∧ positionY(C) < Engine:: height(engine) ∧ dead(C) = ¬(life > 0) 
-//        System.out.println(getPositionX());
+//       System.out.println(getPositionX());
         if(!(getPositionX() >= 0 &&
                 getPositionX() < getEngine().getWidth() && 
                 getPositionY() >= 0 && 

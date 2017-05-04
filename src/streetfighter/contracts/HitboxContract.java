@@ -148,16 +148,6 @@ public class HitboxContract extends HitboxDecorator {
 		checkInvariants();
 	}
 
-	@Override
-	public void setPositionX(int x) {
-		delegate.setPositionX(x);
-	}
-
-	@Override
-	public void setPositionY(int y) {
-		delegate.setPositionY(y);
-	}
-
 	//Observations:
 	public void checkInvariants() {
 		//TODO

@@ -45,7 +45,7 @@ public class EngineDecorator implements EngineService {
 
 	//Operators: 
 	@Override
-	public void step(CommandData com1, CommandData com2) {
-		delegate.step(com1, com2);
+	public void step() {
+		delegate.step();
 	}
 }

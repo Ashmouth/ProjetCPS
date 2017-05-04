@@ -32,5 +32,5 @@ Observators:
 			Character ::faceRight(c1) 
 			Character ::¬faceRight(c2) 
 		[step]: 
-			char(step(E, C1, C2), 1) = step(char(E, 1), C1) 
-			char(step(E, C1, C2), 2) = step(char(E, 2), C2)
+			char(step(E), 1) = step(char(E, 1), getCommand(p1)) 
+			char(step(E), 2) = step(char(E, 2), getCommand(p2))

@@ -74,12 +74,35 @@ public class Character implements CharacterService {
 	//Operators: 
 	@Override
 	public void moveLeft() {
-		getcharBox().setPositionX(getcharBox().getPositionX() - speed);
+		int x, y;
+		x = hitbox.getPositionX();
+		y = hitbox.getPositionY();
+		
+		hitbox.moveTo(
+				Math.max(getcharBox().getPositionX() - speed, 0),
+				0);
+		
+		if (engine.getCharacter(1).getcharBox().collidesWith(engine.getCharacter(2).getcharBox())) {
+			hitbox.moveTo(x, y);
+			return;
+		}
 	}
 
 	@Override
 	public void moveRight() {
-		getcharBox().setPositionX(getcharBox().getPositionX() + speed);
+		
+		int x, y;
+		x = hitbox.getPositionX();
+		y = hitbox.getPositionY();
+		
+		hitbox.moveTo(
+				Math.min(getcharBox().getPositionX() + speed, engine.getWidth()-1),
+				0);
+		
+		if (engine.getCharacter(1).getcharBox().collidesWith(engine.getCharacter(2).getcharBox())) {
+			hitbox.moveTo(x, y);
+			return;
+		}
 	}
 
 	@Override
@@ -92,7 +115,13 @@ public class Character implements CharacterService {
 	}
 
 	public void step(CommandData c) {
-		//pre step() requires ¬dead
+		if (c == CommandData.LEFT) {
+			
+			moveLeft();
+		}
+		if (c == CommandData.RIGHT) {
+			moveRight();
+		}
 	}
 	
 	@Override
@@ -102,7 +131,6 @@ public class Character implements CharacterService {
 
 	@Override
 	public void setPosition(int x, int y) {
-		hitbox.setPositionX(x);
-		hitbox.setPositionY(y);
+		hitbox.moveTo(x,y);
 	}
 }
