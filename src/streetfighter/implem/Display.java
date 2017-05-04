@@ -66,7 +66,7 @@ public class Display extends BasicGame implements DisplayService, InputListener,
 	    		int h1 = br1.getHeight();
 	    		int w1 = br1.getWidth();
 	    		g.setColor(Color.red);
-		        g.fillRect(x1, y1, w1, h1);
+		        g.fillRect(x1, height-(y1+h1), w1, h1);
 	    	}
 	    	
 	    	CharacterService c2 = engine.getCharacter(2);
@@ -78,9 +78,16 @@ public class Display extends BasicGame implements DisplayService, InputListener,
 	    		int h2 = br2.getHeight();
 	    		int w2 = br2.getWidth();
 	    		g.setColor(Color.blue);
-		        g.fillRect(x2, y2, w2, h2);
+		        g.fillRect(x2, height-(y2+h2), w2, h2);
 	    	}
 	    	
+	    	String l1 = ""+engine.getCharacter(1).getLife();
+	    	g.setColor(Color.red);
+	    	g.drawString(l1, width/2 - 20, 0);
+	    	
+	    	String l2 = ""+engine.getCharacter(2).getLife();
+	    	g.setColor(Color.blue);
+	    	g.drawString(l2, width/2 + 20, 0);
 	    }
 
 	    @Override
