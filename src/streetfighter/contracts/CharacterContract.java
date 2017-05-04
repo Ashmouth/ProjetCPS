@@ -219,65 +219,76 @@ public class CharacterContract extends CharacterDecorator {
 		checkInvariants();
 	}
 
-//	@Override
-//	public void step(CommandData c) {
-//		checkInvariants();
-//
-//		/** PRECONDITIONS **/
-//		// step() requires ¬dead
-//		if (isDead()) {
-//			throw new PreConditionError("CharacterContract.step.isDead");
-//		}
-//
-//		/** CAPTURES **/
-//		int oldY = getPositionY();
-//		int oldX = getPositionX();
-//
-//		/** DELEGATE **/
-//		delegate.step(c);
-//
-//		/** POSTCONDITIONS **/
-//		//TODO
-//		// step(C, LEFT) = moveLeft(C)
-//		// step(C, RIGHT) = moveRight(C)
-//		// step(C, NEUTRAL) = C
-//		
-//		if(isJumpHigh()) { 	
-//		 if(getPositionY() < oldY) {
-//			 throw new PostConditionError("CharacterContract.step.isJumpHigh().oldY");
-//		 }
-//		 if(getPositionX() != oldX) {
-//			 throw new PostConditionError("CharacterContract.step.isJumpHigh().oldX");
-//		 }
-//		 if(getPositionY() > maxY) {
-//			 
-//		 }
-//		 if(getPositionY() != oldY+getSpeed()) {
-//			 
-//		 }
-//		 if(getPositionX() != oldX) {
-//			 
-//		 }
-//		}
-//		
-//		if(isJumpRightHigh()) { 
-//		⇒ positionY(step(C, c)) > positionY(C)
-//		∧ positionX(step(C, c)) > positionX(C)
-//		∧ positionY(step(C, c)) < maxY(C)
-//		∧ positionY(step(C, c)) = PositionY(C)+ascension(C)
-//		∧ positionX(step(C, c)) = positionX(C)+speed(C)
-//		}
-//		
-//		if(isJumpLeftHigh()) {
-//		⇒ positionY(step(C, c)) > positionY(C)
-//		∧ positionX(C) > positionX(step(C, c))
-//		∧ positionY(step(C, c)) < maxY(C)
-//		∧ positionY(step(C, c)) = PositionY(C)+ascension(C)
-//		∧ positionX(step(C, c)) = positionX(C)-speed(C)
-//		}
-//
-//		checkInvariants();
-//	}
+	@Override
+	public void step(CommandData c) {
+		checkInvariants();
+
+		/** PRECONDITIONS **/
+		// step() requires ¬dead
+		if (isDead()) {
+			throw new PreConditionError("CharacterContract.step.isDead");
+		}
+
+		/** CAPTURES **/
+		int oldY = getPositionY();
+		int oldX = getPositionX();
+		boolean ijhp = isJumpHigh();
+		boolean ijrhp = isJumpRightHigh();
+		boolean ijlhp = isJumpLeftHigh();
+
+		/** DELEGATE **/
+		delegate.step(c);
+
+		/** POSTCONDITIONS **/
+		//TODO
+		// step(C, LEFT) = moveLeft(C)
+		// step(C, RIGHT) = moveRight(C)
+		// step(C, NEUTRAL) = C
+		
+		if(isJumpHigh() && ijhp) {
+		 if(getPositionY() < oldY) {
+			 throw new PostConditionError("CharacterContract.step.isJumpHigh().oldY");
+		 }
+		 if(getPositionX() != oldX) {
+			 throw new PostConditionError("CharacterContract.step.isJumpHigh().oldX");
+		 }
+		 if(getPositionY() > maxY) {
+			 throw new PostConditionError("CharacterContract.step.isJumpHigh().maxY");
+		 }
+		}
+		
+		if(isJumpRightHigh() && ijrhp) { 
+			if(getPositionY() < oldY) {
+				throw new PostConditionError("CharacterContract.step.isJumpHigh().oldY");
+			}
+			if(getPositionX() < oldX) {
+				throw new PostConditionError("CharacterContract.step.isJumpHigh().oldX");
+			}
+			if(getPositionY() > maxY) {
+				throw new PostConditionError("CharacterContract.step.isJumpHigh().maxY");
+			}
+			if(getPositionX() < oldX+getSpeed()) {
+				throw new PostConditionError("CharacterContract.step.isJumpHigh().oldY+JUMP_UP_SPEED");
+			}
+		}
+		
+		if(isJumpLeftHigh() && ijlhp) { 
+			if(getPositionY() < oldY) {
+				throw new PostConditionError("CharacterContract.step.isJumpHigh().oldY");
+			}
+			if(getPositionX() > oldX) {
+				throw new PostConditionError("CharacterContract.step.isJumpHigh().oldX");
+			}
+			if(getPositionY() > maxY) {
+				throw new PostConditionError("CharacterContract.step.isJumpHigh().maxY");
+			}
+			if(getPositionX() > oldX+getSpeed()) {
+				throw new PostConditionError("CharacterContract.step.isJumpHigh().oldY+JUMP_UP_SPEED");
+			}
+		}
+
+		checkInvariants();
+	}
 	
     @Override
     public void setPosition(int x, int y) {
