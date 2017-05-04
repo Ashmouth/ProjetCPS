@@ -68,8 +68,13 @@ public class Display extends BasicGame implements DisplayService, InputListener,
 	    		int h1 = br1.getHeight();
 	    		int w1 = br1.getWidth();
 	    		
-	    		if(p1.getCommand() == CommandData.GUARD) {
-	    			g.setColor(Color.magenta);
+	    		if(c1 instanceof FightChar) {
+	    			FightChar f1 = (FightChar) c1;
+	    			if(f1.isBlocking()) {
+	    				g.setColor(Color.magenta);
+	    			} else {
+	    				g.setColor(Color.red);
+	    			}
 	    		} else {
 	    			g.setColor(Color.red);
 	    		}
@@ -86,9 +91,14 @@ public class Display extends BasicGame implements DisplayService, InputListener,
 	    		int h2 = br2.getHeight();
 	    		int w2 = br2.getWidth();
 	    		
-	    		if(p2.getCommand() == CommandData.GUARD) {
-	    			System.out.println("PASS");
-	    			g.setColor(Color.cyan);
+	    		
+	    		if(c2 instanceof FightChar) {
+	    			FightChar f2 = (FightChar) c2;
+	    			if(f2.isBlocking()) {
+	    				g.setColor(Color.cyan);
+	    			} else {
+	    				g.setColor(Color.blue);
+	    			}
 	    		} else {
 	    			g.setColor(Color.blue);
 	    		}
