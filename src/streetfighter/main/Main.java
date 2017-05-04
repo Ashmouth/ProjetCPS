@@ -1,5 +1,8 @@
 package streetfighter.main;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
+
 import streetfighter.contracts.CharacterContract;
 import streetfighter.contracts.EngineContract;
 import streetfighter.contracts.PlayerContract;
@@ -29,7 +32,9 @@ public class Main {
 		
 		p1.init(1);
 		p2.init(2);
-		engine.init(1920, 1080, 200, p1, p2, c1, c2);
+		
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		engine.init(screenSize.width, screenSize.height, 200, p1, p2, c1, c2);
 		
 		// Display
 		DisplayService display = new Display();

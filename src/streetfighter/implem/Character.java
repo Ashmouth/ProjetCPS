@@ -82,7 +82,7 @@ public class Character implements CharacterService {
 		
 		hitbox.moveTo(
 				Math.max(getcharBox().getPositionX() - speed, 0),
-				0);
+				y);
 		
 		if (engine.getCharacter(1).getcharBox().collidesWith(engine.getCharacter(2).getcharBox())) {
 			hitbox.moveTo(x, y);
@@ -99,7 +99,7 @@ public class Character implements CharacterService {
 		
 		hitbox.moveTo(
 				Math.min(getcharBox().getPositionX() + speed, engine.getWidth()-1),
-				0);
+				y);
 		
 		if (engine.getCharacter(1).getcharBox().collidesWith(engine.getCharacter(2).getcharBox())) {
 			hitbox.moveTo(x, y);
@@ -116,58 +116,7 @@ public class Character implements CharacterService {
 		}
 	}
 
-	public void step(CommandData c) {
-		if (c != CommandData.DOWN && c != CommandData.DOWNLEFT && c != CommandData.DOWNRIGHT) {
-			if(iscrouch) {
-				rise();
-			}
-		}
-		switch(c) {
-		
-		case LEFT:
-			moveLeft();
-			break;
-			
-		case RIGHT:
-			moveRight();
-			break;
-
-		case UPRIGHT:
-			jumpRight();
-			break;
-			
-		case UPLEFT:
-			jumpLeft();
-			break;
-			
-		case UP:
-			jump();
-			break;
-			
-		case DOWNRIGHT:	
-			if(!iscrouch) crouch();
-			moveRight();
-			break;
-			
-		case DOWNLEFT:
-			if(!iscrouch) crouch();
-			moveLeft();
-			break;
-			
-		case DOWN:
-			
-			if(!iscrouch) crouch();
-			break;
-			
-		case NEUTRAL:
-			if(iscrouch) rise();
-			
-			break;
-			
-		default :
-			return;
-		}
-	}
+	
 	
 	@Override
 	public void damaged(int degats) {
@@ -223,19 +172,97 @@ public class Character implements CharacterService {
 
 	@Override
 	public void jump() {
-		// TODO Auto-generated method stub
-		
+		ijh = true;
+		hitbox.moveTo(getPositionX(), getPositionY()+speed);
 	}
 
 	@Override
 	public void jumpRight() {
-		// TODO Auto-generated method stub
-		
+		ijrh = true;
+		hitbox.moveTo(getPositionX()+speed, getPositionY()+speed);		
 	}
 
 	@Override
 	public void jumpLeft() {
-		// TODO Auto-generated method stub
+		ijlh = true;
+		hitbox.moveTo(getPositionX()-speed, getPositionY()+speed);			
+	}
+	
+	public void step(CommandData c) {
+		// priorité : en l'air on peut rien faire
+		// donc si on est en l'air on fini le saut
+		if (hitbox.getPositionY() > 0) {
+			// si on est assez haut, on commence la chute
+			if (getPositionY() > 100) {
+				ijh = false;
+				ijrh = false;
+				ijlh = false;
+			}
+			
+			if (ijh) {
+				hitbox.moveTo(hitbox.getPositionX(), hitbox.getPositionY()+5);
+			} else if (ijrh){
+				hitbox.moveTo(hitbox.getPositionX()+speed, hitbox.getPositionY()+5);
+			} else if (ijlh) {
+				hitbox.moveTo(hitbox.getPositionX()-speed, hitbox.getPositionY()+5);
+			} else { // phase de chute 
+				hitbox.moveTo(hitbox.getPositionX(), Math.max(hitbox.getPositionY()-5, 0));
+			}
+			
+			return; // on ne fait rien d'autre que sauter
+		}
 		
+		if (c != CommandData.DOWN && c != CommandData.DOWNLEFT && c != CommandData.DOWNRIGHT) {
+			if(iscrouch) {
+				rise();
+			}
+		}
+		switch(c) {
+		
+		case LEFT:
+			moveLeft();
+			break;
+			
+		case RIGHT:
+			moveRight();
+			break;
+
+		case UPRIGHT:
+			jumpRight();
+			break;
+			
+		case UPLEFT:
+			jumpLeft();
+			break;
+			
+		case UP:
+			if(!iscrouch && hitbox.getPositionY() == 0) {
+				jump();
+			}
+			break;
+			
+		case DOWNRIGHT:	
+			if(!iscrouch) crouch();
+			moveRight();
+			break;
+			
+		case DOWNLEFT:
+			if(!iscrouch) crouch();
+			moveLeft();
+			break;
+			
+		case DOWN:
+			
+			if(!iscrouch) crouch();
+			break;
+			
+		case NEUTRAL:
+			if(iscrouch) rise();
+			
+			break;
+			
+		default :
+			return;
+		}
 	}
 }
