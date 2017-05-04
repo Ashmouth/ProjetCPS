@@ -178,6 +178,11 @@ public class FightChar extends Character implements FightCharService {
 		case GUARD:
 			block = true;
 			break;
+			
+		case DOWNGUARD:
+			if(!iscrouch) crouch();
+			block = true;
+			break;
 
 		case NEUTRAL:
 			if(iscrouch) rise();

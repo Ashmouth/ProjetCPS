@@ -19,6 +19,9 @@ public class Player implements PlayerService {
 	@Override
 	public CommandData getCommand() {
 		if (pr(CommandData.DOWN)) {
+			if(pr(CommandData.GUARD)) {
+				return CommandData.DOWNGUARD;
+			}
 			if(pr(CommandData.RIGHT)) return CommandData.DOWNRIGHT;
 			if(pr(CommandData.LEFT)) return CommandData.DOWNLEFT;
 			return CommandData.DOWN;
