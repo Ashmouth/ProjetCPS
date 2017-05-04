@@ -13,6 +13,8 @@ public class Character implements CharacterService {
 	EngineService engine;
 	HitboxService hitbox;
 	
+	boolean ijrh, ijlh, ijh, iscrouch;
+	
 	@Override
 	public void init(int l, int s, boolean f, EngineService e) {
 		life = l;
@@ -115,12 +117,50 @@ public class Character implements CharacterService {
 	}
 
 	public void step(CommandData c) {
-		if (c == CommandData.LEFT) {
-			
+		switch(c) {
+		
+		case LEFT:
 			moveLeft();
-		}
-		if (c == CommandData.RIGHT) {
+			break;
+			
+		case RIGHT:
 			moveRight();
+			break;
+
+		case UPRIGHT:
+			jumpRight();
+			break;
+			
+		case UPLEFT:
+			jumpLeft();
+			break;
+			
+		case UP:
+			jump();
+			break;
+			
+		case DOWNRIGHT:
+			if(!iscrouch) crouch();
+			moveRight();
+			break;
+			
+		case DOWNLEFT:
+			if(!iscrouch) crouch();
+			moveLeft();
+			break;
+			
+		case DOWN:
+			
+			if(!iscrouch) crouch();
+			break;
+			
+		case NEUTRAL:
+			if(iscrouch) rise();
+			
+			break;
+			
+		default :
+			return;
 		}
 	}
 	
@@ -132,5 +172,65 @@ public class Character implements CharacterService {
 	@Override
 	public void setPosition(int x, int y) {
 		hitbox.moveTo(x,y);
+	}
+
+	@Override
+	public boolean isJumpRightHigh() {
+		return ijrh;
+	}
+
+	@Override
+	public boolean isJumpLeftHigh() {
+		return ijlh;
+	}
+
+	@Override
+	public boolean isJumpHigh() {
+		return ijh;
+	}
+
+	@Override
+	public boolean isCrouch() {
+		return iscrouch;
+	}
+
+	@Override
+	public void crouch() {
+		iscrouch = true;
+		
+		if(hitbox instanceof HitboxRect) {
+			HitboxRect hb = (HitboxRect)hitbox;
+			
+			hb.resize(hb.getWidth(), hb.getHeight() - 20);
+		}
+	}
+	
+	@Override
+	public void rise() {
+		iscrouch = false;
+		
+		if(hitbox instanceof HitboxRect) {
+			HitboxRect hb = (HitboxRect)hitbox;
+			
+			hb.resize(hb.getWidth(), hb.getHeight() + 20);
+		}
+	}
+
+	@Override
+	public void jump() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void jumpRight() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void jumpLeft() {
+		// TODO Auto-generated method stub
+		
 	}
 }

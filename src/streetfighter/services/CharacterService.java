@@ -18,11 +18,6 @@ public interface CharacterService {
 	public boolean getFaceRight();
 	public boolean isDead();
 	
-	public boolean isJumpRightHigh();
-	public boolean isJumpLeftHigh();
-	public boolean isJumpHigh();
-	public boolean isCrouch();
-	
 	//Operators: 
 	public void moveLeft();
 	public void moveRight();
@@ -33,9 +28,17 @@ public interface CharacterService {
 	
 	//
 	public void crouch();
+	public void rise();
 	public void jump();
-	public void jumpright();
-	public void jumpleft();
+	public void jumpRight();
+	public void jumpLeft();
+	
+	public boolean isJumpRightHigh();
+	public boolean isJumpLeftHigh();
+	public boolean isJumpHigh();
+	public boolean isCrouch();
+
+	
 	
 		//pre step() requires ¬dead
 	
