@@ -65,12 +65,14 @@ public class TechData {
 		return rframe;
 	}
 
-	public HitboxService getHitbox(int x, int y, boolean fr) {
+	public HitboxService getHitbox(int x, int y, boolean fr, int wi) {
 		HitboxRectService tmp = new HitboxRect();
 		
 		// si regarde à gauche, on décalle à gauche la hitbox
 		if (!fr) {
 			x -= width;
+		} else {
+			x += wi;
 		}
 		
 		tmp.init(x, y+this.y, width, height);

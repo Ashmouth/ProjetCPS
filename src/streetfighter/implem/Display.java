@@ -3,12 +3,14 @@ package streetfighter.implem;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.Color;
+import org.newdawn.slick.Font;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.InputListener;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.TrueTypeFont;
 
 import streetfighter.data.TechData;
 import streetfighter.services.CharacterService;
@@ -62,20 +64,19 @@ public class Display extends BasicGame implements DisplayService, InputListener,
 			g.fillRect(x, height-(y+h), w, h);
 	    }
 	    
-	    protected void drawChar(FightCharService f, Color col, Graphics g) {
-	    	drawChar((CharacterService)f, col, g);
+	    protected void drawChar(FightCharService f, Color col, Color bcol, Graphics g) {
+	    	drawChar((CharacterService)f, (f.isBlocking() ? bcol : col), bcol, g);
 	    	
 	    	// draw technique
 			if (f.isTeching()) {
 				TechData tec = f.tech();
-				HitboxRectService h = (HitboxRectService) tec.getHitbox(f.getPositionX(), f.getPositionY(), f.getFaceRight());
+				HitboxRectService h = (HitboxRectService) tec.getHitbox(f.getPositionX(), f.getPositionY(), f.getFaceRight(), ((HitboxRectService)f.getcharBox()).getWidth());
 				
-				int dx = (f.getFaceRight() ? ((HitboxRectService) f.getcharBox()).getWidth() : 0);
-				drawRect(h.getPositionX()+ dx, h.getPositionY(), h.getWidth(), h.getHeight(), Color.green, g);
+				drawRect(h.getPositionX(), h.getPositionY(), h.getWidth(), h.getHeight(), Color.green, g);
 			}
 	    }
 	    
-	    protected void drawChar(CharacterService c, Color col, Graphics g) {
+	    protected void drawChar(CharacterService c, Color col, Color bcol, Graphics g) {
 	    	HitboxService b = c.getcharBox();
 	    	
 	    	if (b instanceof HitboxRect) {
@@ -92,81 +93,28 @@ public class Display extends BasicGame implements DisplayService, InputListener,
 	    	g.resetTransform();
 	    	map.draw(0, 0, width, height);
 	    	
-	    	drawChar((FightCharService) engine.getCharacter(1), Color.blue, g);
-	    	drawChar((FightCharService) engine.getCharacter(2), Color.red, g);
+	    	if(!engine.gameOver()) {
+		    	drawChar((FightCharService) engine.getCharacter(1), Color.blue, Color.cyan, g);
+		    	drawChar((FightCharService) engine.getCharacter(2), Color.red, Color.magenta, g);
+	    	} else {
+	    		g.setColor(Color.blue);
+		    	g.drawString("GAME OVER", width/2, height/2);
+	    	}
 	    	
-//	    	if (b1 instanceof HitboxRect) {
-//	    		HitboxRect br1 = (HitboxRect) b1;
-//	    		int h1 = br1.getHeight();
-//	    		int w1 = br1.getWidth();
-//	    		
-//	    		
-//	    		if(c1 instanceof FightCharService) {
-//	    			FightCharService f1 = (FightCharService) c1;
-//	    			
-//	    			// draw blocking mode
-//	    			if(f1.isBlocking()) {
-//	    				g.setColor(Color.magenta);
-//	    			} else {
-//	    				g.setColor(Color.red);	
-//	    			}
-//	    			g.fillRect(x1, height-(y1+h1), w1, h1);
-//	    			
-//	    			// draw technique
-//	    			if (f1.isTeching()) {
-//	    				TechData tec = f1.tech();
-//	    				HitboxRectService h = (HitboxRectService) tec.getHitbox(f1.getPositionX(), f1.getPositionY(), f1.getFaceRight());
-//	    				
-//	    				g.setColor(Color.green);
-//		    			g.fillRect(x1, height-(y1+h1), w1, h1);
-//	    			}
-//	    		} 
-//	    		
-//	    		/* CharService */
-//	    		else {
-//	    			g.setColor(Color.red);
-//	    			g.fillRect(x1, height-(y1+h1), w1, h1);
-//	    		}
-//	    		
-//		        
-//	    	}
-//	    	
-//	    	CharacterService c2 = engine.getCharacter(2);
-//	    	int x2 = c2.getPositionX();
-//	    	int y2 = c2.getPositionY();
-//	    	HitboxService b2 = c2.getcharBox();
-//	    	if (b2 instanceof HitboxRect) {
-//	    		HitboxRect br2 = (HitboxRect) b2;
-//	    		int h2 = br2.getHeight();
-//	    		int w2 = br2.getWidth();
-//	    		
-//	    		
-//	    		if(c2 instanceof FightCharService) {
-//	    			FightCharService f2 = (FightCharService) c2;
-//	    			if(f2.isBlocking()) {
-//	    				g.setColor(Color.cyan);
-//	    			} else {
-//	    				g.setColor(Color.blue);
-//	    			}
-//	    		} else {
-//	    			g.setColor(Color.blue);
-//	    		}
-//	    		
-//		        g.fillRect(x2, height-(y2+h2), w2, h2);
-//	    	}
-//	    	
-//	    	String l1 = ""+engine.getCharacter(1).getLife();
-//	    	g.setColor(Color.red);
-//	    	g.drawString(l1, width/2 - 20, 0);
-//	    	
-//	    	String l2 = ""+engine.getCharacter(2).getLife();
-//	    	g.setColor(Color.blue);
-//	    	g.drawString(l2, width/2 + 20, 0);
+	    	String l1 = ""+engine.getCharacter(1).getLife();
+	    	g.setColor(Color.red);
+	    	g.drawString(l1, width/2 - 20, 0);
+	    	
+	    	String l2 = ""+engine.getCharacter(2).getLife();
+	    	g.setColor(Color.blue);
+	    	g.drawString(l2, width/2 + 20, 0);
 	    }
 
 	    @Override
 	    public void update(GameContainer container, int delta) throws SlickException {
-	    	engine.step();
+	    	if(!engine.gameOver()) {
+	    		engine.step();
+	    	}
 	    }
 
 	    

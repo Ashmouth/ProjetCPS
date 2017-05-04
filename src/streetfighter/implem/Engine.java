@@ -67,8 +67,15 @@ public class Engine implements EngineService {
 	//Operators: 
 	@Override
 	public void step() {
+		boolean c1gc2 = c1.getPositionX() < c2.getPositionX();
 		c1.step(p1.getCommand());
 		c2.step(p2.getCommand());
+		
+		// changement de direction
+		if((c1.getPositionX() < c2.getPositionX()) != c1gc2) {
+			c1.switchSide();
+			c2.switchSide();
+		}
 	}
 
 	//Observations: 

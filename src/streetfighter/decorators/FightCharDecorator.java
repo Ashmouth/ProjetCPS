@@ -19,7 +19,7 @@ public class FightCharDecorator extends CharacterDecorator implements FightCharS
 
 	//Observators: 
 	@Override
-	public boolean isBlocking() {
+	public boolean isBlocking( ) {
 		return delegate.isBlocking();
 	}
 
@@ -44,7 +44,7 @@ public class FightCharDecorator extends CharacterDecorator implements FightCharS
 	}
 
 	@Override
-	public boolean techFrame() { 
+	public int techFrame() { 
 		return delegate.techFrame();
 	}
 
@@ -58,6 +58,9 @@ public class FightCharDecorator extends CharacterDecorator implements FightCharS
 	public void startTech(TechData tech) {
 		delegate.startTech(tech);
 	}
-
-	//Observation:
+	
+	@Override
+	public void damaged(int degats, int hstun, int bstun) {
+		delegate.damaged(degats, hstun, bstun);		
+	}
 }

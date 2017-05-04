@@ -11,10 +11,12 @@ public interface FightCharService extends CharacterService {
 	public boolean isHitstunned();
 	public boolean isTeching();
 	
+	public void damaged(int degats, int hstun, int bstun);
+	
 	//TODO n'y a t'il pas une couille ici ??
 	public TechData tech();
 	//pre tech(C) requires isTeching(C) 
-	public boolean techFrame();
+	public int techFrame();
 	//pre techFrame(C) requires isTeching(C)
 	public boolean techHasAlreadyHit();
 	//pre techHasAlreadyHit(C) requires isTeching(C)

@@ -107,7 +107,7 @@ public class FightCharContract extends CharacterContract implements FightCharSer
 	}
 
 	@Override
-	public boolean techFrame(){ 
+	public int techFrame(){ 
 		//pre techFrame(C) requires isTeching(C)
 		checkInvariants();
 		/** PRECONDITIONS **/
@@ -227,5 +227,10 @@ public class FightCharContract extends CharacterContract implements FightCharSer
 	
 	public void checkInvariants() {
 		return;
+	}
+
+	@Override
+	public void damaged(int degats, int hstun, int bstun) {
+		((FightCharService) delegate).damaged(degats, hstun, bstun);		
 	}
 }
