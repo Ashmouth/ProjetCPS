@@ -20,8 +20,8 @@ public class Display extends BasicGame implements DisplayService, InputListener,
 
 	private GameContainer container;
 	private EngineService engine;
-	private int width = 800;
-	private int height = 600;
+	private int width;
+	private int height;
 	
 	private PlayerService p1, p2;
 	private Image map;
@@ -46,12 +46,14 @@ public class Display extends BasicGame implements DisplayService, InputListener,
 	        this.container = container;
 	        map = new Image("ressources/little.png");
 	        container.setVSync(true);
+	        width = container.getWidth();
+	        height = container.getHeight();
 	    }
 	    
 	    @Override
 	    public void render(GameContainer container, Graphics g) throws SlickException {
 	    	g.resetTransform();
-	    	g.drawImage(map, 0, 0);
+	    	map.draw(0, 0, width, height);
 	    	
 	    	CharacterService c1 = engine.getCharacter(1);
 	    	int x1 = c1.getPositionX();
@@ -93,31 +95,27 @@ public class Display extends BasicGame implements DisplayService, InputListener,
 			AppGameContainer container;
 			try {
 				container = new AppGameContainer(this);
-				container.setDisplayMode(800,600,false); 
+				container.setDisplayMode(engine.getHeight(), engine.getWidth(), false); 
 				container.start(); 
 			} catch (SlickException e) {
 				e.printStackTrace();
 			} 
 		}
 
-		@Override
-		public void keyPressed(int key, char c) {
-//			p1.addInput(key);
-//			p2.addInput(key);
-			p1.keyPressed(key, c);
-			p2.keyPressed(key, c);
-		}
+	    @Override
+        public void keyPressed(int key, char c) {
+            p1.addInput(key);
+            p2.addInput(key);
+        }
 
-		@Override
-		public void keyReleased(int key, char c) {
-			if (Input.KEY_ESCAPE == key) {
-				container.exit();
-			}
-//			p1.clearInput(key);
-//			p2.clearInput(key);
-			p1.keyReleased(key, c);
-			p2.keyReleased(key, c);
-		}
+        @Override
+        public void keyReleased(int key, char c) {
+            if (Input.KEY_ESCAPE == key) {
+                container.exit();
+            }
+            p1.clearInput(key);
+            p2.clearInput(key);
+        }
 
 		@Override
 		public void setPlayers(PlayerService p1, PlayerService p2) {
