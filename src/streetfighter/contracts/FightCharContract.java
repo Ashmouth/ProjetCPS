@@ -170,7 +170,9 @@ public class FightCharContract extends CharacterContract implements FightCharSer
 		checkInvariants();
 
 		/** PRECONDITIONS **/
-
+		if(getPositionY() != 0) {
+			throw new PreConditionError("FightChar.moveLeft.getPositionY");
+		}
 
 		/** CAPTURES **/
 		boolean ihsp = isHitstunned();
@@ -199,7 +201,9 @@ public class FightCharContract extends CharacterContract implements FightCharSer
 		checkInvariants();
 
 		/** PRECONDITIONS **/
-
+		if(getPositionY() != 0) {
+			throw new PreConditionError("FightChar.moveRight.getPositionY");
+		}
 
 		/** CAPTURES **/
 		boolean ihsp = isHitstunned();
