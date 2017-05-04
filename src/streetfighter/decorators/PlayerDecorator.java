@@ -24,12 +24,12 @@ public class PlayerDecorator implements PlayerService {
 	}
 
 	@Override
-	public CommandData getInput(int key, char c) {
-		return delegate.getInput(key, c);
+	public void keyPressed(int key, char c) {
+		delegate.keyPressed(key, c);
 	}
 
 	@Override
-	public void step(int key, char c) {
-		delegate.step(key, c);
+	public void keyReleased(int key, char c) {
+		delegate.keyReleased(key, c);
 	}
 }

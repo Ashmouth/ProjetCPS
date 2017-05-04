@@ -1,7 +1,6 @@
 package streetfighter.contracts;
 
 import streetfighter.condition.PostConditionError;
-import streetfighter.condition.PreConditionError;
 import streetfighter.services.HitboxRectService;
 import streetfighter.services.HitboxService;
 

@@ -10,6 +10,8 @@ public interface PlayerService {
 	//Operators: 
 	public void init(int num);
 	
-	public void addInput(int k);
-	public void clearInput(int k);
+	//public void addInput(int key);
+	//public void clearInput(int key);
+	public void keyPressed(int key, char c);
+	public void keyReleased(int key, char c);
 }

@@ -7,8 +7,9 @@ import streetfighter.contracts.PlayerContract;
 import streetfighter.implem.Engine;
 import streetfighter.implem.Player;
 import streetfighter.implem.Character;
-
+import streetfighter.implem.Display;
 import streetfighter.services.CharacterService;
+import streetfighter.services.DisplayService;
 import streetfighter.services.EngineService;
 import streetfighter.services.PlayerService;
 
@@ -31,10 +32,7 @@ public class Main {
 		engine.init(800, 600, 200, p1, p2, c1, c2);
 		
 		// Display
-//		DisplayService display = new Display();
-//		display.initEngine(engine);
-//		AppGameContainer container = new AppGameContainer((Game) display); 
-//	    container.setDisplayMode(800,600,false); 
-//	    container.start(); 
+		DisplayService display = new Display();
+		display.init(engine);
 	}
 }

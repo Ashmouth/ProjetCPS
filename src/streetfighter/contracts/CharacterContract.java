@@ -243,29 +243,27 @@ public class CharacterContract extends CharacterDecorator {
 		checkInvariants();
 	}
 	
-	@Override
-	public void setPosition(int x, int y) {
-		checkInvariants();
+    @Override
+    public void setPosition(int x, int y) {
+//        checkInvariants();
 
-		/** PRECONDITIONS **/
-		//TODO VOIR SI CETTE FONCTION ET DAMAGED SONT UTILES. + dans la spec
+        /** PRECONDITIONS **/
+        //TODO VOIR SI CETTE FONCTION ET DAMAGED SONT UTILES. + dans la spec
 
-		/** CAPTURES **/
-		int x_pre = getPositionX();
-		int y_pre = getPositionY();
+        /** CAPTURES **/
 
-		/** DELEGATE **/
-		delegate.setPosition(x, y);
+        /** DELEGATE **/
+        delegate.setPosition(x, y);
 
-		/** POSTCONDITIONS **/
-		// positionX(setPosition(C,x,y)) = x
-		// positionY(setPosition(C,x,y)) = y
-		if (getPositionX() != x_pre || getPositionY() != y_pre) {
-			throw new PostConditionError("CharacterContract.setPosition");
-		}
+        /** POSTCONDITIONS **/
+        // positionX(setPosition(C,x,y)) = x
+        // positionY(setPosition(C,x,y)) = y
+        if (getPositionX() != x || getPositionY() != y) {
+            throw new PostConditionError("CharacterContract.setPosition");
+        }
 
-		checkInvariants();
-	}
+//        checkInvariants();
+    }
 	
 	@Override
 	public void damaged(int de) {
@@ -287,31 +285,32 @@ public class CharacterContract extends CharacterDecorator {
 	}
 
 	private void checkInvariants() {
-		// positionX(C) > 0 ∧ positionX(C) < Engine:: width(engine) ∧ positionY(C) > 0 ∧ positionY(C) < Engine:: height(engine) ∧ dead(C) = ¬(life > 0) 
-		if(!(getPositionX() > 0 &&
-				getPositionX() < getEngine().getWidth() && 
-				getPositionY() > 0 && 
-				getPositionY() < getEngine().getHeight() &&
-				isDead() == !(getLife() > 0)
-				)) {
-			throw new InvariantError("CharacterContract.position");
-		}
-		
-		// positionX(hitbox(C)) = positionX(C) 
-		// positionY(hitbox(C)) = positionY(C)
-		if (getPositionX() != getcharBox().getPositionX() ||
-			getPositionY() != getcharBox().getPositionY()) {
-			throw new InvariantError("CharacterContract.hitboxposition");
-		}
-		
-		// ∃ engine(C)
-		if (getEngine() == null) {
-			throw new InvariantError("CharacterContract.noboundengine");
-		}
+        // positionX(C) > 0 ∧ positionX(C) < Engine:: width(engine) ∧ positionY(C) > 0 ∧ positionY(C) < Engine:: height(engine) ∧ dead(C) = ¬(life > 0) 
+//        System.out.println(getPositionX());
+        if(!(getPositionX() >= 0 &&
+                getPositionX() < getEngine().getWidth() && 
+                getPositionY() >= 0 && 
+                getPositionY() < getEngine().getHeight() &&
+                isDead() == !(getLife() > 0)
+                )) {
+            throw new InvariantError("CharacterContract.position");
+        }
+        
+        // positionX(hitbox(C)) = positionX(C) 
+        // positionY(hitbox(C)) = positionY(C)
+        if (getPositionX() != getcharBox().getPositionX() ||
+            getPositionY() != getcharBox().getPositionY()) {
+            throw new InvariantError("CharacterContract.hitboxposition");
+        }
+        
+        // ∃ engine(C)
+        if (getEngine() == null) {
+            throw new InvariantError("CharacterContract.noboundengine");
+        }
 
-		// !∃i tq (player(engine(c), i) != C ∧ collisionwith(hitbox(C), hitbox(player(engine(C), i))))
-		if(getEngine().getCharacter(1).getcharBox().collidesWith(getEngine().getCharacter(2).getcharBox())) {
-			throw new InvariantError("CharacterContract.collisionWithPlayer");
-		}
-	}
+        // !∃i tq (player(engine(c), i) != C ∧ collisionwith(hitbox(C), hitbox(player(engine(C), i))))
+        if(getEngine().getCharacter(1).getcharBox().collidesWith(getEngine().getCharacter(2).getcharBox())) {
+            throw new InvariantError("CharacterContract.collisionWithPlayer");
+        }
+    }
 }

@@ -94,4 +94,15 @@ public class Character implements CharacterService {
 	public void step(CommandData c) {
 		//pre step() requires ¬dead
 	}
+	
+	@Override
+	public void damaged(int degats) {
+		life -= degats;		
+	}
+
+	@Override
+	public void setPosition(int x, int y) {
+		hitbox.setPositionX(x);
+		hitbox.setPositionY(y);
+	}
 }

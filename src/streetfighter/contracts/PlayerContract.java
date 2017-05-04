@@ -19,7 +19,16 @@ public class PlayerContract extends PlayerDecorator implements PlayerService {
 	//Operators: 
 	@Override
 	public void init(int num) {
-		//TODO
 		delegate.init(num);
+	}
+	
+	@Override
+	public void keyPressed(int key, char c) {
+		delegate.keyPressed(key, c);
+	}
+
+	@Override
+	public void keyReleased(int key, char c) {
+		delegate.keyReleased(key, c);
 	}
 }
