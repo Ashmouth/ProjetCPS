@@ -7,11 +7,16 @@ import streetfighter.services.HitboxRectService;
 import streetfighter.services.HitboxService;
 
 public class Character implements CharacterService {
-	int life;
-	int speed;
-	boolean faceRight;
-	EngineService engine;
-	HitboxService hitbox;
+	protected int life;
+	protected int speed;
+	protected boolean faceRight;
+	protected EngineService engine;
+	protected HitboxService hitbox;
+	
+	protected final int JUMP_UP_SPEED = 10,
+						JUMP_DOWN_SPEED = 10,
+						CROUCH_VAL = 50,
+						MAX_Y = 100;
 	
 	boolean ijrh, ijlh, ijh, iscrouch;
 	
@@ -106,14 +111,40 @@ public class Character implements CharacterService {
 			return;
 		}
 	}
+	
+	protected void moveUp() {
+		int x, y;
+		x = hitbox.getPositionX();
+		y = hitbox.getPositionY();
+		
+		hitbox.moveTo(
+				x,
+				y+JUMP_UP_SPEED);
+		
+		if (engine.getCharacter(1).getcharBox().collidesWith(engine.getCharacter(2).getcharBox())) {
+			hitbox.moveTo(x, y);
+			return;
+		}
+	}
+	
+	protected void moveDown() {
+		int x, y;
+		x = hitbox.getPositionX();
+		y = hitbox.getPositionY();
+		
+		hitbox.moveTo(
+				x,
+				Math.max(0, y-JUMP_DOWN_SPEED));
+		
+		if (engine.getCharacter(1).getcharBox().collidesWith(engine.getCharacter(2).getcharBox())) {
+			hitbox.moveTo(x, y);
+			return;
+		}
+	}
 
 	@Override
 	public void switchSide() {
-		if(faceRight == true) {
-			faceRight = false;
-		} else {
-			faceRight = true;
-		}
+		faceRight = !faceRight;
 	}
 
 	
@@ -155,7 +186,7 @@ public class Character implements CharacterService {
 		if(hitbox instanceof HitboxRect) {
 			HitboxRect hb = (HitboxRect)hitbox;
 			
-			hb.resize(hb.getWidth(), hb.getHeight() - 20);
+			hb.resize(hb.getWidth(), hb.getHeight() - CROUCH_VAL);
 		}
 	}
 	
@@ -166,26 +197,28 @@ public class Character implements CharacterService {
 		if(hitbox instanceof HitboxRect) {
 			HitboxRect hb = (HitboxRect)hitbox;
 			
-			hb.resize(hb.getWidth(), hb.getHeight() + 20);
+			hb.resize(hb.getWidth(), hb.getHeight() + CROUCH_VAL);
 		}
 	}
 
 	@Override
 	public void jump() {
 		ijh = true;
-		hitbox.moveTo(getPositionX(), getPositionY()+speed);
+		moveUp();
 	}
 
 	@Override
 	public void jumpRight() {
 		ijrh = true;
-		hitbox.moveTo(getPositionX()+speed, getPositionY()+speed);		
+		moveRight();
+		moveUp();
 	}
 
 	@Override
 	public void jumpLeft() {
 		ijlh = true;
-		hitbox.moveTo(getPositionX()-speed, getPositionY()+speed);			
+		moveLeft();
+		moveUp();
 	}
 	
 	public void step(CommandData c) {
@@ -193,20 +226,22 @@ public class Character implements CharacterService {
 		// donc si on est en l'air on fini le saut
 		if (hitbox.getPositionY() > 0) {
 			// si on est assez haut, on commence la chute
-			if (getPositionY() > 100) {
+			if (getPositionY() > MAX_Y) {
 				ijh = false;
 				ijrh = false;
 				ijlh = false;
 			}
 			
 			if (ijh) {
-				hitbox.moveTo(hitbox.getPositionX(), hitbox.getPositionY()+5);
+				moveUp();
 			} else if (ijrh){
-				hitbox.moveTo(hitbox.getPositionX()+speed, hitbox.getPositionY()+5);
+				moveRight();
+				moveUp();
 			} else if (ijlh) {
-				hitbox.moveTo(hitbox.getPositionX()-speed, hitbox.getPositionY()+5);
+				moveLeft();
+				moveUp();
 			} else { // phase de chute 
-				hitbox.moveTo(hitbox.getPositionX(), Math.max(hitbox.getPositionY()-5, 0));
+				moveDown();
 			}
 			
 			return; // on ne fait rien d'autre que sauter

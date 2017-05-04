@@ -13,8 +13,10 @@ public class TechData {
 	public int rframe;
 	public int width;
 	public int height;
+	public int y;
+	public HitboxRectService hitbox;
 	
-	public TechData(int d, int hs, int bs, int sf, int hf, int rf, int w, int h) {
+	public TechData(int d, int hs, int bs, int sf, int hf, int rf, int w, int h, int y) {
 		damage = d;
 		hstun = hs;
 		bstun = bs;
@@ -23,18 +25,19 @@ public class TechData {
 		rframe = rf;
 		width = w;
 		height = h;
+		this.y = y;
 	}
 	
-	public TechData punch() {
-		return new TechData(20, 5, 5, 10, 10, 5, 15, 5);
+	public static TechData punch() { // coup de poing normal
+		return new TechData(20, 30, 5, 10, 10, 10, 30, 5, 60);
 	}
 	
-	public TechData kick() {
-		return new TechData(50, 15, 10, 20, 10, 10, 20, 5);
+	public static TechData kick() { // coup dans les jambes
+		return new TechData(20, 15, 5, 12, 10, 10, 30, 5, 30);
 	}
 	
-	public TechData head() {
-		return new TechData(30, 5, 5, 10, 5, 20, 10, 10);
+	public static TechData head() { // coup dans la tete
+		return new TechData(30, 45, 10, 20, 10, 20, 20, 5, 90);
 	}
 
 	//Observators: 
@@ -62,9 +65,15 @@ public class TechData {
 		return rframe;
 	}
 
-	public HitboxService getHitbox(int x, int y) {
+	public HitboxService getHitbox(int x, int y, boolean fr) {
 		HitboxRectService tmp = new HitboxRect();
-		tmp.init(x, y, width, height);
+		
+		// si regarde à gauche, on décalle à gauche la hitbox
+		if (!fr) {
+			x -= width;
+		}
+		
+		tmp.init(x, y+this.y, width, height);
 		return tmp;
 	}
 }

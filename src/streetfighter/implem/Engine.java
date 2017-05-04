@@ -1,6 +1,5 @@
 package streetfighter.implem;
 
-import streetfighter.data.CommandData;
 import streetfighter.services.CharacterService;
 import streetfighter.services.EngineService;
 import streetfighter.services.PlayerService;

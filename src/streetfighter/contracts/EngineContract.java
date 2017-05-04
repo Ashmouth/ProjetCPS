@@ -3,7 +3,6 @@ package streetfighter.contracts;
 import streetfighter.condition.InvariantError;
 import streetfighter.condition.PostConditionError;
 import streetfighter.condition.PreConditionError;
-import streetfighter.data.CommandData;
 import streetfighter.decorators.EngineDecorator;
 import streetfighter.services.CharacterService;
 import streetfighter.services.EngineService;

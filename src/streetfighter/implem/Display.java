@@ -10,10 +10,10 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.InputListener;
 import org.newdawn.slick.SlickException;
 
-import streetfighter.data.CommandData;
 import streetfighter.services.CharacterService;
 import streetfighter.services.DisplayService;
 import streetfighter.services.EngineService;
+import streetfighter.services.FightCharService;
 import streetfighter.services.HitboxService;
 import streetfighter.services.InputService;
 import streetfighter.services.PlayerService;
@@ -68,8 +68,8 @@ public class Display extends BasicGame implements DisplayService, InputListener,
 	    		int h1 = br1.getHeight();
 	    		int w1 = br1.getWidth();
 	    		
-	    		if(c1 instanceof FightChar) {
-	    			FightChar f1 = (FightChar) c1;
+	    		if(c1 instanceof FightCharService) {
+	    			FightCharService f1 = (FightCharService) c1;
 	    			if(f1.isBlocking()) {
 	    				g.setColor(Color.magenta);
 	    			} else {
@@ -92,8 +92,8 @@ public class Display extends BasicGame implements DisplayService, InputListener,
 	    		int w2 = br2.getWidth();
 	    		
 	    		
-	    		if(c2 instanceof FightChar) {
-	    			FightChar f2 = (FightChar) c2;
+	    		if(c2 instanceof FightCharService) {
+	    			FightCharService f2 = (FightCharService) c2;
 	    			if(f2.isBlocking()) {
 	    				g.setColor(Color.cyan);
 	    			} else {

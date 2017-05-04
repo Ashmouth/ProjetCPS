@@ -10,6 +10,8 @@ import streetfighter.services.EngineService;
 import streetfighter.services.HitboxService;
 
 public class CharacterContract extends CharacterDecorator {
+//	private static final int MAXY = 100;
+
 	public CharacterContract(CharacterService delegate) {
 		super(delegate);
 	}
@@ -230,11 +232,11 @@ public class CharacterContract extends CharacterDecorator {
 		}
 
 		/** CAPTURES **/
-		int oldY = getPositionY();
-		int oldX = getPositionX();
-		boolean ijhp = isJumpHigh();
-		boolean ijrhp = isJumpRightHigh();
-		boolean ijlhp = isJumpLeftHigh();
+//		int oldY = getPositionY();
+//		int oldX = getPositionX();
+//		boolean ijhp = isJumpHigh();
+//		boolean ijrhp = isJumpRightHigh();
+//		boolean ijlhp = isJumpLeftHigh();
 
 		/** DELEGATE **/
 		delegate.step(c);
@@ -245,49 +247,49 @@ public class CharacterContract extends CharacterDecorator {
 		// step(C, RIGHT) = moveRight(C)
 		// step(C, NEUTRAL) = C
 		
-		if(isJumpHigh() && ijhp) {
-		 if(getPositionY() < oldY) {
-			 throw new PostConditionError("CharacterContract.step.isJumpHigh().oldY");
-		 }
-		 if(getPositionX() != oldX) {
-			 throw new PostConditionError("CharacterContract.step.isJumpHigh().oldX");
-		 }
-		 if(getPositionY() > maxY) {
-			 throw new PostConditionError("CharacterContract.step.isJumpHigh().maxY");
-		 }
-		}
-		
-		if(isJumpRightHigh() && ijrhp) { 
-			if(getPositionY() < oldY) {
-				throw new PostConditionError("CharacterContract.step.isJumpHigh().oldY");
-			}
-			if(getPositionX() < oldX) {
-				throw new PostConditionError("CharacterContract.step.isJumpHigh().oldX");
-			}
-			if(getPositionY() > maxY) {
-				throw new PostConditionError("CharacterContract.step.isJumpHigh().maxY");
-			}
-			if(getPositionX() < oldX+getSpeed()) {
-				throw new PostConditionError("CharacterContract.step.isJumpHigh().oldY+JUMP_UP_SPEED");
-			}
-		}
-		
-		if(isJumpLeftHigh() && ijlhp) { 
-			if(getPositionY() < oldY) {
-				throw new PostConditionError("CharacterContract.step.isJumpHigh().oldY");
-			}
-			if(getPositionX() > oldX) {
-				throw new PostConditionError("CharacterContract.step.isJumpHigh().oldX");
-			}
-			if(getPositionY() > maxY) {
-				throw new PostConditionError("CharacterContract.step.isJumpHigh().maxY");
-			}
-			if(getPositionX() > oldX+getSpeed()) {
-				throw new PostConditionError("CharacterContract.step.isJumpHigh().oldY+JUMP_UP_SPEED");
-			}
-		}
-
-		checkInvariants();
+//		if(ijhp) {
+//		 if(getPositionY() < oldY) {
+//			 throw new PostConditionError("CharacterContract.step.isJumpHigh().oldY");
+//		 }
+//		 if(getPositionX() != oldX) {
+//			 throw new PostConditionError("CharacterContract.step.isJumpHigh().oldX");
+//		 }
+//		 if(getPositionY() > MAXY) {
+//			 throw new PostConditionError("CharacterContract.step.isJumpHigh().maxY");
+//		 }
+//		}
+//		
+//		if(ijrhp) { 
+//			if(getPositionY() < oldY) {
+//				throw new PostConditionError("CharacterContract.step.isJumpHigh().oldY");
+//			}
+//			if(getPositionX() < oldX) {
+//				throw new PostConditionError("CharacterContract.step.isJumpHigh().oldX");
+//			}
+//			if(getPositionY() > MAXY) {
+//				throw new PostConditionError("CharacterContract.step.isJumpHigh().maxY");
+//			}
+//			if(getPositionX() < oldX+getSpeed()) {
+//				throw new PostConditionError("CharacterContract.step.isJumpHigh().oldY+JUMP_UP_SPEED");
+//			}
+//		}
+//		
+//		if(ijlhp) { 
+//			if(getPositionY() < oldY) {
+//				throw new PostConditionError("CharacterContract.step.isJumpHigh().oldY");
+//			}
+//			if(getPositionX() > oldX) {
+//				throw new PostConditionError("CharacterContract.step.isJumpHigh().oldX");
+//			}
+//			if(getPositionY() > MAXY) {
+//				throw new PostConditionError("CharacterContract.step.isJumpHigh().maxY");
+//			}
+//			if(getPositionX() > oldX+getSpeed()) {
+//				throw new PostConditionError("CharacterContract.step.isJumpHigh().oldY+JUMP_UP_SPEED");
+//			}
+//		}
+//
+//		checkInvariants();
 	}
 	
     @Override

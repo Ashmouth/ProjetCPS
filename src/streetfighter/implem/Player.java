@@ -72,10 +72,10 @@ public class Player implements PlayerService {
 			if (Input.KEY_LEFT == key) {
 				return CommandData.LEFT;
 			}
-			if (Input.KEY_0 == key) {
+			if (Input.KEY_NUMPADENTER == key) {
 				return CommandData.PUNCH;
 			}
-			if (Input.KEY_1 == key) {
+			if (Input.KEY_NUMPAD3 == key) {
 				return CommandData.GUARD;
 			}
 

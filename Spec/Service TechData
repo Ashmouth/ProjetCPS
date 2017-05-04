@@ -42,9 +42,3 @@ Observation:
 		frame(step(T)) < startuptime(T) ⇒ phase(T) = STARTUP
 		startuptime(T) <= frame(step(T)) < startuptime(T)+hittime(T) ⇒ phase(T) = HIT
 		startuptime(T)+hittime(T) <= frame(step(T)) < startuptime(T)+hittime(T)+stuntime(T) ⇒ phase(T) = RECOVERY
-		
-		
-		
-		
-	
-	
