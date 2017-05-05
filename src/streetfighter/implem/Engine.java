@@ -60,22 +60,26 @@ public class Engine implements EngineService {
 
 	@Override
 	public boolean gameOver() {
-		return end; 
+		return c1.isDead() || c2.isDead();
 	}
 
 
 	//Operators: 
 	@Override
 	public void step() {
+
 		boolean c1gc2 = c1.getPositionX() < c2.getPositionX();
 		c1.step(p1.getCommand());
-		c2.step(p2.getCommand());
-		
+		if(!gameOver()) { /* c1.step a pu tuer c2 */
+			c2.step(p2.getCommand());
+		}
+
 		// changement de direction
 		if((c1.getPositionX() < c2.getPositionX()) != c1gc2) {
 			c1.switchSide();
 			c2.switchSide();
 		}
+
 	}
 
 	//Observations: 

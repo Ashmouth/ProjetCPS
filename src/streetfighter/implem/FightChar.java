@@ -94,14 +94,11 @@ public class FightChar extends Character implements FightCharService {
 		c1 = engine.getCharacter(1);
 		c2 = engine.getCharacter(2);
 		
-		System.out.println("me "+getPositionX());
-		System.out.println("1 : "+c1.getPositionX());
-		System.out.println("2 :"+c2.getPositionX());
 		if(c1.getPositionX() == getPositionX()) {
-			System.out.println("other = 2");
+//			System.out.println("other = 2");
 			return c2;
 		}
-		System.out.println("other = 1");
+//		System.out.println("other = 1");
 		return c1;
 	}
 

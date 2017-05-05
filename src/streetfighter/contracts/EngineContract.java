@@ -82,7 +82,7 @@ public class EngineContract extends EngineDecorator {
 	@Override
 	public CharacterService getCharacter(int i) {
 		
-		checkInvariants();
+//		checkInvariants();
 		
 		/** PRECONDITIONS **/
 		// character(E,i) requires i ∈ {1, 2} 
@@ -98,7 +98,7 @@ public class EngineContract extends EngineDecorator {
 		/** POSTCONDITIONS **/
 	
 		
-		checkInvariants();
+//		checkInvariants();
 		
 		return cs;
 	}

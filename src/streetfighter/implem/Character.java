@@ -71,11 +71,7 @@ public class Character implements CharacterService {
 
 	@Override
 	public boolean isDead() {
-		if(life == 0) {
-			return true;
-		} else {
-			return false;
-		}
+		return life <= 0;
 	}
 
 	//Operators: 

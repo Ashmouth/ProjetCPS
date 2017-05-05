@@ -72,7 +72,9 @@ public class Display extends BasicGame implements DisplayService, InputListener,
 				TechData tec = f.tech();
 				HitboxRectService h = (HitboxRectService) tec.getHitbox(f.getPositionX(), f.getPositionY(), f.getFaceRight(), ((HitboxRectService)f.getcharBox()).getWidth());
 				
-				drawRect(h.getPositionX(), h.getPositionY(), h.getWidth(), h.getHeight(), Color.green, g);
+				Color c = ((f.techFrame() < tec.sframe+tec.hframe && f.techFrame() > tec.sframe) ? Color.green : Color.lightGray);
+				
+				drawRect(h.getPositionX(), h.getPositionY(), h.getWidth(), h.getHeight(), c, g);
 			}
 	    }
 	    
@@ -94,8 +96,8 @@ public class Display extends BasicGame implements DisplayService, InputListener,
 	    	map.draw(0, 0, width, height);
 	    	
 	    	if(!engine.gameOver()) {
-		    	drawChar((FightCharService) engine.getCharacter(1), Color.blue, Color.cyan, g);
-		    	drawChar((FightCharService) engine.getCharacter(2), Color.red, Color.magenta, g);
+		    	drawChar((FightCharService) engine.getCharacter(1), Color.red, Color.magenta, g);
+		    	drawChar((FightCharService) engine.getCharacter(2), Color.blue, Color.cyan, g);
 	    	} else {
 	    		g.setColor(Color.blue);
 		    	g.drawString("GAME OVER", width/2, height/2);

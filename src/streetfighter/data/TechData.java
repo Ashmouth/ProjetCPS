@@ -29,15 +29,15 @@ public class TechData {
 	}
 	
 	public static TechData punch() { // coup de poing normal
-		return new TechData(20, 30, 5, 10, 10, 10, 30, 5, 60);
+		return new TechData(20, 30, 5, 10, 10, 10, 60, 5, 60);
 	}
 	
 	public static TechData kick() { // coup dans les jambes
-		return new TechData(20, 15, 5, 12, 10, 10, 30, 5, 30);
+		return new TechData(20, 15, 5, 12, 10, 10, 60, 5, 30);
 	}
 	
 	public static TechData head() { // coup dans la tete
-		return new TechData(30, 45, 10, 20, 10, 20, 20, 5, 90);
+		return new TechData(30, 45, 10, 20, 10, 20, 40, 5, 90);
 	}
 
 	//Observators: 

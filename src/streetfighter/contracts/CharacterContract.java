@@ -226,7 +226,8 @@ public class CharacterContract extends CharacterDecorator {
 		checkInvariants();
 
 		/** PRECONDITIONS **/
-		// step() requires ¬dead
+		// step() requires ¬dead 
+		
 		if (isDead()) {
 			throw new PreConditionError("CharacterContract.step.isDead");
 		}

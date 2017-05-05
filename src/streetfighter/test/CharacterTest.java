@@ -6,22 +6,20 @@ import org.junit.Test;
 
 import streetfighter.contracts.CharacterContract;
 import streetfighter.contracts.EngineContract;
-import streetfighter.contracts.FightCharContract;
 import streetfighter.data.CommandData;
 import streetfighter.implem.Engine;
 import streetfighter.implem.HitboxRect;
 import streetfighter.implem.Character;
+import streetfighter.services.CharacterService;
 import streetfighter.services.EngineService;
-import streetfighter.services.FightCharService;
 import streetfighter.services.HitboxRectService;
-import streetfighter.services.HitboxService;
 
 public class CharacterTest {
 
 	@Test
 	public void init() {
 		EngineService engine = new EngineContract(new Engine());
-		Character c = new CharacterContract(new Character());
+		CharacterService c = new CharacterContract(new Character());
 		int l = 600;
 		int s = 3;
 		int x = 0;
