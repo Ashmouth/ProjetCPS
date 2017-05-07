@@ -1,4 +1,4 @@
-package streetfighter.implem;
+package streetfighter.implembug;
 
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
@@ -9,6 +9,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.InputListener;
+import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 
@@ -22,7 +23,7 @@ import streetfighter.services.HitboxService;
 import streetfighter.services.InputService;
 import streetfighter.services.PlayerService;
 
-public class Display extends BasicGame implements DisplayService, InputListener, InputService {
+public class DisplayBug extends BasicGame implements DisplayService, InputListener, InputService {
 
 	private GameContainer container;
 	private EngineService engine;
@@ -32,7 +33,7 @@ public class Display extends BasicGame implements DisplayService, InputListener,
 	private PlayerService p1, p2;
 	private Image map;
 	
-	public Display() {
+	public DisplayBug() {
 		super("StreetFighter CPS");
 	}
 	
@@ -54,6 +55,9 @@ public class Display extends BasicGame implements DisplayService, InputListener,
 	        container.setTargetFrameRate(60);
 	        width = container.getWidth();
 	        height = container.getHeight();
+	        
+	        Music background = new Music("ressources/RyuStage.ogg");
+	        background.loop();
 	        
 	        container.setFullscreen(true);
 	    }
@@ -81,8 +85,8 @@ public class Display extends BasicGame implements DisplayService, InputListener,
 	    protected void drawChar(CharacterService c, Color col, Color bcol, Graphics g) {
 	    	HitboxService b = c.getcharBox();
 	    	
-	    	if (b instanceof HitboxRect) {
-	    		HitboxRect br = (HitboxRect) b;
+	    	if (b instanceof HitboxRectBug) {
+	    		HitboxRectBug br = (HitboxRectBug) b;
 	    		int h = br.getHeight();
 	    		int w = br.getWidth();
 	    		

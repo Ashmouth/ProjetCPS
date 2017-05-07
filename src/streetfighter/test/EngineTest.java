@@ -1,7 +1,6 @@
 package streetfighter.test;
 
-import static org.junit.Assert.fail;
-
+import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import streetfighter.contracts.EngineContract;
@@ -38,47 +37,78 @@ public class EngineTest {
 		
 		engine.init(width, height, 200, p1, p2, c1, c2);
 		
-		if(engine.getHeight() != width) {
-			fail("EngineTest getHeight");
-		}
+		assertTrue(engine.getHeight() == height);
 		
-		if(engine.getWidth() != height) {
-			fail("EngineTest getWidth");
-		}
+		assertTrue(engine.getWidth() == width);
 		
+		assertTrue(engine.getCharacter(1) == c1);
 
-		if(engine.getCharacter(1) != c1) {
-			fail("EngineTest getCharacter");
-		}
+		assertTrue(engine.getCharacter(2) == c2);
 
-		if(engine.getCharacter(2) != c2) {
-			fail("EngineTest getCharacter");
-		}
+		assertTrue(engine.getPlayer(1) == p1);
 
-		if(engine.getPlayer(1) != p1) {
-			fail("EngineTest getPlayer");
-		}
-
-		if(engine.getPlayer(2) != p2) {
-			fail("EngineTest getPlayer");
-		}
+		assertTrue(engine.getPlayer(2) == p2);
 		
+		assertTrue(!engine.gameOver());
+	}
 		
-		if(engine.gameOver()) {
-			fail("EngineTest gameOver");
-		}
+	@Test
+	public void gameOver() {
+		EngineService engine = new EngineContract(new Engine());
+		PlayerService p1 = new PlayerContract(new Player());
+		PlayerService p2 = new PlayerContract(new Player());
+		
+		FightCharService c1 = new FightCharContract(new FightChar());
+		FightCharService c2 = new FightCharContract(new FightChar());
+		
+		int l = 600;
+		int l2 = 150;
+		
+		c1.init(l, 4, true, engine); // tank
+		c2.init(l2, 10, false, engine); // squishy 
+		
+		p1.init(1);
+		p2.init(2);
+		
+		int width = 800;
+		int height = 600;
+		
+		engine.init(width, height, 200, p1, p2, c1, c2);
+		
+		assertTrue(!engine.gameOver());
+		
+		c2.damaged(l2/2);
+		
+		assertTrue(!engine.gameOver());
 		
 		c1.damaged(l);
 		
-		if(!engine.gameOver()) {
-			fail("EngineTest gameOver");
-		}
+		assertTrue(engine.gameOver());
 	}
 
 	@Test
 	public void step() {
-		// TODO Auto-generated method stub
+		EngineService engine = new EngineContract(new Engine());
+		PlayerService p1 = new PlayerContract(new Player());
+		PlayerService p2 = new PlayerContract(new Player());
 		
+		FightCharService c1 = new FightCharContract(new FightChar());
+		FightCharService c2 = new FightCharContract(new FightChar());
+		
+		int l = 600;
+		int l2 = 150;
+		
+		c1.init(l, 4, true, engine); // tank
+		c2.init(l2, 10, false, engine); // squishy 
+		
+		p1.init(1);
+		p2.init(2);
+		
+		int width = 800;
+		int height = 600;
+		
+		engine.init(width, height, 200, p1, p2, c1, c2);
+		engine.step();
 	}
 	
 }

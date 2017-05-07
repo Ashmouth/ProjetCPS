@@ -4,147 +4,406 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import streetfighter.contracts.CharacterContract;
 import streetfighter.contracts.EngineContract;
-import streetfighter.data.CommandData;
+import streetfighter.contracts.FightCharContract;
+import streetfighter.contracts.PlayerContract;
 import streetfighter.implem.Engine;
-import streetfighter.implem.HitboxRect;
-import streetfighter.implem.Character;
-import streetfighter.services.CharacterService;
+import streetfighter.implem.FightChar;
+import streetfighter.implem.Player;
 import streetfighter.services.EngineService;
-import streetfighter.services.HitboxRectService;
+import streetfighter.services.FightCharService;
+import streetfighter.services.PlayerService;
 
 public class CharacterTest {
 
 	@Test
 	public void init() {
 		EngineService engine = new EngineContract(new Engine());
-		CharacterService c = new CharacterContract(new Character());
-		int l = 600;
-		int s = 3;
-		int x = 0;
+		PlayerService p1 = new PlayerContract(new Player());
+		PlayerService p2 = new PlayerContract(new Player());
+		
+		FightCharService c1 = new FightCharContract(new FightChar());
+		FightCharService c2 = new FightCharContract(new FightChar());
+		
+		int width = 800;
+		int height = 600;
+		int l1 = 600;
+		int l2 = 150;
+		int s = 200;
+		
+		c1.init(l1, 4, true, engine); // tank
+		c2.init(l2, 10, false, engine); // squishy 
+		
+		p1.init(1);
+		p2.init(2);
+		
+		engine.init(width, height, s, p1, p2, c1, c2);
+		assertTrue(c1.getLife() == l1);
+		assertTrue(c2.getLife() == l2);
+		assertTrue(c1.getFaceRight());
+		assertTrue(!c2.getFaceRight());
+	}
+
+	@Test
+	public void getcharBox() {
+		EngineService engine = new EngineContract(new Engine());
+		PlayerService p1 = new PlayerContract(new Player());
+		PlayerService p2 = new PlayerContract(new Player());
+		
+		FightCharService c1 = new FightCharContract(new FightChar());
+		FightCharService c2 = new FightCharContract(new FightChar());
+		
+		int width = 800;
+		int height = 600;
+		int x = 150;
 		int y = 0;
-		int w = 90;
-		int h = 150;
+		int l = 600;
 		
-		c.init(l, s, true, engine);
-		if(c.getLife() != l) {
-			fail("CharacterTest getLife");
-		}
-		if(c.getSpeed() != s) {
-			fail("CharacterTest getSpeed");
-		}
-		if(!c.getFaceRight()) {
-			fail("CharacterTest FaceRight");
-		}
-		if(c.getPositionX() != x) {
-			fail("CharacterTest getPositionX");
-		}
-		if(c.getPositionY() != y) {
-			fail("CharacterTest getPositionY");
-		}
+		c1.init(l, 4, true, engine); // tank
+		c2.init(150, 10, false, engine); // squishy 
 		
-		HitboxRectService hr = new HitboxRect();
-		hr.init(x,y,w,h);
-		if(c.getcharBox() != hr) {
-			fail("CharacterTest getcharBox");
-		}
+		p1.init(1);
+		p2.init(2);
 		
-		c.setPosition(x+10, y+10);
-		if(c.getPositionX() != x+10) {
-			fail("CharacterTest setPosition");
-		}
-		if(c.getPositionY() != y+10) {
-			fail("CharacterTest setPosition");
-		}
+		engine.init(width, height, 200, p1, p2, c1, c2);
+		
+		c1.setPosition(x, y);
+		c2.setPosition(x, y);
+		assertTrue(c1.getcharBox().collidesWith(c2.getcharBox()));
+	}
+
+	@Test
+	public void setPosition() {
+		EngineService engine = new EngineContract(new Engine());
+		PlayerService p1 = new PlayerContract(new Player());
+		PlayerService p2 = new PlayerContract(new Player());
+		
+		FightCharService c1 = new FightCharContract(new FightChar());
+		FightCharService c2 = new FightCharContract(new FightChar());
+		
+		int width = 800;
+		int height = 600;
+		int x = 150;
+		int y = 0;
+		
+		c1.init(600, 4, true, engine); // tank
+		c2.init(150, 10, false, engine); // squishy 
+		
+		p1.init(1);
+		p2.init(2);
+		
+		engine.init(width, height, 200, p1, p2, c1, c2);
+		
+		c1.setPosition(x+100, y);
+		assertTrue(c1.getPositionX() == x+100);
+		assertTrue(c1.getPositionY() == y);
+	}
+
+	@Test
+	public void switchSide() {
+		EngineService engine = new EngineContract(new Engine());
+		PlayerService p1 = new PlayerContract(new Player());
+		PlayerService p2 = new PlayerContract(new Player());
+		
+		FightCharService c1 = new FightCharContract(new FightChar());
+		FightCharService c2 = new FightCharContract(new FightChar());
+		
+		int width = 800;
+		int height = 600;
+		int x = 150;
+		int y = 0;
+		
+		c1.init(600, 4, true, engine); // tank
+		c2.init(150, 10, false, engine); // squishy 
+		
+		p1.init(1);
+		p2.init(2);
+		
+		engine.init(width, height, 200, p1, p2, c1, c2);
 		
 		
-		c.switchSide();
-		if(c.getFaceRight()) {
-			fail("CharacterTest switchSide");
-		}
+		c1.setPosition(x-100, y);
 		
+		c2.setPosition(x, y);
+		engine.step();
 		
-		c.crouch();
-		if(((HitboxRectService)(c.getcharBox())).getHeight() >= h) {
-			fail("CharacterTest crouch");
-		}
+		assertTrue(c1.getFaceRight());
+		assertTrue(!c2.getFaceRight());
 		
-		if(!c.isCrouch()) {
-			fail("CharacterTest isCrouch");
-		}
+		c1.setPosition(x+600, y);
+		engine.step();
+		c1.switchSide();
+		c2.switchSide();
+		engine.step();
+		assertTrue(!c1.getFaceRight());
+		assertTrue(c2.getFaceRight());
+	}
+
+	@Test
+	public void crouch() {
+		EngineService engine = new EngineContract(new Engine());
+		PlayerService p1 = new PlayerContract(new Player());
+		PlayerService p2 = new PlayerContract(new Player());
 		
-		c.rise();
-		if(((HitboxRectService)(c.getcharBox())).getHeight() != h) {
-			fail("CharacterTest rise");
-		}
+		FightCharService c1 = new FightCharContract(new FightChar());
+		FightCharService c2 = new FightCharContract(new FightChar());
 		
-		if(c.isCrouch()) {
-			fail("CharacterTest isCrouch");
-		}
+		int width = 800;
+		int height = 600;
 		
+		c1.init(600, 4, true, engine); // tank
+		c2.init(150, 10, false, engine); // squishy 
 		
-		c.damaged(l/2);
-		if(c.getLife() != l/2) {
-			fail("CharacterTest damaged");
-		}
-		c.damaged(l/2);
-		if(!c.isDead()) {
-			fail("CharacterTest isDead");
-		}
+		p1.init(1);
+		p2.init(2);
+		
+		engine.init(width, height, 200, p1, p2, c1, c2);
+
+		assertTrue(!c1.isCrouch());
+		c1.crouch();
+		assertTrue(c1.isCrouch());
+	}
+
+	@Test
+	public void isCrouch() {
+		EngineService engine = new EngineContract(new Engine());
+		PlayerService p1 = new PlayerContract(new Player());
+		PlayerService p2 = new PlayerContract(new Player());
+		
+		FightCharService c1 = new FightCharContract(new FightChar());
+		FightCharService c2 = new FightCharContract(new FightChar());
+		
+		int width = 800;
+		int height = 600;
+		
+		c1.init(600, 4, true, engine); // tank
+		c2.init(150, 10, false, engine); // squishy 
+		
+		p1.init(1);
+		p2.init(2);
+		
+		engine.init(width, height, 200, p1, p2, c1, c2);
+
+		assertTrue(!c1.isCrouch());
+		c1.crouch();
+		assertTrue(c1.isCrouch());
+		c1.rise();
+		assertTrue(!c1.isCrouch());
+	}
+
+	@Test
+	public void rise() {
+		EngineService engine = new EngineContract(new Engine());
+		PlayerService p1 = new PlayerContract(new Player());
+		PlayerService p2 = new PlayerContract(new Player());
+		
+		FightCharService c1 = new FightCharContract(new FightChar());
+		FightCharService c2 = new FightCharContract(new FightChar());
+		
+		int width = 800;
+		int height = 600;
+		
+		c1.init(600, 4, true, engine); // tank
+		c2.init(150, 10, false, engine); // squishy 
+		
+		p1.init(1);
+		p2.init(2);
+		
+		engine.init(width, height, 200, p1, p2, c1, c2);
+
+		assertTrue(!c1.isCrouch());
+		c1.crouch();
+		assertTrue(c1.isCrouch());
+		c1.rise();
+		assertTrue(!c1.isCrouch());
+	}
+
+
+	@Test
+	public void damaged() {
+		EngineService engine = new EngineContract(new Engine());
+		PlayerService p1 = new PlayerContract(new Player());
+		PlayerService p2 = new PlayerContract(new Player());
+		
+		FightCharService c1 = new FightCharContract(new FightChar());
+		FightCharService c2 = new FightCharContract(new FightChar());
+		
+		int width = 800;
+		int height = 600;
+		int l = 600;
+		
+		c1.init(l, 4, true, engine); // tank
+		c2.init(150, 10, false, engine); // squishy 
+		
+		p1.init(1);
+		p2.init(2);
+		
+		engine.init(width, height, 200, p1, p2, c1, c2);
+
+		assertTrue(c1.getLife() == l);
+		c1.damaged(l/2);
+		assertTrue(c1.getLife() == l/2);
+	}
+
+	@Test
+	public void isDead() {
+		EngineService engine = new EngineContract(new Engine());
+		PlayerService p1 = new PlayerContract(new Player());
+		PlayerService p2 = new PlayerContract(new Player());
+		
+		FightCharService c1 = new FightCharContract(new FightChar());
+		FightCharService c2 = new FightCharContract(new FightChar());
+		
+		int width = 800;
+		int height = 600;
+		int l = 600;
+		
+		c1.init(l, 4, true, engine); // tank
+		c2.init(150, 10, false, engine); // squishy 
+		
+		p1.init(1);
+		p2.init(2);
+		
+		engine.init(width, height, 200, p1, p2, c1, c2);
+
+		assertTrue(!c1.isDead());
+		c1.damaged(l);
+		assertTrue(c1.isDead());
 	}
 
 	@Test
 	public void moveLeft() {
-		// TODO Auto-generated method stub
+		EngineService engine = new EngineContract(new Engine());
+		PlayerService p1 = new PlayerContract(new Player());
+		PlayerService p2 = new PlayerContract(new Player());
 		
+		FightCharService c1 = new FightCharContract(new FightChar());
+		FightCharService c2 = new FightCharContract(new FightChar());
+		
+		int width = 800;
+		int height = 600;
+		int l = 600;
+		int x = 0;
+		int y = 0;
+		int w = 90;
+		
+		c1.init(l, 4, true, engine); // tank
+		c2.init(150, 10, false, engine); // squishy 
+		
+		p1.init(1);
+		p2.init(2);
+		
+		engine.init(width, height, 200, p1, p2, c1, c2);
+		
+		c1.setPosition(x, y);
+		
+		c2.setPosition(x+w, y);
+		engine.step();
+		c2.moveLeft();
+		engine.step();
+		assertTrue(!c1.getcharBox().collidesWith(c2.getcharBox()));
 	}
 
 	@Test
 	public void moveRight() {
-		// TODO Auto-generated method stub
+		EngineService engine = new EngineContract(new Engine());
+		PlayerService p1 = new PlayerContract(new Player());
+		PlayerService p2 = new PlayerContract(new Player());
+		
+		FightCharService c1 = new FightCharContract(new FightChar());
+		FightCharService c2 = new FightCharContract(new FightChar());
+		
+		int width = 800;
+		int height = 600;
+		int l = 600;
+		int x = 0;
+		int y = 0;
+		int w = 90;
+		
+		c1.init(l, 4, true, engine); // tank
+		c2.init(150, 10, false, engine); // squishy 
+		
+		p1.init(1);
+		p2.init(2);
+		
+		engine.init(width, height, 200, p1, p2, c1, c2);
+		
+		c1.setPosition(x, y);
+		
+		c2.setPosition(x+w, y);
+		engine.step();
+		c1.moveRight();
+		engine.step();
+		assertTrue(!c1.getcharBox().collidesWith(c2.getcharBox()));
+	}
+
+	@Test
+	public void step() {
+		EngineService engine = new EngineContract(new Engine());
+		PlayerService p1 = new PlayerContract(new Player());
+		PlayerService p2 = new PlayerContract(new Player());
+		
+		FightCharService c1 = new FightCharContract(new FightChar());
+		FightCharService c2 = new FightCharContract(new FightChar());
+		
+		int width = 800;
+		int height = 600;
+		int l = 600;
+		int x = 0;
+		int y = 0;
+		int w = 90;
+		int s1 = 4;
+		int s2 = 10;
+		
+		c1.init(l, s1, true, engine); // tank
+		c2.init(150, s2, false, engine); // squishy 
+		
+		p1.init(1);
+		p2.init(2);
+		
+		engine.init(width, height, 200, p1, p2, c1, c2);
+
+		engine.step();
+		c1.moveRight();
+		c2.moveLeft();
+		engine.step();
+		assertTrue(c1.getPositionX() != x);
 		
 	}
-
-	@Test
-	public void step(CommandData c) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Test
-	public void jump() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Test
-	public void jumpRight() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Test
-	public void jumpLeft() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Test
-	public boolean isJumpRightHigh() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Test
-	public boolean isJumpLeftHigh() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Test
-	public boolean isJumpHigh() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+//
+//	@Test
+//	public void jump() {
+//		// TODO Auto-generated method stub
+//
+//	}
+//
+//	@Test
+//	public void jumpRight() {
+//		// TODO Auto-generated method stub
+//
+//	}
+//
+//	@Test
+//	public void jumpLeft() {
+//		// TODO Auto-generated method stub
+//
+//	}
+//
+//	@Test
+//	public boolean isJumpRightHigh() {
+//		// TODO Auto-generated method stub
+//		return false;
+//	}
+//
+//	@Test
+//	public boolean isJumpLeftHigh() {
+//		// TODO Auto-generated method stub
+//		return false;
+//	}
+//
+//	@Test
+//	public boolean isJumpHigh() {
+//		// TODO Auto-generated method stub
+//		return false;
+//	}
 }
