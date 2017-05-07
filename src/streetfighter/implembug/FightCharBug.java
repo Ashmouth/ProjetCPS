@@ -284,4 +284,9 @@ public class FightCharBug extends CharacterBug implements FightCharService {
 		}
 
 	}
+
+	@Override
+	public void guard() {
+		block = true;
+	}
 }
