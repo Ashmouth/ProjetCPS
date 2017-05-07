@@ -78,11 +78,10 @@ public class FightChar extends Character implements FightCharService {
 
 	@Override
 	public void startTech(TechData tech) {
-		if(isTeching()) {
-			return;
+		if (canAttack()) {
+			this.tech = tech;
+			teching = true;
 		}
-		this.tech = tech;
-		teching = true;
 	}
 
 	protected boolean canAttack() {
@@ -100,6 +99,53 @@ public class FightChar extends Character implements FightCharService {
 		}
 //		System.out.println("other = 1");
 		return c1;
+	}
+	
+	@Override
+	public void moveLeft() {
+		if(!block && !blockstun && !hitstun && !teching) {
+			super.moveLeft();
+		}
+	}
+	
+	@Override 
+	public void moveRight() {
+		if(!block && !blockstun && !hitstun && !teching) {
+			super.moveRight();
+		}
+	}
+	
+	@Override
+	public void jumpRight() {
+		if (canAttack()) {
+			super.jumpRight();
+		}
+	}
+	
+	@Override
+	public void jumpLeft() {
+		if (canAttack()) {
+			super.jumpLeft();
+		}
+	}
+	
+	@Override
+	public void crouch() {
+		if(!isTeching()) {
+			super.crouch();
+		}
+	}
+	
+	@Override
+	public void rise() {
+		if(!isTeching()) {
+			super.rise();
+		}
+	}
+	
+	@Override
+	public void guard() {
+		block = true;
 	}
 
 	@Override
@@ -189,82 +235,78 @@ public class FightChar extends Character implements FightCharService {
 		switch(c) {
 		/** DEPLACEMENTS **/
 		case LEFT:
-			if(!block && !blockstun && !hitstun && !teching && getPositionY()==0)	
-				moveLeft();
+			moveLeft();
 			break;
 
 		case RIGHT:
-			if(!block && !blockstun && !hitstun && !teching && getPositionY()==0)
-				moveRight();
+			moveRight();
 			break;
 
 		case UPRIGHT:
-			if(canAttack())
-				jumpRight();
+			jumpRight();
 			break;
 
 		case UPLEFT:
-			if(canAttack())
-				jumpLeft();
+			jumpLeft();
 			break;
 
 		case UP:
-			if(canAttack()) {
-				jump();
-			}
+			jump();
 			break;
 
 			/** CROUCH **/
 		case DOWNRIGHT:	
-			if(!iscrouch) crouch();
+			crouch();
 			moveRight();
 			break;
 
 		case DOWNLEFT:
-			if(!iscrouch) crouch();
+			crouch();
 			moveLeft();
 			break;
 
 		case DOWN:
 
-			if(!iscrouch) crouch();
+			crouch();
 			break;
 
 			/** FIGHT ! **/
 		case PUNCH:
-			if (canAttack()) {
-				TechData tec = TechData.punch();
-				startTech(tec);
-			}
+			TechData tec = TechData.punch();
+			startTech(tec);
 			break;
 
 		case KICK:
-			if (canAttack()) {
-				TechData tec = TechData.kick();
-				startTech(tec);
+
+			{	
+				TechData teck = TechData.kick();
+				startTech(teck);
 			}
+
 			break;
 
 		case HEAD:
-			if (canAttack()) {
-				TechData tec = TechData.head();
-				startTech(tec);
+
+			{
+				TechData teck = TechData.head();
+				startTech(teck);
 			}
+
 			break;
 
 			/** GUARD **/
 		case GUARD:
-			block = true;
+			guard();
 			break;
 
 		case DOWNGUARD:
-			if (!iscrouch) crouch();
-			block = true;
+			crouch();
+			guard();
 			break;
 
 			/* else */
 		case NEUTRAL:
-			if(iscrouch) rise();
+			rise();
 			block = false;
 
 			break;

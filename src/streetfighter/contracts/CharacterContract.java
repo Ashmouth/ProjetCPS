@@ -44,47 +44,6 @@ public class CharacterContract extends CharacterDecorator {
 		}
 	}
 
-	//Observators: 
-	@Override
-	public int getPositionX() {
-		return delegate.getPositionX();
-	}
-
-	@Override
-	public int getPositionY() {
-		return delegate.getPositionY();
-	}
-
-	@Override
-	public EngineService getEngine() {
-		return delegate.getEngine();
-	}
-
-	@Override
-	public HitboxService getcharBox() {
-		return delegate.getcharBox(); //TODO Check
-	}
-
-	@Override
-	public int getLife() {
-		return delegate.getLife();
-	}
-
-	@Override
-	public int getSpeed() {
-		return delegate.getSpeed();
-	}
-
-	@Override
-	public boolean getFaceRight() {
-		return delegate.getFaceRight();
-	}
-
-	@Override
-	public boolean isDead() {
-		return delegate.isDead();
-	}
-
 	//Operators: 
 	@Override
 	public void moveLeft() {
@@ -440,52 +399,7 @@ public class CharacterContract extends CharacterDecorator {
 		checkInvariants();
 	}
 
-	@Override
-	public boolean isJumpRightHigh() {
-		checkInvariants();
-		/** PRECONDITIONS **/
-		
-		/** CAPTURES **/
-
-		/** DELEGATE **/
-		return delegate.isJumpRightHigh();
-	}
-
-	@Override
-	public boolean isJumpLeftHigh() {
-		checkInvariants();
-		/** PRECONDITIONS **/
-		
-		/** CAPTURES **/
-
-		/** DELEGATE **/
-		return delegate.isJumpLeftHigh();
-	}
-
-	@Override
-	public boolean isJumpHigh() {
-		checkInvariants();
-		/** PRECONDITIONS **/
-		
-
-		/** CAPTURES **/
-
-		/** DELEGATE **/
-		return delegate.isJumpHigh();
-	}
-
-	@Override
-	public boolean isCrouch() {
-		checkInvariants();
-		/** PRECONDITIONS **/
-		
-		/** CAPTURES **/
-
-		/** DELEGATE **/
-		return delegate.isCrouch();
-	}
-
-	private void checkInvariants() {
+	protected void checkInvariants() {
         // positionX(C) > 0 ∧ positionX(C) < Engine:: width(engine) ∧ positionY(C) > 0 ∧ positionY(C) < Engine:: height(engine) ∧ dead(C) = ¬(life > 0) 
 //       System.out.println(getPositionX());
         if(!(getPositionX() >= 0 &&

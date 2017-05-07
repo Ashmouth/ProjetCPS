@@ -24,6 +24,7 @@ public interface FightCharService extends CharacterService {
 	//Operators: 
 	public void startTech(TechData tech);
 	//pre startTech(C,T) requires ¬isTeching(C) 
+	public void guard();
 
 	//Observation: ...
 }

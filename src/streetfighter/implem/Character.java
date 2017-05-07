@@ -115,7 +115,7 @@ public class Character implements CharacterService {
 		
 		hitbox.moveTo(
 				x,
-				y+JUMP_UP_SPEED);
+				Math.min(y+JUMP_UP_SPEED, engine.getHeight()));
 		
 		if (engine.getCharacter(1).getcharBox().collidesWith(engine.getCharacter(2).getcharBox())) {
 			hitbox.moveTo(x, y);
@@ -189,18 +189,20 @@ public class Character implements CharacterService {
 	}
 	
 	@Override
-	public void rise() {		
-		if(hitbox instanceof HitboxRect) {
-			HitboxRect hb = (HitboxRect)hitbox;
-			
-			int h = hb.getHeight();
-			hb.resize(hb.getWidth(), hb.getHeight() + CROUCH_VAL);
-			iscrouch = false;
-			
-			if (engine.getCharacter(1).getcharBox().collidesWith(engine.getCharacter(2).getcharBox())) {
-				hb.resize(hb.getWidth(), h);
-				iscrouch = true;
-				return;
+	public void rise() {
+		if (iscrouch) {
+			if(hitbox instanceof HitboxRect) {
+				HitboxRect hb = (HitboxRect)hitbox;
+				
+				int h = hb.getHeight();
+				hb.resize(hb.getWidth(), hb.getHeight() + CROUCH_VAL);
+				iscrouch = false;
+				
+				if (engine.getCharacter(1).getcharBox().collidesWith(engine.getCharacter(2).getcharBox())) {
+					hb.resize(hb.getWidth(), h);
+					iscrouch = true;
+					return;
+				}
 			}
 		}
 	}
@@ -252,10 +254,9 @@ public class Character implements CharacterService {
 		}
 		
 		if (c != CommandData.DOWN && c != CommandData.DOWNLEFT && c != CommandData.DOWNRIGHT) {
-			if(iscrouch) {
-				rise();
-			}
+			rise();
 		}
+		
 		switch(c) {
 		
 		case LEFT:
@@ -275,28 +276,25 @@ public class Character implements CharacterService {
 			break;
 			
 		case UP:
-			if(!iscrouch && hitbox.getPositionY() == 0) {
-				jump();
-			}
+			jump();
 			break;
 			
 		case DOWNRIGHT:	
-			if(!iscrouch) crouch();
+			crouch();
 			moveRight();
 			break;
 			
 		case DOWNLEFT:
-			if(!iscrouch) crouch();
+			crouch();
 			moveLeft();
 			break;
 			
 		case DOWN:
-			
-			if(!iscrouch) crouch();
+			crouch();
 			break;
 			
 		case NEUTRAL:
-			if(iscrouch) rise();
+			rise();
 			
 			break;
 			

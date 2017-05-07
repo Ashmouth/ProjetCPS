@@ -34,76 +34,33 @@ public class FightCharContract extends CharacterContract implements FightCharSer
 	//Observators: 
 	@Override
 	public boolean isBlocking() {
-		checkInvariants();
-		/** PRECONDITIONS **/
-
-		/** CAPTURES **/
-		int lp = getLife();
-
-		/** DELEGATE **/
-		//TODO Check if right
-		boolean ret = ((FightCharService) delegate).isBlocking();
-
-		/** POSTCONDITIONS **/
-		if(ret) {
-			if(lp != getLife()) {
-				throw new PostConditionError("FightChar.isBlocking.getLife");
-			}
-		}
-		checkInvariants();
-		return ret;
+		return ((FightCharService) delegate).isBlocking();
 	}
 
 	@Override
 	public boolean isBlockstunned() {
-		checkInvariants();
-		/** PRECONDITIONS **/
-
-		/** CAPTURES **/
-		
-		/** DELEGATE **/
 		return ((FightCharService) delegate).isBlockstunned(); 
-		/** POSTCONDITIONS **/
 	}
 
 	@Override
 	public boolean isHitstunned(){
-		checkInvariants();
-		/** PRECONDITIONS **/
-
-		/** CAPTURES **/
-		
-		/** DELEGATE **/
 		return ((FightCharService) delegate).isHitstunned(); 
-		/** POSTCONDITIONS **/
 	}
 
 	@Override
 	public boolean isTeching() {
-		checkInvariants();
-		/** PRECONDITIONS **/
-
-		/** CAPTURES **/
-		
-		/** DELEGATE **/
 		return ((FightCharService) delegate).isTeching(); 
-		/** POSTCONDITIONS **/
 	}
 
 	@Override
 	public TechData tech() {
 		//pre tech(C) requires isTeching(C) 
-		checkInvariants();
-		/** PRECONDITIONS **/
 		if(!isTeching()) {
 			throw new PreConditionError("FightChar.tech.teching");
 		}
 		
-		/** CAPTURES **/
-		
-		/** DELEGATE **/
 		return ((FightCharService) delegate).tech();
-		/** POSTCONDITIONS **/
+
 	}
 
 	@Override
@@ -125,7 +82,6 @@ public class FightCharContract extends CharacterContract implements FightCharSer
 	@Override
 	public boolean techHasAlreadyHit() { 
 		//pre techHasAlreadyHit(C) requires isTeching(C)
-		checkInvariants();
 		/** PRECONDITIONS **/
 		if(!isTeching()) {
 			throw new PreConditionError("FightChar.techHasAlreadyHit.teching");
@@ -224,13 +180,14 @@ public class FightCharContract extends CharacterContract implements FightCharSer
 		checkInvariants();
 		
 	}
-	
-	public void checkInvariants() {
-		return;
-	}
 
 	@Override
 	public void damaged(int degats, int hstun, int bstun) {
 		((FightCharService) delegate).damaged(degats, hstun, bstun);		
+	}
+
+	@Override
+	public void guard() {
+		
 	}
 }

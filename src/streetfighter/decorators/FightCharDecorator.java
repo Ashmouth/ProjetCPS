@@ -63,4 +63,9 @@ public class FightCharDecorator extends CharacterDecorator implements FightCharS
 	public void damaged(int degats, int hstun, int bstun) {
 		delegate.damaged(degats, hstun, bstun);		
 	}
+
+	@Override
+	public void guard() {
+		delegate.guard();		
+	}
 }

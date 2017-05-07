@@ -27,8 +27,8 @@ public class Main {
 		PlayerService p1 = new PlayerContract(new Player());
 		PlayerService p2 = new PlayerContract(new Player());
 		
-		FightCharService c1 = new FightCharContract(new FightChar());
-		FightCharService c2 = new FightCharContract(new FightChar());
+		CharacterService c1 = new FightCharContract(new FightChar());
+		CharacterService c2 = new FightCharContract(new FightChar());
 		
 		c1.init(600, 4, true, engine); // tank
 		c2.init(150, 10, false, engine); // squishy 
